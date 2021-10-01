@@ -19,23 +19,67 @@ class CompanyController
         require_once (VIEWS_PATH."company-add.php");
     }
 
-    public function ShowListView()
+    public function ShowEditView()
+    {
+        require_once (VIEWS_PATH."company-edit.php");
+    }
+
+    public function ShowListView($name = null, $city = null, $category = null)
     {
         $companyList = $this->companyDAO->getAll();
 
-        require_once(VIEWS_PATH."company-list.php");
+        require_once (VIEWS_PATH."company-list.php");
     }
 
-    public function Add($idCompany, $name, $city)
+    public function Add($name, $city, $category)
     {
         $company = new Company();
-        $company->setIdCompany($idCompany);
+        $company->setIdCompany(count($this->companyDAO->GetAll())+1);
         $company->setName($name);
         $company->setCity($city);
+        $company->setCategory($category);
 
         $this->companyDAO->Add($company);
 
         $this->ShowAddView();
+    }
+
+    public function Edit ($idCompany, $name, $city, $category)
+    {
+        $newList = $this->companyDAO->GetAll();
+        foreach ($newList as $company)
+        {
+            if ($company->getIdCompany() == $idCompany)
+            {
+                if($company->getName() != $name)
+                {
+                    $company->setName($name);
+                }
+
+                if($company->getCity() != $city)
+                {
+                    $company->setCity($city);
+                }
+
+                if($company->getCategory() != $category)
+                {
+                    $company->setCategory($category);
+                }
+            }
+        }
+    }
+
+    public function Action($Remove = "", $Edit = "")
+    {
+        if (!$Remove)
+        {
+            $company = $this->companyDAO->Edit($Edit);
+            $this->ShowEditView();
+        } else
+        {
+            $this->companyDAO->Remove($Remove);
+            $this->ShowListView();
+        }
     }
 }
 
