@@ -3,6 +3,18 @@
         "idCompany": 1,
         "name": "Globant",
         "city": "Mar del Plata",
-        "category": "Programaci\u00f3n"
+        "category": "Programacion"
+    },
+    {
+        "idCompany": 2,
+        "name": "Nueva Empresa",
+        "city": "Mar del Plata",
+        "category": "Ingenieria"
+    },
+    {
+        "idCompany": 3,
+        "name": "Design Studio",
+        "city": "Mar del Plata",
+        "category": "Dise\u00f1o"
     }
 ]

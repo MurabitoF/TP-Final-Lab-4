@@ -19,8 +19,9 @@ class CompanyController
         require_once (VIEWS_PATH."company-add.php");
     }
 
-    public function ShowEditView()
+    public function ShowEditView($Edit)
     {
+        $company = $this->companyDAO->Edit($Edit);
         require_once (VIEWS_PATH."company-edit.php");
     }
 
@@ -47,35 +48,27 @@ class CompanyController
     public function Edit ($idCompany, $name, $city, $category)
     {
         $newList = $this->companyDAO->GetAll();
-        foreach ($newList as $company)
+
+        foreach($newList as $company)
         {
-            if ($company->getIdCompany() == $idCompany)
+            if($company->getIdCompany() == $idCompany)
             {
-                if($company->getName() != $name)
-                {
-                    $company->setName($name);
-                }
-
-                if($company->getCity() != $city)
-                {
-                    $company->setCity($city);
-                }
-
-                if($company->getCategory() != $category)
-                {
-                    $company->setCategory($category);
-                }
+                $company->setName($name);
+                $company->setCity($city);
+                $company->setCategory($category);
             }
         }
+
+        $this->companyDAO->saveAll($newList);
+        $this->ShowListView();
     }
 
     public function Action($Remove = "", $Edit = "")
     {
-        if (!$Remove)
+        if ($Edit != "")
         {
-            $company = $this->companyDAO->Edit($Edit);
-            $this->ShowEditView();
-        } else
+            $this->ShowEditView($Edit);
+        } else if($Remove != "")
         {
             $this->companyDAO->Remove($Remove);
             $this->ShowListView();

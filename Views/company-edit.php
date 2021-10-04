@@ -14,23 +14,23 @@ require_once('header.php');
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Nombre de la empresa</label>
-                            <input type="text" name="name" value="" class="form-control">
+                            <input type="text" name="name" value="<?php echo $company->getName() ?>" class="form-control">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Ciudad</label>
-                            <input type="text" name="city" value="" class="form-control">
+                            <input type="text" name="city" value="<?php echo $company->getCity() ?>" class="form-control">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Categoria</label>
-                            <input type="text" name="category" value="" class="form-control">
+                            <input type="text" name="category" value="<?php echo $company->getCategory() ?>" class="form-control">
                         </div>
                     </div>
                 </div>
-                <button type="submit" name="" class="btn btn-dark ml-auto d-block">Editar</button>
+                <button type="submit" name="idCompany" value="<?php echo $company->getIdCompany() ?>" class="btn btn-dark ml-auto d-block">Editar</button>
             </form>
         </div>
     </section>
