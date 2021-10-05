@@ -28,8 +28,15 @@ class CompanyController
     public function ShowListView($name = null, $city = null, $category = null)
     {
         $companyList = $this->companyDAO->getAll();
-
+        
         require_once (VIEWS_PATH."company-list.php");
+    }
+
+    public function ShowAdminView($name = null, $city = null, $category = null)
+    {
+        $companyList = $this->companyDAO->getAll();
+
+        require_once (VIEWS_PATH."admin-home.php");
     }
 
     public function Add($name, $city, $category)
@@ -60,7 +67,7 @@ class CompanyController
         }
 
         $this->companyDAO->saveAll($newList);
-        $this->ShowListView();
+        $this->ShowAdminView();
     }
 
     public function Action($Remove = "", $Edit = "")

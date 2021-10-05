@@ -16,23 +16,18 @@ require_once('header.php');
                          <th>Categoria</th>
                     </thead>
                     <tbody>
-                    <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">
                          <?php
-                              foreach($companyList as $company)
-                              {
-                                   ?>
-                                        <tr>
-                                            <td><?php echo $company->getName() ?></td>
-                                            <td><?php echo $company->getCity() ?></td>
-                                            <td><?php echo $company->getCategory() ?></td>
-                                            <td><button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany()?>">Remover</button></td>
-                                            <td><button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany()?>">Editar</button></td>
-                                        </tr>
-                                   <?php
-                              }
+                         foreach ($companyList as $company) {
+                         ?>
+                              <tr>
+                                   <td><?php echo $company->getName() ?></td>
+                                   <td><?php echo $company->getCity() ?></td>
+                                   <td><?php echo $company->getCategory() ?></td>
+                              </tr>
+                         <?php
+                         }
                          ?>
                          </tr>
-                    </form>
                     </tbody>
                </table>
           </div>
