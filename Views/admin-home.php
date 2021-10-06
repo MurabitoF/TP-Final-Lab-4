@@ -14,6 +14,7 @@ require_once('header.php');
                          <th>Nombre</th>
                          <th>Ciudad</th>
                          <th>Categoria</th>
+                         <th>Acciones</th>
                     </thead>
                     <tbody>
                     <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">

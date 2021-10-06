@@ -5,7 +5,6 @@ use Config\Autoload as Autoload;
 
 Autoload::Start();
 
-use Models\Person as Person;
 use Models\Student as Student;
 use DAO\StudentDAO as StudentDAO;
 
@@ -29,7 +28,7 @@ if($_POST){
 
             $_SESSION["loggedUser"] = $loggedUser;
 
-            //header(); VER DESPUES HACIA DONDE SE VA LUEGO DE LOGEARSE
+            header("Location: Views/student-list.php");
         }
         else{
             echo "<script> if(confirm('Datos incorrectos, vuelva a intentarlo !'));";  

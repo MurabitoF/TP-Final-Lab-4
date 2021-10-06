@@ -1,93 +1,89 @@
 <?php
-    namespace DAO;
 
-    use DAO\IStudentDAO as IStudentDAO;
-    use Models\Student as Student;
+namespace DAO;
 
-    class StudentDAO implements IStudentDAO
+use DAO\IStudentDAO as IStudentDAO;
+use Models\Student as Student;
+
+class StudentDAO implements IStudentDAO
+{
+    private $studentList = array();
+
+    public function Add(Student $student)
     {
-        private $studentList = array();
+        $this->RetrieveData();
 
-        public function Add(Student $student)
-        {
-            $this->RetrieveData();
-            
-            array_push($this->studentList, $student);
+        array_push($this->studentList, $student);
 
-            $this->SaveData();
-        }
+        $this->SaveData();
+    }
 
-        public function GetAll()
-        {
-            $this->RetrieveData();
+    public function GetAll()
+    {
+        $this->RetrieveData();
 
-            return $this->studentList;
-        }
+        return $this->studentList;
+    }
 
-        public function GetByUserName($username){ ///FUNCION AGREGADA POR MI
-            $ch = curl_init();
+    public function GetByUserName($username)
+    { ///FUNCION AGREGADA POR MI
+        $this->RetrieveData();
 
-            $url = 'https://utn-students-api.herokuapp.com/api/Student';
-        
-            $header = array(
-                'x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'
-            );
-        
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        
-            $response = curl_exec($ch);
-        
-            $arrayToDecode = json_decode($response, true);
-            $student = null;
-        
-            for($i = 0; $i < 200; $i++){
-                foreach($arrayToDecode[$i] as $arrayKey => $arrayValue){
-                    if($arrayToDecode[$i]['email'] == $username){
-                        $student = $arrayToDecode[$i];
-                    }
-                }
+        $student = null;
+
+        foreach ($this->studentList as $arrayValue) {
+            if ($arrayValue->getEmail() == $username) {
+                return $arrayValue;
             }
-
-            return $student;
         }
 
-        private function SaveData()
-        {
-            $arrayToEncode = array();
+        return $student;
+    }
 
-            foreach($this->studentList as $student)
-            {
-                $valuesArray["recordId"] = $student->getRecordId();
-                $valuesArray["firstName"] = $student->getFirstName();
-                $valuesArray["lastName"] = $student->getLastName();
+    private function SaveData()
+    {
+        $arrayToEncode = array();
 
-                array_push($arrayToEncode, $valuesArray);
-            }
+        foreach ($this->studentList as $student) {
+            $valuesArray["recordId"] = $student->getRecordId();
+            $valuesArray["firstName"] = $student->getFirstName();
+            $valuesArray["lastName"] = $student->getLastName();
 
-            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-            
-            file_put_contents('Data/students.json', $jsonContent);
+            array_push($arrayToEncode, $valuesArray);
         }
 
-        private function RetrieveData()
-        {
-            $this->studentList = array();
+        $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
 
-            if(file_exists('Data/students.json'))
-            {
-                $jsonContent = file_get_contents('Data/students.json');
+        file_put_contents('Data/students.json', $jsonContent);
+    }
 
-                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+    private function RetrieveData()
+    {
+        $ch = curl_init();
 
-                foreach($arrayToDecode as $valuesArray)
-                {
-                    $student = new Student();
-                    $student->setStudentId($valuesArray["studentId"]); ///MODIFIQUE recordId por studentId (MIRAR BIEN ESTO)
-                    $student->setFirstName($valuesArray["firstName"]);
-                    $student->setLastName($valuesArray["lastName"]);
-                    /*$student->setCarrerId($valuesArray[]);
+        $url = 'https://utn-students-api.herokuapp.com/api/Student';
+
+        $header = array(
+            'x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'
+        );
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+        $response = curl_exec($ch);
+
+
+        $jsonContent = file_get_contents('Data/students.json');
+
+        $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+
+        foreach ($arrayToDecode as $valuesArray) {
+            $student = new Student();
+            $student->setStudentId($valuesArray["studentId"]); ///MODIFIQUE recordId por studentId (MIRAR BIEN ESTO)
+            $student->setFirstName($valuesArray["firstName"]);
+            $student->setLastName($valuesArray["lastName"]);
+            /*$student->setCarrerId($valuesArray[]);
                     $student->setDni($valuesArray[]);
                     $student->setFileNumber($valuesArray[]);
                     $student->setGender($valuesArray[]);
@@ -96,10 +92,7 @@
                     $student->setPhoneNumber($valuesArray[]);
                     $student->setPassword($valuesArray[]);*/
 
-
-                    array_push($this->studentList, $student);
-                }
-            }
+            array_push($this->studentList, $student);
         }
     }
-?>
+}
