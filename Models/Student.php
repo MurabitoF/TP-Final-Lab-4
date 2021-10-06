@@ -8,6 +8,8 @@
         private $studentId; ///CAMBIE RECORDID POR STUDENTID
         private $carrerId;
         private $dni;
+        private $firstName;
+        private $lastName;
         private $fileNumber;
         private $gender;
         private $birthDate;
@@ -18,6 +20,26 @@
         function __construct()
         {
                 
+        }
+
+        public function getFirstName()
+        {
+            return $this->firstName;
+        }
+
+        public function setFirstName($firstName)
+        {
+            $this->firstName = $firstName;
+        }
+
+        public function getLastName()
+        {
+            return $this->lastName;
+        }
+
+        public function setLastName($lastName)
+        {
+            $this->lastName = $lastName;
         }
 
         public function getStudentId()
