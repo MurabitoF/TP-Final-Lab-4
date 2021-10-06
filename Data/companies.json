@@ -1,8 +1,20 @@
 [
     {
-        "idCompany": 1,
+        "idCompany": 2,
+        "name": "Accenture",
+        "city": "Mar Del Plata",
+        "category": "Programacion"
+    },
+    {
+        "idCompany": 3,
+        "name": "TechInd",
+        "city": "Buenos Aires",
+        "category": "Ingenieria"
+    },
+    {
+        "idCompany": 3,
         "name": "Globant",
-        "city": "Mar del Plata",
-        "category": "Programaci\u00f3n"
+        "city": "Mar Del Plata",
+        "category": "Programacion"
     }
 ]

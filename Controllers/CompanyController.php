@@ -28,6 +28,11 @@ class CompanyController
     {
         $companyList = $this->companyDAO->getAll();
 
+        if($name || $city || $category)
+        {
+            $companyList = $this->filterList($companyList, $name, $city, $category);
+        }
+
         require_once (VIEWS_PATH."company-list.php");
     }
 
@@ -80,6 +85,47 @@ class CompanyController
             $this->companyDAO->Remove($Remove);
             $this->ShowListView();
         }
+    }
+
+    private function filterList($companyList, $name, $city, $category)
+    { 
+        if($name)
+        {
+            $filteredList = array();
+            foreach($companyList as $company)
+            {
+                if(str_contains(strtolower($company->getName()), strtolower($name)))
+                {
+                    array_push($filteredList, $company);
+                }
+            }
+            $companyList = $filteredList;
+        }
+        if($city)
+        {
+            $filteredList = array();
+            foreach($companyList as $company)
+            {
+                if(str_contains(strtolower($company->getCity()), strtolower($city)))
+                {
+                    array_push($filteredList, $company);
+                }
+            }
+            $companyList = $filteredList;
+        }
+        if($category)
+        {
+            $filteredList = array();
+            foreach($companyList as $company)
+            {
+                if(str_contains($company->getCategory(), $category))
+                {
+                    array_push($filteredList, $company);
+                }
+            }
+            $companyList = $filteredList;
+        }
+        return $companyList;
     }
 }
 
