@@ -1,12 +1,9 @@
 <?php
     namespace Models;
-
-    use Models\Person as Person;
-
-    class Student extends Person
+    class Student
     {
         private $studentId; ///CAMBIE RECORDID POR STUDENTID
-        private $carrerId;
+        private $careerId;
         private $dni;
         private $firstName;
         private $lastName;
@@ -15,6 +12,7 @@
         private $birthDate;
         private $email;
         private $phoneNumber;
+        private $state;
         private $password; ///LA AGREGUE YO, DESPUES VEREMOS SI LA USAMOS
 
         function __construct()
@@ -52,14 +50,14 @@
                 $this->studentId = $studentId;
         }
 
-        public function getCarrerId()
+        public function getCareerId()
         {
-                return $this->carrerId;
+                return $this->careerId;
         }
 
-        public function setCarrerId($carrerId)
+        public function setCareerId($careerId)
         {
-                $this->carrerId = $carrerId;
+                $this->careerId = $careerId;
         }
 
         public function getDni()
@@ -121,6 +119,16 @@
         {
                 $this->phoneNumber = $phoneNumber;
         }
+        
+        public function getState()
+        {
+                return $this->state;
+        }
+
+        public function setState($state)
+        {
+                $this->state = $state;
+        }
 
         public function getPassword()
         {
@@ -131,6 +139,7 @@
         {
                 $this->password = $password;
         }
+
     }
 ?>
 

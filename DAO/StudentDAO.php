@@ -26,10 +26,8 @@ class StudentDAO implements IStudentDAO
     }
 
     public function GetByUserName($username)
-    { ///FUNCION AGREGADA POR MI
+    {
         $this->RetrieveData();
-
-        $student = null;
 
         foreach ($this->studentList as $arrayValue) {
             if ($arrayValue->getEmail() == $username) {
@@ -37,7 +35,7 @@ class StudentDAO implements IStudentDAO
             }
         }
 
-        return $student;
+        return NULL;
     }
 
     private function SaveData()
@@ -73,24 +71,22 @@ class StudentDAO implements IStudentDAO
 
         $response = curl_exec($ch);
 
-
-        $jsonContent = file_get_contents('Data/students.json');
-
-        $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+        $arrayToDecode = ($response) ? json_decode($response, true) : array();
 
         foreach ($arrayToDecode as $valuesArray) {
             $student = new Student();
             $student->setStudentId($valuesArray["studentId"]); ///MODIFIQUE recordId por studentId (MIRAR BIEN ESTO)
             $student->setFirstName($valuesArray["firstName"]);
             $student->setLastName($valuesArray["lastName"]);
-            /*$student->setCarrerId($valuesArray[]);
-                    $student->setDni($valuesArray[]);
-                    $student->setFileNumber($valuesArray[]);
-                    $student->setGender($valuesArray[]);
-                    $student->setBirthDate($valuesArray[]);
-                    $student->setEmail($valuesArray[]);
-                    $student->setPhoneNumber($valuesArray[]);
-                    $student->setPassword($valuesArray[]);*/
+            $student->setCareerId($valuesArray["careerId"]);
+            $student->setDni($valuesArray["dni"]);
+            $student->setFileNumber($valuesArray["fileNumber"]);
+            $student->setGender($valuesArray["gender"]);
+            $student->setBirthDate($valuesArray["birthDate"]);
+            $student->setEmail($valuesArray["email"]);
+            $student->setPhoneNumber($valuesArray["phoneNumber"]);
+            $student->setState($valuesArray['active']);
+            $student->setPassword("");
 
             array_push($this->studentList, $student);
         }
