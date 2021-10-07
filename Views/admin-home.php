@@ -26,8 +26,10 @@ require_once('header.php');
                                             <td><?php echo $company->getName() ?></td>
                                             <td><?php echo $company->getCity() ?></td>
                                             <td><?php echo $company->getCategory() ?></td>
-                                            <td><button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany()?>">Remover</button></td>
-                                            <td><button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany()?>">Editar</button></td>
+                                            <td>
+                                                  <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany()?>"><i class="fas fa-trash-alt"></i></button>
+                                                  <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany()?>"><i class="fas fa-pencil-alt"></i></button>
+                                             </td>
                                         </tr>
                                    <?php
                               }
