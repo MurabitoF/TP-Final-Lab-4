@@ -61,10 +61,8 @@ class CompanyController
     {
         $newList = $this->companyDAO->GetAll();
 
-        foreach($newList as $company)
-        {
-            if($company->getIdCompany() == $idCompany)
-            {
+        foreach($newList as $company) {
+            if($company->getIdCompany() == $idCompany){
                 $company->setName($name);
                 $company->setCity($city);
                 $company->setCategory($category);
@@ -128,5 +126,3 @@ class CompanyController
         return $companyList;
     }
 }
-
-?>

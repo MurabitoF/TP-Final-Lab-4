@@ -1,6 +1,9 @@
 <?php
     namespace Models;
-    class Student
+
+    use Models\User as User;
+
+    class Student extends User
     {
         private $studentId; ///CAMBIE RECORDID POR STUDENTID
         private $careerId;

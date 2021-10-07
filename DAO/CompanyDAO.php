@@ -1,16 +1,18 @@
-<?php 
+<?php
 
 namespace DAO;
 
 use DAO\ICompanyDAO as ICompanyDAO;
 use Models\Company as Company;
 
-class CompanyDAO implements ICompanyDAO{
-    
+class CompanyDAO implements ICompanyDAO
+{
+
     private $companyList = array();
 
-    public function Add(Company $company){
-       
+    public function Add(Company $company)
+    {
+
         $this->retriveData();
 
         array_push($this->companyList, $company);
@@ -18,7 +20,8 @@ class CompanyDAO implements ICompanyDAO{
         $this->saveData();
     }
 
-    public function GetAll(){
+    public function GetAll()
+    {
 
         $this->retriveData();
 
@@ -28,12 +31,10 @@ class CompanyDAO implements ICompanyDAO{
     public function Remove($idCompany)
     {
         $this->retriveData();
-        
-        foreach ($this->companyList as $key => $value)
-        {
-            if($value->getIdCompany() == $idCompany)
-            {
-                unset($this->companyList[$key]);
+
+        foreach ($this->companyList as $key => $value) {
+            if ($value->getIdCompany() == $idCompany) {
+                $this->companyList[$key]->setState(false);
             }
         }
         $this->saveData();
@@ -54,23 +55,21 @@ class CompanyDAO implements ICompanyDAO{
     private function searchId($idCompany)
     {
         $this->retriveData();
-        
+
         $foundCompany = new Company();
 
-        foreach($this->companyList as $company)
-        {
-            if($company->getIdCompany() == $idCompany)
-            {
+        foreach ($this->companyList as $company) {
+            if ($company->getIdCompany() == $idCompany) {
                 $foundCompany = $company;
             }
         }
         return $foundCompany;
     }
 
-    private function saveData(){
+    private function saveData()
+    {
         $arrayToEncode = array();
-        foreach ($this->companyList as $company)
-        {
+        foreach ($this->companyList as $company) {
             $valuesArray["idCompany"] = $company->getIdCompany();
             $valuesArray["name"] = $company->getName();
             $valuesArray["city"] = $company->getCity();
@@ -83,26 +82,25 @@ class CompanyDAO implements ICompanyDAO{
         file_put_contents('Data/companies.json', $jsonContent);
     }
 
-    private function retriveData(){
+    private function retriveData()
+    {
         $this->companyList = array();
-        if(file_exists('Data/companies.json'))
-        {
+        if (file_exists('Data/companies.json')) {
             $jsonContent = file_get_contents('Data/companies.json');
             $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
-            foreach($arrayToDecode as $valuesArray)
-            {
-                $company = new Company();
-                $company->setIdCompany($valuesArray["idCompany"]);
-                $company->setName(($valuesArray["name"]));
-                $company->setCity($valuesArray["city"]);
-                $company->setCategory($valuesArray["category"]);
+            foreach ($arrayToDecode as $valuesArray) {
+                if ($valuesArray["state"]) {
+                    $company = new Company();
+                    $company->setIdCompany($valuesArray["idCompany"]);
+                    $company->setName(($valuesArray["name"]));
+                    $company->setCity($valuesArray["city"]);
+                    $company->setCategory($valuesArray["category"]);
+                    $company->setState($valuesArray["state"]);
 
-                array_push($this->companyList, $company);
+                    array_push($this->companyList, $company);
+                }
             }
         }
     }
-
 }
-
-?>
