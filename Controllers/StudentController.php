@@ -1,40 +1,52 @@
 <?php
-    namespace Controllers;
 
-    use DAO\StudentDAO as StudentDAO;
-    use Models\Student as Student;
+namespace Controllers;
 
-    class StudentController
+use DAO\StudentDAO as StudentDAO;
+use Models\Student as Student;
+
+class StudentController
+{
+    private $studentDAO;
+
+    public function __construct()
     {
-        private $studentDAO;
+        $this->studentDAO = new StudentDAO();
+    }
 
-        public function __construct()
-        {
-            $this->studentDAO = new StudentDAO();
-        }
+    public function ShowAddView()
+    {
+        require_once(VIEWS_PATH . "student-add.php");
+    }
 
-        public function ShowAddView()
-        {
-            require_once(VIEWS_PATH."student-add.php");
-        }
+    public function ShowDataView()
+    {
+        require_once(VIEWS_PATH . "student-data.php");
+    }
 
-        public function ShowListView()
-        {
-            $studentList = $this->studentDAO->GetAll();
+    public function Add($studentId, $firstName, $lastName)
+    {
+        $student = new Student();
+        $student->setStudentId($studentId);
+        $student->setfirstName($firstName);
+        $student->setLastName($lastName);
 
-            require_once(VIEWS_PATH."student-list.php");
-        }
+        $this->studentDAO->Add($student);
 
-        public function Add($studentId, $firstName, $lastName)
-        {
-            $student = new Student();
-            $student->setStudentId($studentId);
-            $student->setfirstName($firstName);
-            $student->setLastName($lastName);
+        $this->ShowAddView();
+    }
 
-            $this->studentDAO->Add($student);
+    public function LogIn($username, $password)
+    {
+        $user = $this->studentDAO->GetByUserName($username); ///FUNCION AGREGADA POR MI EN StudentDAO.php
 
-            $this->ShowAddView();
+        if (($user != null)) {
+
+            $loggedUser = $user;
+
+            $_SESSION["loggedUser"] = $loggedUser;
+
+            $this->ShowDataView();
         }
     }
-?>
+}
