@@ -74,6 +74,7 @@ class CompanyDAO implements ICompanyDAO
             $valuesArray["name"] = $company->getName();
             $valuesArray["city"] = $company->getCity();
             $valuesArray["category"] = $company->getCategory();
+            $valuesArray["state"] = $company->getState();
 
             array_push($arrayToEncode, $valuesArray);
         }

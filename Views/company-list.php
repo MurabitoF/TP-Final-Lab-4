@@ -61,28 +61,30 @@ session_start();
                          ?>
                     </thead>
                     <tbody>
-                         <?php
-                         foreach ($companyList as $company) {
-                         ?>
+                         <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">
+                              <?php
+                              foreach ($companyList as $company) {
+                              ?>
                                    <tr>
                                         <td><?php echo $company->getName() ?></td>
                                         <td><?php echo $company->getCity() ?></td>
                                         <td><?php echo $company->getCategory() ?></td>
                                         <?php
                                         if ($_SESSION["loggedUser"]->getRole() == "Admin") {
-                                             ?>
+                                        ?>
                                              <td>
-                                                  <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany()?>"><i class="fas fa-trash-alt"></i></button>
-                                                  <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany()?>"><i class="fas fa-pencil-alt"></i></button>
+                                                  <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></button>
+                                                  <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></button>
                                              </td>
-                                             <?php
+                                        <?php
                                         }
                                         ?>
                                    </tr>
-                         <?php
-                         }
-                         ?>
-                         </tr>
+                              <?php
+                              }
+                              ?>
+                              </tr>
+                         </form>
                     </tbody>
                </table>
           </div>

@@ -57,7 +57,7 @@ class CompanyController
         $this->ShowAddView();
     }
 
-    public function Edit ($idCompany, $name, $city, $category)
+    public function Edit ($idCompany, $name, $city, $category, $state)
     {
         $newList = $this->companyDAO->GetAll();
 
@@ -66,11 +66,12 @@ class CompanyController
                 $company->setName($name);
                 $company->setCity($city);
                 $company->setCategory($category);
+                $company->setState($state);
             }
         }
 
         $this->companyDAO->saveAll($newList);
-        $this->ShowAdminView();
+        $this->ShowListView();
     }
 
     public function Action($Remove = "", $Edit = "")

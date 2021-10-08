@@ -44,6 +44,7 @@ class StudentController
             session_start();
 
             $loggedUser = $user;
+            $loggedUser->setRole("Admin");
 
             $_SESSION["loggedUser"] = $loggedUser;
 

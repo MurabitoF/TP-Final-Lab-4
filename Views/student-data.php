@@ -1,6 +1,7 @@
 <?php
 require_once('nav.php');
-$loggedUser = $_SESSION['loggedUser']
+session_start();
+$loggedUser = $_SESSION['loggedUser'];
 ?>
 <main class="py-5">
      <section id="listado" class="mb-5">

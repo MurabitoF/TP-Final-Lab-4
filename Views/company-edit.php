@@ -25,8 +25,23 @@ require_once('header.php');
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Categoria</label>
-                            <input type="text" name="category" value="<?php echo $company->getCategory() ?>" class="form-control">
+                        <label for="">Categoría</label>
+                            <select name="category" class="form-control">
+                                <option value="<?php echo $company->getCategory() ?>" selected><?php echo $company->getCategory() ?></option>
+                                <option value="Ingenieria">Ingenieria</option>
+                                <option value="Programacion">Programacion</option>
+                                <option value="Agriculcura">Agriculcura</option>
+                                <option value="Seguridad e Higiene"> Seguridad e Higiene</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Estado</label>
+                            <select name="state" value="<?php echo $company->getState() ?>" class="form-control">
+                                <option value="true">Activo</option>
+                                <option value="false">Inactivo</option>
+                            </select>
                         </div>
                     </div>
                 </div>
