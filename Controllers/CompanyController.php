@@ -57,22 +57,21 @@ class CompanyController
         $this->ShowAddView();
     }
 
-    public function Edit ($idCompany, $name, $city, $category)
+    public function Edit ($idCompany, $name, $city, $category, $state)
     {
         $newList = $this->companyDAO->GetAll();
 
-        foreach($newList as $company)
-        {
-            if($company->getIdCompany() == $idCompany)
-            {
+        foreach($newList as $company) {
+            if($company->getIdCompany() == $idCompany){
                 $company->setName($name);
                 $company->setCity($city);
                 $company->setCategory($category);
+                $company->setState($state);
             }
         }
 
         $this->companyDAO->saveAll($newList);
-        $this->ShowAdminView();
+        $this->ShowListView();
     }
 
     public function Action($Remove = "", $Edit = "")
@@ -128,5 +127,3 @@ class CompanyController
         return $companyList;
     }
 }
-
-?>

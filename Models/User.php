@@ -4,12 +4,12 @@
     abstract class User{
         private $username;
         private $password;
-        private $type;
+        private $role;
 
         public function __construct($username, $password) {
             $this->username = $username;
             $this->password = $password;
-            $this->type = 'Student';
+            $this->role = 'Student';
         }
         
         public function getUsername(){ return $this->username; }
@@ -18,8 +18,8 @@
         public function getPassword(){ return $this->password; }
         public function setPassword($password){ $this->password = $password; }
 
-        public function getType(){ return $this->type; }
-        public function setType($type){ $this->type = $type; }
+        public function getRole(){ return $this->role; }
+        public function setRole($role){ $this->role = $role; }
 
     }
 ?>

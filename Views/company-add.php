@@ -24,9 +24,14 @@ require_once('header.php');
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Categoria</label>
-                            <input type="text" name="category" value="" class="form-control">
+                        <div>
+                            <select name="category" class="form-control">
+                                <option value="" selected>Categoria</option>
+                                <option value="Ingenieria">Ingenieria</option>
+                                <option value="Programacion">Programacion</option>
+                                <option value="Agriculcura">Agriculcura</option>
+                                <option value="Seguridad e Higiene"> Seguridad e Higiene</option>
+                            </select>
                         </div>
                     </div>
                 </div>

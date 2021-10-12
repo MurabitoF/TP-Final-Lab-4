@@ -3,6 +3,8 @@
 require_once('nav.php');
 require_once('header.php');
 
+session_start();
+
 ?>
 
 <main class="py-5">
@@ -18,7 +20,7 @@ require_once('header.php');
                          </div>
                          <div class="col-lg-6">
                               <div class="form-group">
-                              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="City" class="form-control">
+                                   <input type="text" name="city" value="<?php echo $city; ?>" placeholder="City" class="form-control">
                               </div>
                          </div>
                     </div>
@@ -27,10 +29,18 @@ require_once('header.php');
                               <div class="form-group">
                                    <select name="category" class="form-control">
                                         <option value="" selected>Categoria</option>
-                                        <option value="Ingenieria" <?php if($category == "Ingenieria") { echo 'selected'; } ?> >Ingenieria</option>
-                                        <option value="Programacion" <?php if($category == "Programacion") { echo 'selected'; } ?> >Programacion</option>
-                                        <option value="Agriculcura" <?php if($category == "Agriculcura") { echo 'selected'; } ?> >Agriculcura</option>
-                                        <option value="Seguridad e Higiene" <?php if($category == "Seguridad e Higiene") { echo 'selected'; } ?> > Seguridad e Higiene</option>
+                                        <option value="Ingenieria" <?php if ($category == "Ingenieria") {
+                                                                           echo 'selected';
+                                                                      } ?>>Ingenieria</option>
+                                        <option value="Programacion" <?php if ($category == "Programacion") {
+                                                                           echo 'selected';
+                                                                      } ?>>Programacion</option>
+                                        <option value="Agriculcura" <?php if ($category == "Agriculcura") {
+                                                                           echo 'selected';
+                                                                      } ?>>Agriculcura</option>
+                                        <option value="Seguridad e Higiene" <?php if ($category == "Seguridad e Higiene") {
+                                                                                     echo 'selected';
+                                                                                } ?>> Seguridad e Higiene</option>
                                    </select>
                               </div>
                          </div>
@@ -44,20 +54,37 @@ require_once('header.php');
                          <th>Nombre</th>
                          <th>Ciudad</th>
                          <th>Categoria</th>
-                    </thead>
-                    <tbody>
                          <?php
-                         foreach ($companyList as $company) {
-                         ?>
-                              <tr>
-                                   <td><?php echo $company->getName() ?></td>
-                                   <td><?php echo $company->getCity() ?></td>
-                                   <td><?php echo $company->getCategory() ?></td>
-                              </tr>
-                         <?php
+                         if ($_SESSION["loggedUser"]->getRole() == "Admin") {
+                              echo "<th>Acciones</th>";
                          }
                          ?>
-                         </tr>
+                    </thead>
+                    <tbody>
+                         <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">
+                              <?php
+                              foreach ($companyList as $company) {
+                              ?>
+                                   <tr>
+                                        <td><?php echo $company->getName() ?></td>
+                                        <td><?php echo $company->getCity() ?></td>
+                                        <td><?php echo $company->getCategory() ?></td>
+                                        <?php
+                                        if ($_SESSION["loggedUser"]->getRole() == "Admin") {
+                                        ?>
+                                             <td>
+                                                  <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></button>
+                                                  <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></button>
+                                             </td>
+                                        <?php
+                                        }
+                                        ?>
+                                   </tr>
+                              <?php
+                              }
+                              ?>
+                              </tr>
+                         </form>
                     </tbody>
                </table>
           </div>

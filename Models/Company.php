@@ -7,13 +7,12 @@ class Company{
     private $name;
     private $city;
     private $category;
+    private $state;
 
-    /*public function __construct($idCompany, $name, $city)
+    public function __construct()
     {
-        $this->idCompany = $idCompany;
-        $this->name = $name;
-        $this->city = $city;
-    }*/
+        $this->state = true;
+    }
  
     public function getIdCompany()
     {
@@ -59,6 +58,18 @@ class Company{
     public function setCategory($category)
     {
         $this->category = $category;
+
+        return $this;
+    }
+ 
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function setState($state)
+    {
+        $this->state = $state;
 
         return $this;
     }

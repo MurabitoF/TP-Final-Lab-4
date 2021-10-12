@@ -41,8 +41,10 @@ class StudentController
         $user = $this->studentDAO->GetByUserName($username); ///FUNCION AGREGADA POR MI EN StudentDAO.php
 
         if (($user != null)) {
+            session_start();
 
             $loggedUser = $user;
+            $loggedUser->setRole("Admin");
 
             $_SESSION["loggedUser"] = $loggedUser;
 
