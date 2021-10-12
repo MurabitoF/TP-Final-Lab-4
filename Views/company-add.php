@@ -24,7 +24,8 @@ require_once('header.php');
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div>
+                        <div class="form-group">
+                        <label for="">Categoría</label>
                             <select name="category" class="form-control">
                                 <option value="" selected>Categoria</option>
                                 <option value="Ingenieria">Ingenieria</option>
@@ -32,6 +33,30 @@ require_once('header.php');
                                 <option value="Agriculcura">Agriculcura</option>
                                 <option value="Seguridad e Higiene"> Seguridad e Higiene</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Descripción</label>
+                            <textarea type="text" name="description" value="" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Dirección de la sucursal</label>
+                            <input type="text" name="adress" value="" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Dirección de la sede central</label>
+                            <input type="text" name="headquartersLocation" value="" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Código Postal</label>
+                            <input type="number" name="postalCode" value="" class="form-control">
                         </div>
                     </div>
                 </div>

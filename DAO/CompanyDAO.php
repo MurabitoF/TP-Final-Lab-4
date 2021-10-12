@@ -52,7 +52,7 @@ class CompanyDAO implements ICompanyDAO
         $this->saveData();
     }
 
-    private function searchId($idCompany)
+    public function searchId($idCompany)
     {
         $this->retriveData();
 
@@ -74,6 +74,10 @@ class CompanyDAO implements ICompanyDAO
             $valuesArray["name"] = $company->getName();
             $valuesArray["city"] = $company->getCity();
             $valuesArray["category"] = $company->getCategory();
+            $valuesArray["description"] = $company->getDescription();
+            $valuesArray["adress"] = $company->getAdress();
+            $valuesArray["headquartersLocation"] = $company->getHeadquartersLocation();
+            $valuesArray["postalCode"] = $company->getPostalCode();
             $valuesArray["state"] = $company->getState();
 
             array_push($arrayToEncode, $valuesArray);
@@ -97,6 +101,10 @@ class CompanyDAO implements ICompanyDAO
                     $company->setName(($valuesArray["name"]));
                     $company->setCity($valuesArray["city"]);
                     $company->setCategory($valuesArray["category"]);
+                    $company->setDescription($valuesArray["description"]);
+                    $company->setAdress($valuesArray["adress"]);
+                    $company->setHeadquartersLocation($valuesArray["headquartersLocation"]);
+                    $company->setPostalCode($valuesArray["postalCode"]);
                     $company->setState($valuesArray["state"]);
 
                     array_push($this->companyList, $company);

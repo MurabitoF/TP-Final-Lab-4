@@ -1,16 +1,13 @@
 [
     {
         "idCompany": 1,
-        "name": "Accenture",
-        "city": "Mar del Plata",
-        "category": "Programacion",
-        "state": "true"
-    },
-    {
-        "idCompany": 2,
         "name": "Globant",
         "city": "Mar del Plata",
         "category": "Programacion",
-        "state": true
+        "description": "Es Globant",
+        "adress": "Av. Col\u00f3n 1102",
+        "headquartersLocation": "Av. Col\u00f3n 1102",
+        "postalCode": "7600",
+        "state": "true"
     }
 ]
