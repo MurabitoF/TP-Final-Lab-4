@@ -21,4 +21,3 @@
         public function getAreaCode(){ return $this->areaCode; }
         public function setAreaCode($areaCode){ $this->areaCode = $areaCode; }
     }
-?>

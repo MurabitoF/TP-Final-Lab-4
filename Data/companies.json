@@ -9,8 +9,29 @@
     {
         "idCompany": 2,
         "name": "Globant",
-        "city": "Mar del Plata",
+        "city": "Buenos Aires",
         "category": "Programacion",
+        "state": "true"
+    },
+    {
+        "idCompany": 3,
+        "name": "Coca Cola",
+        "city": "Buenos Aires",
+        "category": "Ingenieria",
         "state": true
+    },
+    {
+        "idCompany": 4,
+        "name": "Techint",
+        "city": "Buenos Aires",
+        "category": "Ingenieria",
+        "state": true
+    },
+    {
+        "idCompany": 5,
+        "name": "Aticma",
+        "city": "Buenos Aires",
+        "category": "Ingenieria",
+        "state": false
     }
 ]

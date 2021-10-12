@@ -14,6 +14,11 @@ class StudentController
         $this->studentDAO = new StudentDAO();
     }
 
+    public function ShowHomeView()
+    {
+        require_once(VIEWS_PATH . "home.php");
+    }
+
     public function ShowAddView()
     {
         require_once(VIEWS_PATH . "student-add.php");
@@ -21,6 +26,8 @@ class StudentController
 
     public function ShowDataView()
     {
+        session_start();
+        $loggedUser = $_SESSION["loggedUser"] ;
         require_once(VIEWS_PATH . "student-data.php");
     }
 
@@ -38,17 +45,27 @@ class StudentController
 
     public function LogIn($username, $password)
     {
-        $user = $this->studentDAO->GetByUserName($username); ///FUNCION AGREGADA POR MI EN StudentDAO.php
+        session_start();
+        if($username != "admin@email.com"){
+            $user = $this->studentDAO->GetByUserName($username); ///FUNCION AGREGADA POR MI EN StudentDAO.php
 
-        if (($user != null)) {
-            session_start();
 
-            $loggedUser = $user;
-            $loggedUser->setRole("Admin");
+            if (($user != null)) {
+                $loggedUser = $user;
+                $loggedUser->setRole("Student");
 
-            $_SESSION["loggedUser"] = $loggedUser;
+                $_SESSION["loggedUser"] = $loggedUser;
 
-            $this->ShowDataView();
+                $this->ShowHomeView();
+            }
+        }else{
+            $user = new Student();
+            $user->setFirstName('Admin');
+            $user->setRole('Admin');
+
+            $_SESSION["loggedUser"] = $user;
+
+            $this->ShowHomeView();
         }
     }
 }

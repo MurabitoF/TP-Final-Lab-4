@@ -25,6 +25,7 @@ require_once('header.php');
                     </div>
                     <div class="col-lg-4">
                         <div>
+                            <label for="category">Categoria</label>
                             <select name="category" class="form-control">
                                 <option value="" selected>Categoria</option>
                                 <option value="Ingenieria">Ingenieria</option>
