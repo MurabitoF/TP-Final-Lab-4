@@ -3,8 +3,6 @@
 require_once('nav.php');
 require_once('header.php');
 
-session_start();
-
 ?>
 
 <main class="py-5">
@@ -54,37 +52,20 @@ session_start();
                          <th>Nombre</th>
                          <th>Ciudad</th>
                          <th>Categoria</th>
-                         <?php
-                         if ($_SESSION["loggedUser"]->getRole() == "Admin") {
-                              echo "<th>Acciones</th>";
-                         }
-                         ?>
                     </thead>
                     <tbody>
-                         <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">
-                              <?php
-                              foreach ($companyList as $company) {
-                              ?>
-                                   <tr>
-                                        <td><?php echo $company->getName() ?></td>
-                                        <td><?php echo $company->getCity() ?></td>
-                                        <td><?php echo $company->getCategory() ?></td>
-                                        <?php
-                                        if ($_SESSION["loggedUser"]->getRole() == "Admin") {
-                                        ?>
-                                             <td>
-                                                  <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></button>
-                                                  <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></button>
-                                             </td>
-                                        <?php
-                                        }
-                                        ?>
-                                   </tr>
-                              <?php
-                              }
-                              ?>
+                         <?php
+                         foreach ($companyList as $company) {
+                         ?>
+                              <tr>
+                                   <td><?php echo $company->getName() ?></td>
+                                   <td><?php echo $company->getCity() ?></td>
+                                   <td><?php echo $company->getCategory() ?></td>
                               </tr>
-                         </form>
+                         <?php
+                         }
+                         ?>
+                         </tr>
                     </tbody>
                </table>
           </div>

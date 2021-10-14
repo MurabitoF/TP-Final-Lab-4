@@ -2,7 +2,7 @@
 <main class="d-flex align-items-center justify-content-center height-100">
      <div class="content">
           <header class="text-center">
-               <h2>Title</h2>
+               <h2>LogIn</h2>
           </header>
           <form action="<?php echo FRONT_ROOT ?>Student/LogIn" method="POST" class="login-form bg-dark-alpha p-5 text-white">
                <div class="form-group">
