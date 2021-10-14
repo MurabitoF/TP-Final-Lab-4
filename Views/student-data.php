@@ -1,7 +1,5 @@
 <?php
 require_once('nav.php');
-session_start();
-$loggedUser = $_SESSION['loggedUser'];
 ?>
 <main class="py-5">
      <section id="listado" class="mb-5">
@@ -51,7 +49,9 @@ $loggedUser = $_SESSION['loggedUser'];
                          </tr>
                          <tr>
                               <th>Estado</th>
-                              <td><?php echo var_dump($loggedUser->getState()) ?></td>
+                              <td><?php
+                                   echo ($loggedUser->getState()) ? ('Activo') : ('Inactivo')
+                                   ?></td>
                          </tr>
                     </tbody>
                </table>

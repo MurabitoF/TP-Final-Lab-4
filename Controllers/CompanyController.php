@@ -34,6 +34,7 @@ class CompanyController
 
     public function ShowListView($name = null, $city = null, $category = null)
     {
+        session_start();
         $companyList = $this->companyDAO->getAll();
 
         if($name || $city || $category)

@@ -3,8 +3,6 @@
 require_once('nav.php');
 require_once('header.php');
 
-session_start();
-
 ?>
 
 <main class="py-5">
@@ -54,11 +52,6 @@ session_start();
                          <th>Nombre</th>
                          <th>Ciudad</th>
                          <th>Categoria</th>
-                         <?php
-                         if ($_SESSION["loggedUser"]->getRole() == "Admin") {
-                              echo "<th>Acciones</th>";
-                         }
-                         ?>
                     </thead>
                     <tbody>
                          <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">
@@ -85,7 +78,7 @@ session_start();
                               }
                               ?>
                               </tr>
-                         </form>
+                      
                     </tbody>
                </table>
           </div>
