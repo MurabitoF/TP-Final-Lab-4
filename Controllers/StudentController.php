@@ -21,6 +21,7 @@ class StudentController
 
     public function ShowAddView()
     {
+        session_start();
         require_once(VIEWS_PATH . "student-add.php");
     }
 
