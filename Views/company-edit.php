@@ -37,6 +37,30 @@ require_once('header.php');
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
+                            <label for="">Descripción</label>
+                            <textarea type="text" name="description" value="<?php echo $company->getDescription() ?>" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Dirección de la sucursal</label>
+                            <input type="text" name="adress" value="<?php echo $company->getAdress() ?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Dirección de la sede central</label>
+                            <input type="text" name="headquartersLocation" value="<?php echo $company->getHeadquartersLocation() ?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Código Postal</label>
+                            <input type="number" name="postalCode" value="<?php echo $company->getPostalCode() ?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
                             <label for="">Estado</label>
                             <select name="state" value="<?php echo $company->getState() ?>" class="form-control">
                                 <option value="true">Activo</option>

@@ -1,37 +1,13 @@
 [
     {
         "idCompany": 1,
-        "name": "Accenture",
-        "city": "Mar del Plata",
-        "category": "Programacion",
-        "state": "true"
-    },
-    {
-        "idCompany": 2,
         "name": "Globant",
         "city": "Buenos Aires",
         "category": "Programacion",
+        "description": "Es Globant",
+        "adress": "Av. Col\u00f3n 1102",
+        "headquartersLocation": "Av. Col\u00f3n 1102",
+        "postalCode": "7600",
         "state": "true"
-    },
-    {
-        "idCompany": 3,
-        "name": "Coca Cola",
-        "city": "Buenos Aires",
-        "category": "Ingenieria",
-        "state": true
-    },
-    {
-        "idCompany": 4,
-        "name": "Techint",
-        "city": "Buenos Aires",
-        "category": "Ingenieria",
-        "state": true
-    },
-    {
-        "idCompany": 5,
-        "name": "Aticma",
-        "city": "Buenos Aires",
-        "category": "Ingenieria",
-        "state": false
     }
 ]

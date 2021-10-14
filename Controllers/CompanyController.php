@@ -25,6 +25,13 @@ class CompanyController
         require_once (VIEWS_PATH."company-edit.php");
     }
 
+    public function ShowDataView($idCompany)
+    {
+        $company = $this->companyDAO->searchId($idCompany);
+
+        require_once (VIEWS_PATH."company-data.php");
+    }
+
     public function ShowListView($name = null, $city = null, $category = null)
     {
         session_start();
@@ -45,20 +52,24 @@ class CompanyController
         require_once (VIEWS_PATH."admin-home.php");
     }
 
-    public function Add($name, $city, $category)
+    public function Add($name, $city, $category, $description, $adress, $headquartersLocation, $postalCode)
     {
         $company = new Company();
         $company->setIdCompany(count($this->companyDAO->GetAll())+1);
         $company->setName($name);
         $company->setCity($city);
         $company->setCategory($category);
+        $company->setDescription($description);
+        $company->setAdress($adress);
+        $company->setHeadquartersLocation($headquartersLocation);
+        $company->setPostalCode($postalCode);
 
         $this->companyDAO->Add($company);
 
         $this->ShowAddView();
     }
 
-    public function Edit ($idCompany, $name, $city, $category, $state)
+    public function Edit ($idCompany, $name, $city, $category, $state, $description, $adress, $headquartersLocation, $postalCode)
     {
         $newList = $this->companyDAO->GetAll();
 
@@ -67,6 +78,10 @@ class CompanyController
                 $company->setName($name);
                 $company->setCity($city);
                 $company->setCategory($category);
+                $company->setDescription($description);
+                $company->setAdress($adress);
+                $company->setHeadquartersLocation($headquartersLocation);
+                $company->setPostalCode($postalCode);
                 $company->setState($state);
             }
         }
@@ -75,7 +90,7 @@ class CompanyController
         $this->ShowListView();
     }
 
-    public function Action($Remove = "", $Edit = "")
+    public function Action($Remove = "", $Edit = "", $getData = "")
     {
         if ($Edit != "")
         {
@@ -84,6 +99,9 @@ class CompanyController
         {
             $this->companyDAO->Remove($Remove);
             $this->ShowListView();
+        } else if($getData!="")
+        {
+            $this->ShowDataView($getData);
         }
     }
 
