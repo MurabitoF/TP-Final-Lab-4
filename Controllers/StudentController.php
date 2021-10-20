@@ -56,6 +56,7 @@ class StudentController
                 $loggedUser->setRole("Student");
 
                 $_SESSION["loggedUser"] = $loggedUser;
+                $_SESSION['lastActivity'] = time();
 
                 $this->ShowHomeView();
             }

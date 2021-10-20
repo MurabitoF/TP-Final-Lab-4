@@ -5,15 +5,22 @@ html, body {
 }
 body {
      font-family: 'Montserrat', sans-serif;
-     background: url(../img/bg.png) no-repeat center center fixed;
+     background-color: #F2F2F0;
      -webkit-background-size: cover;
         -moz-background-size: cover;
           -o-background-size: cover;
              background-size: cover;
 }
 
+#login{
+     background-color: #1c819e;
+}
+
 .height-100 {
      height: 100%;
+}
+.width-100{
+     width: 100%;
 }
 
 .bg-dark-alpha {
@@ -23,7 +30,53 @@ body {
      background-color: rgba(255,255,255,0.2);
 }
 
+.buttons{
+     margin-bottom: 25px;
+     width: 100%;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     text-align: center;
+}
+
+.button-blue{
+     padding: 15px 30px;
+     background-color: #1c819e;
+     color: #F2F2F0;
+     text-decoration:  none;
+     border: none;
+     text-align: center;
+     transition: all 0.3s ease-in-out;
+}
+
+.button-blue:hover{
+     color: #F2F2F0;
+     text-decoration: none;
+     background-color: #145b6e;
+     transition: all 0.3s ease-in-out;
+}
+
 .login-form {
      width: 500px;
-     border: 2px solid rgba(0, 0, 0, 0.2);
+     border: 2px solid #252525;
+     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+     background-color: #F2F2F0;
+}
+
+.login-form .logo{
+     margin-bottom: 30px;
+}
+
+.form-input{
+     border: none;
+     width: 100%;
+     border-bottom: 1px solid #252525;
+     margin: 15px 0;
+     font-family: 'Monserrat', sans-serif;
+}
+
+.form-input:focus{
+     outline: none;
+     font-family: 'Monserrat', sans-serif;
+     border-bottom: 1px solid #1c819e;
 }

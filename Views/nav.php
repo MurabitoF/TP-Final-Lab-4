@@ -1,12 +1,11 @@
 <?php
 use Models\User as User;
-// session_start();
 $loggedUser = $_SESSION['loggedUser'];
 ?>
 
-<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
-     <span class="navbar-text">
-          <strong>Framework</strong>
+<nav class="navbar navbar-expand-lg ">
+     <span class="logo">
+          <a href="<?php echo FRONT_ROOT ?>Home/index"><img src="img\logo-utn-recruitment.png" alt="logo-utn"></a>
      </span>
      <ul class="navbar-nav ml-auto">
           <li class="nav-item">
