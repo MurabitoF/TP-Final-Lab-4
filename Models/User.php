@@ -1,7 +1,7 @@
 <?php
     namespace Models;
 
-    abstract class User{
+    class User{
         private $username;
         private $password;
         private $role;

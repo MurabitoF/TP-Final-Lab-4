@@ -1,5 +1,5 @@
 <?php
-
+require_once('verify-login.php');
 require_once('nav.php');
 require_once('header.php');
 
@@ -52,6 +52,7 @@ require_once('header.php');
                          <th>Nombre</th>
                          <th>Ciudad</th>
                          <th>Categoria</th>
+                         <th>Acciones</th>
                     </thead>
                     <tbody>
                          <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">
@@ -62,17 +63,17 @@ require_once('header.php');
                                         <td><?php echo $company->getName() ?></td>
                                         <td><?php echo $company->getCity() ?></td>
                                         <td><?php echo $company->getCategory() ?></td>
+                                        <td>
+                                             <button type="submit" name="getData" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>">Ver datos</i></button>
                                         <?php
                                         if ($_SESSION["loggedUser"]->getRole() == "Admin") {
                                         ?>
-                                             <td>
                                                   <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></button>
                                                   <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></button>
-                                                  <button type="submit" name="getData" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>">Ver datos</i></button>
-                                             </td>
-                                        <?php
+                                                  <?php
                                         }
                                         ?>
+                                        </td>
                                    </tr>
                               <?php
                               }

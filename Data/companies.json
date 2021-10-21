@@ -9,5 +9,16 @@
         "headquartersLocation": "Av. Col\u00f3n 1102",
         "postalCode": "7600",
         "state": "true"
+    },
+    {
+        "idCompany": 2,
+        "name": "Accenture",
+        "city": "Mar Del Plata",
+        "category": "Programacion",
+        "description": "Accenture",
+        "adress": "Colon 1233",
+        "headquartersLocation": "Colon 1233",
+        "postalCode": "7600",
+        "state": "true"
     }
 ]
