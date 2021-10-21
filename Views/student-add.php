@@ -1,5 +1,7 @@
 <?php
-    require_once('nav.php');
+     require_once('verify-login.php');
+     require_once('header.php');
+     require_once('nav.php');
 ?>
 <main class="py-5">
      <section id="listado" class="mb-5">

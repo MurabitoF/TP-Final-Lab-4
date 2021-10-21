@@ -1,5 +1,5 @@
 <?php
-
+require_once('verify-login.php');
 require_once('nav.php');
 require_once('header.php');
 
@@ -60,7 +60,7 @@ require_once('header.php');
                         </div>
                     </div>
                 </div>
-                <button type="submit" name="" class="btn btn-dark ml-auto d-block">Agregar</button>
+                <button type="submit" class="btn btn-dark ml-auto d-block">Agregar</button>
             </form>
         </div>
     </section>
