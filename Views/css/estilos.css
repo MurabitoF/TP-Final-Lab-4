@@ -12,6 +12,10 @@ body {
              background-size: cover;
 }
 
+nav{
+     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
 #login{
      background-color: #1c819e;
 }
@@ -29,6 +33,7 @@ body {
 .bg-light-alpha {
      background-color: rgba(255,255,255,0.2);
 }
+
 
 .buttons{
      margin-bottom: 25px;
@@ -57,7 +62,7 @@ body {
 }
 
 .login-form {
-     width: 500px;
+     max-width: 500px;
      border: 2px solid #252525;
      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
      background-color: #F2F2F0;
@@ -79,4 +84,10 @@ body {
      outline: none;
      font-family: 'Monserrat', sans-serif;
      border-bottom: 1px solid #1c819e;
+}
+
+#rememberMe:checked{
+     background-color: #1c819e;
+     outline: 1px solid #145b6e;
+     border: none;
 }

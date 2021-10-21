@@ -44,30 +44,4 @@ class StudentController
         $this->ShowAddView();
     }
 
-    public function LogIn($username, $password)
-    {
-        session_start();
-        if($username != "admin@email.com"){
-            $user = $this->studentDAO->GetByUserName($username); ///FUNCION AGREGADA POR MI EN StudentDAO.php
-
-
-            if (($user != null)) {
-                $loggedUser = $user;
-                $loggedUser->setRole("Student");
-
-                $_SESSION["loggedUser"] = $loggedUser;
-                $_SESSION['lastActivity'] = time();
-
-                $this->ShowHomeView();
-            }
-        }else{
-            $user = new Student();
-            $user->setFirstName('Admin');
-            $user->setRole('Admin');
-
-            $_SESSION["loggedUser"] = $user;
-
-            $this->ShowHomeView();
-        }
-    }
 }
