@@ -14,19 +14,19 @@ require_once('header.php');
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Nombre de la empresa</label>
-                            <input type="text" name="name" value="<?php echo $company->getName() ?>" class="form-control">
+                            <input type="text" name="name" value="<?php echo $company->getName() ?>" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Ciudad</label>
-                            <input type="text" name="city" value="<?php echo $company->getCity() ?>" class="form-control">
+                            <input type="text" name="city" value="<?php echo $company->getCity() ?>" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                         <label for="">Categoría</label>
-                            <select name="category" class="form-control">
+                            <select name="category" class="form-control" required>
                                 <option value="<?php echo $company->getCategory() ?>" selected><?php echo $company->getCategory() ?></option>
                                 <option value="Ingenieria">Ingenieria</option>
                                 <option value="Programacion">Programacion</option>
@@ -38,25 +38,25 @@ require_once('header.php');
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Descripción</label>
-                            <textarea type="text" name="description" value="<?php echo $company->getDescription() ?>" class="form-control"></textarea>
+                            <textarea type="text" name="description" value="<?php echo $company->getDescription() ?>" class="form-control" required></textarea>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Dirección de la sucursal</label>
-                            <input type="text" name="adress" value="<?php echo $company->getAdress() ?>" class="form-control">
+                            <input type="text" name="adress" value="<?php echo $company->getAdress() ?>" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Dirección de la sede central</label>
-                            <input type="text" name="headquartersLocation" value="<?php echo $company->getHeadquartersLocation() ?>" class="form-control">
+                            <input type="text" name="headquartersLocation" value="<?php echo $company->getHeadquartersLocation() ?>" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Código Postal</label>
-                            <input type="number" name="postalCode" value="<?php echo $company->getPostalCode() ?>" class="form-control">
+                            <input type="number" name="postalCode" value="<?php echo $company->getPostalCode() ?>" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
