@@ -12,21 +12,16 @@
         private $workload;
         private $requirements;
         private $state;
+        ///Agregadas por mi
+        private $title;
+        private $description;
 
-        public function __construct($idJobOffer, $jobPosition, $company, $income = 0, $city = "Remoto", $category, $workload, $requirements, $state = "abierta") {
-            $this->idJobOffer = $idJobOffer;
-            $this->jobPosition = $jobPosition;
-            $this->company = $company;
-            $this->income = $income;
-            $this->city = $city;
-            $this->category = $category;
-            $this->applicants = array();
-            $this->workload = $workload;
-            $this->requirements = $requirements;
-            $this->state = $state;
+        public function __construct() { ///vacie el constructor para mas facilidad en JobOfferDAO
+            $this->state = true;
         }
 
         public function getIdJobOffer(){ return $this->idJobOffer; }
+        public function setIdJobOffer($idJobOffer){ $this->idJobOffer = $idJobOffer; }
 
         public function getJobPosition(){ return $this->jobPosition; }
         public function setJobPosition($jobPosition){ $this->jobPosition = $jobPosition; }
@@ -54,4 +49,11 @@
 
         public function getState(){ return $this->state; }
         public function setState($state){ $this->state = $state; }
+
+        ///NUEVOS GETTERS Y SETTER
+        public function getTitle(){ return $this->title; }
+        public function setTitle($title){ return $this; }
+
+        public function getDescription(){ return $this->description; }
+        public function setDescription($description){ return $this; }
     }
