@@ -6,6 +6,12 @@ define("FRONT_ROOT", "/TP-Final-Lab-4/");
 define("VIEWS_PATH", "Views/");
 define("CSS_PATH", FRONT_ROOT.VIEWS_PATH . "css/");
 define("JS_PATH", FRONT_ROOT.VIEWS_PATH . "js/");
+
+
+define("DB_HOST", "blotxcyp3jwpizrv9bko-mysql.services.clever-cloud.com");
+define("DB_NAME", "blotxcyp3jwpizrv9bko");
+define("DB_USER", "usn3tfsxolaonlf5");
+define("DB_PASS", "TY9VcyPUNId8kcRNqi6A");
 ?>
 
 
