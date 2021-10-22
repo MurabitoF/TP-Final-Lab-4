@@ -21,6 +21,7 @@ class StudentController
 
     public function ShowAddView()
     {
+        session_start();
         require_once(VIEWS_PATH . "student-add.php");
     }
 
@@ -43,29 +44,4 @@ class StudentController
         $this->ShowAddView();
     }
 
-    public function LogIn($username, $password)
-    {
-        session_start();
-        if($username != "admin@email.com"){
-            $user = $this->studentDAO->GetByUserName($username); ///FUNCION AGREGADA POR MI EN StudentDAO.php
-
-
-            if (($user != null)) {
-                $loggedUser = $user;
-                $loggedUser->setRole("Student");
-
-                $_SESSION["loggedUser"] = $loggedUser;
-
-                $this->ShowHomeView();
-            }
-        }else{
-            $user = new Student();
-            $user->setFirstName('Admin');
-            $user->setRole('Admin');
-
-            $_SESSION["loggedUser"] = $user;
-
-            $this->ShowHomeView();
-        }
-    }
 }

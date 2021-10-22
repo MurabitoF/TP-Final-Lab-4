@@ -16,6 +16,7 @@ class CompanyController
 
     public function ShowAddView()
     {
+        session_start();
         require_once (VIEWS_PATH."company-add.php");
     }
 
@@ -43,13 +44,6 @@ class CompanyController
         }
 
         require_once (VIEWS_PATH."company-list.php");
-    }
-
-    public function ShowAdminView($name = null, $city = null, $category = null)
-    {
-        $companyList = $this->companyDAO->getAll();
-
-        require_once (VIEWS_PATH."admin-home.php");
     }
 
     public function Add($name, $city, $category, $description, $adress, $headquartersLocation, $postalCode)
@@ -92,6 +86,7 @@ class CompanyController
 
     public function Action($Remove = "", $Edit = "", $getData = "")
     {
+        session_start();
         if ($Edit != "")
         {
             $this->ShowEditView($Edit);
