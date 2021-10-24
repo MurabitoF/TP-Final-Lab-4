@@ -2,22 +2,25 @@
 require_once('header.php');
 ?>
 <main id="login" class="d-flex align-items-center justify-content-center height-100">
-     <div class="conteiner">
+     <div class="conteiner ">
           <form action="<?php echo FRONT_ROOT ?>User/LogIn" method="POST" class="login-form p-5">
                <div class="logo">
-                    <img src="http://localhost/TP-Final-Lab-4/Views/img/logo-utn-recruitment.png" width="600px" alt="logo utn">
+                    <img src="http://localhost/TP-Final-Lab-4/Views/img/logo-utn-recruitment.png" width="30vw" alt="logo utn">
                </div>
                <div class="form-group">
-                    <input type="text" name="username" class="form-input" placeholder="Ingresar email" required>
+                    <input type="text" name="username" class="form-input form-control shadow-none" placeholder="Ingresar email" required>
                </div>
                <div class="form-group">
-                    <input type="text" name="password" class="form-input" placeholder="Ingresar constraseña">
+                    <input type="text" name="password" class="form-input form-control shadow-none" placeholder="Ingresar constraseña">
                </div>
                <div class="form-group mb-2">
                     <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe">
                     <label class="form-check-label" for="rememberMe">Recordarme</label>
                </div>
-               <button class="button-blue width-100" type="submit">Iniciar Sesión</button>
+               <button class="btn p-2 button-blue width-100" type="submit">Iniciar Sesión</button>
+               <div class="mt-1">
+                    <a class="p-0 nav-link" href="<?php echo FRONT_ROOT?>User/ShowRegisterView">Registrarse</a>
+               </div>
           </form>
      </div>
 </main>

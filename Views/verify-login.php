@@ -4,7 +4,7 @@ use Controllers\UserController as UserController;
 $userController = new UserController;
 
 if(isset($_SESSION['loggedUser'])){
-    if( isset($_SESSION['lastActivity']) && (time() - $_SESSION['lastActivity'] > 60*1) ){
+    if( isset($_SESSION['lastActivity']) && (time() - $_SESSION['lastActivity'] > 60*5) ){
         $userController->LogOut();
     }else{
         session_regenerate_id(true);

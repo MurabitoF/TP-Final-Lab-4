@@ -22,7 +22,7 @@ use Models\User as User;
             require_once(VIEWS_PATH."home.php");
         }
 
-        public function ShowLogInView()
+        public function ShowLogInView($alert = NULL)
         {
             session_start();
             if(isset($_SESSION['loggedUser']))
@@ -33,52 +33,89 @@ use Models\User as User;
             }
         }
 
+        public function Add($username, $verifiedPassword)
+        {
+            $encryptedPass = password_hash($verifiedPassword, PASSWORD_DEFAULT);
+            $newUser = new User();
+            $newUser->setUsername($username);
+            $newUser->setPassword($encryptedPass);
+            $newUser->setRole('Student');
+            $newUser->setActive(true);
+
+            $this->userDAO->Add($newUser);
+            
+            $this->ShowLogInView();
+        }
+
+        public function ShowRegisterView($user = NULL, $message = "")
+        {
+            require_once(VIEWS_PATH."register.php");
+        }
+
         public function LogIn($username, $password, $remeberMe = false)
         {
             session_start();
-            if($username != "admin@email.com")
-            {
-                $user = $this->studentDAO->GetByUserName($username);
-                if (($user != null)) {
-                    $user->setUsername($username);
-                    $user->setPassword($password);
-                    $loggedUser = $user;
-                    
 
-                    $_SESSION["loggedUser"] = $loggedUser;
-                    $_SESSION['lastActivity'] = time();
-                    $this->ShowHomeView();
+            $user = $this->userDAO->GetByUserName($username);
+
+            if($user){
+                if($user->getActive()){
+                    if(password_verify($password, $user->getPassword())){
+                        if($user->getRole() === "Student"){
+                            $studentUser = $this->studentDAO->GetByUserName($username);
+                            $studentUser->setUsername($user->getUsername());
+                            $studentUser->setPassword($user->getPassword());
+                            $studentUser->setRole($user->getRole());
+                            $studentUser->setActive($user->getActive());
+
+                            $_SESSION['loggedUser'] = $studentUser;
+                            $_SESSION['lastActivity'] = time();
+                        }else{
+                            $_SESSION['loggedUser'] = $user;
+                            $_SESSION['lastActivity'] = time();
+                        }
+                        $this->ShowHomeView();
+                    }
                 }
-            }else{
-                $user = new User($username, "");
-                $user->setRole('Admin');
+            } else {
 
-                $_SESSION["loggedUser"] = $user;
-                $_SESSION['lastActivity'] = time();
-                $this->ShowHomeView();
             }
         }
 
         public function LogOut()
         {
-            session_start();
+            if(session_status() != PHP_SESSION_ACTIVE)
+            {
+                session_start();
+            }
             session_unset();
             session_destroy();
         
             $this->ShowLogInView();
         }
 
-        public function VerifyLogIn()
+        public function VerifyEmail($email)
         {
-            if(isset($_SESSION['loggedUser'])){
-                if(isset($_SESSION['lastActivity']) && (time() - $_SESSION['lastActivity'] > 60*15)){
-                       $this->logOut();
-                }else{
-                    session_regenerate_id(true);
-                    $_SESSION['lastActivity'] = time();
+            $user = $this->userDAO->GetByUserName($email);
+            $message = "";
+            if(!$user){
+                $user = $this->studentDAO->GetByUserName($email);
+                if($user)
+                {
+                    if($user->getState())
+                    {
+                        $this->ShowRegisterView($user);          
+                    } else {
+                        $message = "Usted no se encuentra activo en el sistema de la UTN";
+                        $this->ShowRegisterView(NULL ,$message);
+                    }
+                } else {
+                    $message = "El email ingresado no pertenece a un alumno de la utn!";
+                    $this->ShowRegisterView(NULL, $message);
                 }
             } else {
-                $this->ShowLogInView();
+                $message = "Ya se encuentra registrado en el sistema";
+                $this->ShowRegisterView(NULL, $message);
             }
         }
     }

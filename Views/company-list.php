@@ -25,7 +25,7 @@ require_once('header.php');
                     <div class="row">
                          <div class="col-lg-6">
                               <div class="form-group">
-                                   <select name="category" class="form-control">
+                                   <select name="category" class="form-select">
                                         <option value="" selected>Categoria</option>
                                         <option value="Ingenieria" <?php if ($category == "Ingenieria") {
                                                                            echo 'selected';
@@ -85,3 +85,7 @@ require_once('header.php');
           </div>
      </section>
 </main>
+
+<?php
+require_once('footer.php');
+?>
