@@ -27,18 +27,17 @@ require_once('header.php');
                               <div class="form-group">
                                    <select name="category" class="form-control">
                                         <option value="" selected>Categoria</option>
-                                        <option value="Ingenieria" <?php if ($category == "Ingenieria") {
-                                                                           echo 'selected';
-                                                                      } ?>>Ingenieria</option>
-                                        <option value="Programacion" <?php if ($category == "Programacion") {
-                                                                           echo 'selected';
-                                                                      } ?>>Programacion</option>
-                                        <option value="Agriculcura" <?php if ($category == "Agriculcura") {
-                                                                           echo 'selected';
-                                                                      } ?>>Agriculcura</option>
-                                        <option value="Seguridad e Higiene" <?php if ($category == "Seguridad e Higiene") {
-                                                                                     echo 'selected';
-                                                                                } ?>> Seguridad e Higiene</option>
+                                        <?php
+                                        foreach($careerList as $career)
+                                        {
+                                             if($career->getActive())
+                                             {
+                                                  ?>
+                                                  <option value="<?php echo $career->getIdCareer()?>" <?php if($category == $career->getName()) echo 'selected'; ?>><?php echo $career->getName()?></option>
+                                                  <?php
+                                             }
+                                        }
+                                        ?>
                                    </select>
                               </div>
                          </div>

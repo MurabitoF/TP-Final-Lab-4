@@ -26,7 +26,7 @@ require_once('header.php');
                               <td><?php echo $career->getName(); ?></td>
                          </tr>
                          <tr>
-                              <th>Descripción</th>
+                              <th>Sobre nosotros</th>
                               <td><?php echo $company->getDescription() ?></td>
                          </tr>
                          <tr>

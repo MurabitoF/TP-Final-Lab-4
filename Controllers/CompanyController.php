@@ -54,7 +54,8 @@ class CompanyController
     {
         session_start();
         $companyList = $this->companyDAO->getAll();
-    
+        
+        $careerList = $this->careerDAO->GetAll();
 
         if($name || $city || $category)
         {
@@ -118,8 +119,8 @@ class CompanyController
     }
 
     private function filterList($companyList, $name, $city, $category)
-    { 
-        if($name)
+    {
+    if($name)
         {
             $filteredList = array();
             foreach($companyList as $company)
