@@ -4,7 +4,9 @@ namespace Controllers;
 
 use DAO\CompanyDAO as CompanyDAO;
 use DAO\CareerDAO as CareerDAO;
+use Exception;
 use Models\Company as Company;
+use Models\Alert as Alert;
 
 class CompanyController
 {
@@ -17,11 +19,13 @@ class CompanyController
         $this->careerDAO = new CareerDAO;
     }
 
-    public function ShowAddView()
+    public function ShowAddView($alert)
     {
         session_start();
 
         $careerList = $this->careerDAO->GetAll();
+
+        echo $alert->getType().": ". $alert->getMessage();
 
         require_once (VIEWS_PATH."company-add.php");
     }
@@ -67,19 +71,33 @@ class CompanyController
 
     public function Add($name, $city, $category, $description, $street, $streetAddress, $postalCode)
     {
-        $company = new Company();
-        $company->setIdCompany(count($this->companyDAO->GetAll())+1);
-        $company->setName($name);
-        $company->setCity($city);
-        $company->setCategory($category);
-        $company->setDescription($description);
-        $company->setStreet($street);
-        $company->setStreetAddress($streetAddress);
-        $company->setPostalCode($postalCode);
 
-        $this->companyDAO->Add($company);
+        $alert = new Alert ("", "");
 
-        $this->ShowAddView();
+        try{
+            $company = new Company();
+            $company->setIdCompany(count($this->companyDAO->GetAll())+1);
+            $company->setName($name);
+            $company->setCity($city);
+            $company->setCategory($category);
+            $company->setDescription($description);
+            $company->setStreet($street);
+            $company->setStreetAddress($streetAddress);
+            $company->setPostalCode($postalCode);
+
+            $this->companyDAO->Add($company);
+
+        } catch(Exception $ex){
+
+            $alert->setType("Error");
+            if(str_contains($ex->getMessage(),1062))
+            {
+                $alert->setMessage("La empresa ingresada ya existe");
+            }
+
+        }finally{
+            $this->ShowAddView($alert);
+        }
     }
 
     public function Edit ($idCompany, $name, $city, $category, $state, $description, $street, $streetAddress, $postalCode)

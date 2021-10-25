@@ -2,7 +2,7 @@
 
 namespace DAO;
 
-use Models\Exception as Exception;
+use \Exception as Exception;
 use DAO\ICompanyDAO as ICompanyDAO;
 use DAO\Connection as Connection;
 use Models\Company as Company;
@@ -62,8 +62,6 @@ class CompanyDAO implements ICompanyDAO
                 $company->setState($row["active"]);
                 $company->setPostalCode($row["postalCode"]);
                 $company->setCategory($row["idJobPosition"]);
-
-
     
                 array_push($companyList, $company);
     
