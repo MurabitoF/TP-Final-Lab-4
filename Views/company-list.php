@@ -58,6 +58,7 @@ require_once('header.php');
                          <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">
                               <?php
                               foreach ($companyList as $company) {
+                                   if($company->getState()){
                               ?>
                                    <tr>
                                         <td><?php echo $company->getName() ?></td>
@@ -71,6 +72,7 @@ require_once('header.php');
                                                   <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></button>
                                                   <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></button>
                                                   <?php
+                                             }
                                         }
                                         ?>
                                         </td>

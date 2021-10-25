@@ -27,15 +27,22 @@ require_once('header.php');
                         <div class="form-group">
                         <label for="">Categoría</label>
                             <select name="category" class="form-control" required>
-                                <option value="<?php echo $company->getCategory() ?>" selected><?php echo $company->getCategory() ?></option>
-                                <option value="Ingenieria">Ingenieria</option>
-                                <option value="Programacion">Programacion</option>
-                                <option value="Agriculcura">Agriculcura</option>
-                                <option value="Seguridad e Higiene"> Seguridad e Higiene</option>
+                                <option value="<?php echo $career->getIdCareer() ?>" selected><?php echo $career->getName() ?></option>
+                                <?php
+                                    foreach($careerList as $career)
+                                    {
+                                     if($career->getActive())
+                                     {
+                                        ?>
+                                            <option value="<?php echo $career->getIdCareer()?>"><?php echo $career->getName() ?></option> 
+                                        <?php
+                                     }   
+                                    }
+                                ?>
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-12">
                         <div class="form-group">
                             <label for="">Descripción</label>
                             <textarea type="text" name="description" value="<?php echo $company->getDescription() ?>" class="form-control" required></textarea>
@@ -43,14 +50,14 @@ require_once('header.php');
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Dirección de la sucursal</label>
-                            <input type="text" name="adress" value="<?php echo $company->getAdress() ?>" class="form-control" required>
+                            <label for="">Calle de la sucursal</label>
+                            <input type="text" name="street" value="<?php echo $company->getStreet() ?>" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Dirección de la sede central</label>
-                            <input type="text" name="headquartersLocation" value="<?php echo $company->getHeadquartersLocation() ?>" class="form-control" required>
+                            <label for="">Número de calle</label>
+                            <input type="number" name="streetAddress" value="<?php echo $company->getStreetAddress() ?>" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -60,7 +67,6 @@ require_once('header.php');
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="form-group">
                             <label for="">Estado</label>
                             <select name="state" value="<?php echo $company->getState() ?>" class="form-control">
                                 <option value="true">Activo</option>
@@ -68,8 +74,11 @@ require_once('header.php');
                             </select>
                         </div>
                     </div>
+                        <div class="col-lg-4">
+                            <button type="submit" name="idCompany" value="<?php echo $company->getIdCompany() ?>" class="btn btn-dark ml-auto d-block">Editar</button>
+                        </div>  
+                    </div>
                 </div>
-                <button type="submit" name="idCompany" value="<?php echo $company->getIdCompany() ?>" class="btn btn-dark ml-auto d-block">Editar</button>
             </form>
         </div>
     </section>

@@ -2,114 +2,151 @@
 
 namespace DAO;
 
+use Models\Exception as Exception;
 use DAO\ICompanyDAO as ICompanyDAO;
+use DAO\Connection as Connection;
 use Models\Company as Company;
+use Models\City as City;
+use Models\Categoty as Category;
 
 class CompanyDAO implements ICompanyDAO
 {
+    private $connection;
 
-    private $companyList = array();
+    private $tableName = "Company";
 
     public function Add(Company $company)
     {
+        try{
+            $query = "INSERT INTO ".$this->tableName." (name, description, street, streetAddress, active, postalCode, idJobPosition) VALUES (:name, :description, :street, :streetAddress, :active, :postalCode, :idJobPosition);";
+            $parameters["name"] = $company->getName();
+            $parameters["description"] = $company->getDescription();
+            $parameters["street"] = $company->getStreet();
+            $parameters["streetAddress"] = $company->getStreetAddress();
+            $parameters["active"] = $company->getState();
+            $parameters["postalCode"] = $company->getPostalCode();
+            $parameters["idJobPosition"] = $company->getCategory();
 
-        $this->retriveData();
+            $this->connection = Connection::GetInstance();
 
-        array_push($this->companyList, $company);
-
-        $this->saveData();
+            $this->connection->ExecuteNonQuery($query, $parameters);
+            
+        } catch(Exception $ex)
+        {
+            throw $ex;
+        }
     }
 
     public function GetAll()
     {
 
-        $this->retriveData();
+        try{
 
-        return $this->companyList;
+            $companyList = array();
+    
+            $query = "SELECT * FROM ".$this->tableName;
+    
+            $this->connection = Connection::GetInstance();
+    
+            $resultSet = $this->connection->Execute($query);
+    
+            foreach($resultSet as $row){
+    
+                $company = new Company();
+                
+                $company->setIdCompany($row["idCompany"]);
+                $company->setName($row["name"]);
+                $company->setDescription($row["description"]);
+                $company->setStreet($row["street"]);
+                $company->setStreetAddress($row["streetAddress"]);
+                $company->setState($row["active"]);
+                $company->setPostalCode($row["postalCode"]);
+                $company->setCategory($row["idJobPosition"]);
+
+
+    
+                array_push($companyList, $company);
+    
+            }
+    
+            return $companyList;
+    
+           } catch (Exception $ex)
+           {
+               throw $ex;
+           }
+
     }
 
     public function Remove($idCompany)
     {
-        $this->retriveData();
+       
+        try{
 
-        foreach ($this->companyList as $key => $value) {
-            if ($value->getIdCompany() == $idCompany) {
-                $this->companyList[$key]->setState(false);
-            }
+            $query = "UPDATE ".$this->tableName." SET active = FALSE WHERE idCompany = ".$idCompany;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query);
+
+        }catch(Exception $ex)
+        {
+            throw $ex;
         }
-        $this->saveData();
+
     }
 
-    public function Edit($idCompany)
+    public function Edit($company)
     {
-        $editedCompany = $this->searchId($idCompany);
-        return $editedCompany;
-    }
+        try{
 
-    public function saveAll($newList)
-    {
-        $this->companyList = $newList;
-        $this->saveData();
+            $query = "UPDATE ".$this->tableName." SET name =\"". $company->getName() ."\",
+            description =\"". $company->getDescription() ."\",
+            street =\"". $company->getStreet() ."\",
+            streetAddress =". $company->getStreetAddress() .",
+            active =". $company->getState() .",
+            postalCode =". $company->getPostalCode() .",
+            idJobPosition =". $company->getCategory() ." WHERE idCompany = ". $company->getIdCompany();
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query);
+
+        }catch(Exception $ex){
+            throw $ex;
+        }
     }
 
     public function searchId($idCompany)
     {
-        $this->retriveData();
+        $foundCompany = new Company;
+        try{
+            $query = "SELECT * FROM " .$this->tableName. " WHERE `idCompany` = ". $idCompany;
 
-        $foundCompany = new Company();
+            $this->connection = Connection::GetInstance();
 
-        foreach ($this->companyList as $company) {
-            if ($company->getIdCompany() == $idCompany) {
-                $foundCompany = $company;
+            $foundCompany  = $this->connection->Execute($query);
+            
+            foreach ($foundCompany as $row)
+            {
+                $company = new Company();
+                
+                $company->setIdCompany($row["idCompany"]);
+                $company->setName($row["name"]);
+                $company->setDescription($row["description"]);
+                $company->setStreet($row["street"]);
+                $company->setStreetAddress($row["streetAddress"]);
+                $company->setState($row["active"]);
+                $company->setPostalCode($row["postalCode"]);
+                $company->setCategory($row["idJobPosition"]);
+
             }
-        }
-        return $foundCompany;
-    }
 
-    private function saveData()
-    {
-        $arrayToEncode = array();
-        foreach ($this->companyList as $company) {
-            $valuesArray["idCompany"] = $company->getIdCompany();
-            $valuesArray["name"] = $company->getName();
-            $valuesArray["city"] = $company->getCity();
-            $valuesArray["category"] = $company->getCategory();
-            $valuesArray["description"] = $company->getDescription();
-            $valuesArray["adress"] = $company->getAdress();
-            $valuesArray["headquartersLocation"] = $company->getHeadquartersLocation();
-            $valuesArray["postalCode"] = $company->getPostalCode();
-            $valuesArray["state"] = $company->getState();
+            return $company ;
 
-            array_push($arrayToEncode, $valuesArray);
-        }
-
-        $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-        file_put_contents('Data/companies.json', $jsonContent);
-    }
-
-    private function retriveData()
-    {
-        $this->companyList = array();
-        if (file_exists('Data/companies.json')) {
-            $jsonContent = file_get_contents('Data/companies.json');
-            $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-            foreach ($arrayToDecode as $valuesArray) {
-                if ($valuesArray["state"]) {
-                    $company = new Company();
-                    $company->setIdCompany($valuesArray["idCompany"]);
-                    $company->setName(($valuesArray["name"]));
-                    $company->setCity($valuesArray["city"]);
-                    $company->setCategory($valuesArray["category"]);
-                    $company->setDescription($valuesArray["description"]);
-                    $company->setAdress($valuesArray["adress"]);
-                    $company->setHeadquartersLocation($valuesArray["headquartersLocation"]);
-                    $company->setPostalCode($valuesArray["postalCode"]);
-                    $company->setState($valuesArray["state"]);
-
-                    array_push($this->companyList, $company);
-                }
-            }
+        } catch(Exception $ex)
+        {
+            throw $ex;
         }
     }
 }

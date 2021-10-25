@@ -3,32 +3,49 @@
 namespace Controllers;
 
 use DAO\CompanyDAO as CompanyDAO;
+use DAO\CareerDAO as CareerDAO;
 use Models\Company as Company;
 
 class CompanyController
 {
     private $companyDAO;
+    private $careerDAO;
 
     public function __construct()
     {
         $this->companyDAO = new CompanyDAO;
+        $this->careerDAO = new CareerDAO;
     }
 
     public function ShowAddView()
     {
         session_start();
+
+        $careerList = $this->careerDAO->GetAll();
+
         require_once (VIEWS_PATH."company-add.php");
     }
 
     public function ShowEditView($Edit)
     {
-        $company = $this->companyDAO->Edit($Edit);
+        session_start();
+
+        $company = $this->companyDAO->searchId($Edit);
+        
+        $this->companyDAO->Edit($company);
+        $careerList = $this->careerDAO->GetAll();
+        $career = $this->careerDAO->GetbyId($company->getCategory());
+
         require_once (VIEWS_PATH."company-edit.php");
     }
 
     public function ShowDataView($idCompany)
     {
+        session_start();
+
         $company = $this->companyDAO->searchId($idCompany);
+
+        $career = $this->careerDAO->GetbyId($company->getCategory());
 
         require_once (VIEWS_PATH."company-data.php");
     }
@@ -37,6 +54,7 @@ class CompanyController
     {
         session_start();
         $companyList = $this->companyDAO->getAll();
+    
 
         if($name || $city || $category)
         {
@@ -46,7 +64,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-list.php");
     }
 
-    public function Add($name, $city, $category, $description, $adress, $headquartersLocation, $postalCode)
+    public function Add($name, $city, $category, $description, $street, $streetAddress, $postalCode)
     {
         $company = new Company();
         $company->setIdCompany(count($this->companyDAO->GetAll())+1);
@@ -54,8 +72,8 @@ class CompanyController
         $company->setCity($city);
         $company->setCategory($category);
         $company->setDescription($description);
-        $company->setAdress($adress);
-        $company->setHeadquartersLocation($headquartersLocation);
+        $company->setStreet($street);
+        $company->setStreetAddress($streetAddress);
         $company->setPostalCode($postalCode);
 
         $this->companyDAO->Add($company);
@@ -63,30 +81,26 @@ class CompanyController
         $this->ShowAddView();
     }
 
-    public function Edit ($idCompany, $name, $city, $category, $state, $description, $adress, $headquartersLocation, $postalCode)
+    public function Edit ($idCompany, $name, $city, $category, $state, $description, $street, $streetAddress, $postalCode)
     {
-        $newList = $this->companyDAO->GetAll();
+        $company = $this->companyDAO->searchId($idCompany);
 
-        foreach($newList as $company) {
-            if($company->getIdCompany() == $idCompany){
-                $company->setName($name);
-                $company->setCity($city);
-                $company->setCategory($category);
-                $company->setDescription($description);
-                $company->setAdress($adress);
-                $company->setHeadquartersLocation($headquartersLocation);
-                $company->setPostalCode($postalCode);
-                $company->setState($state);
-            }
-        }
+        $company->setName($name);
+        $company->setCity($city);
+        $company->setCategory($category);
+        $company->setDescription($description);
+        $company->setStreet($street);
+        $company->setStreetAddress($streetAddress);
+        $company->setPostalCode($postalCode);
+        $company->setState($state);
 
-        $this->companyDAO->saveAll($newList);
+        $this->companyDAO->Edit($company);
+        
         $this->ShowListView();
     }
 
     public function Action($Remove = "", $Edit = "", $getData = "")
     {
-        session_start();
         if ($Edit != "")
         {
             $this->ShowEditView($Edit);
@@ -94,9 +108,12 @@ class CompanyController
         {
             $this->companyDAO->Remove($Remove);
             $this->ShowListView();
-        } else if($getData!="")
+        } else if($getData != "")
         {
             $this->ShowDataView($getData);
+        } else
+        {
+            echo "Ha ocurrido un error";
         }
     }
 

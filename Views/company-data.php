@@ -11,7 +11,7 @@ require_once('header.php');
                     <tbody>
                          <tr>
                               <th>ID</th>
-                              <td><?php echo $company->getIdCompany() ?></td>
+                             <td><?php echo $company->getIdCompany()?></td>
                          </tr>
                          <tr>
                               <th>Nombre</th>
@@ -23,7 +23,7 @@ require_once('header.php');
                          </tr>
                          <tr>
                               <th>Categoria</th>
-                              <td><?php echo $company->getCategory() ?></td>
+                              <td><?php echo $career->getName(); ?></td>
                          </tr>
                          <tr>
                               <th>Descripción</th>
@@ -31,11 +31,7 @@ require_once('header.php');
                          </tr>
                          <tr>
                               <th>Dirección de la sucursal</th>
-                              <td><?php echo $company->getAdress() ?></td>
-                         </tr>
-                         <tr>
-                              <th>Ciudad de la cede central</th>
-                              <td><?php echo $company->getHeadquartersLocation() ?></td>
+                              <td><?php echo $company->getStreet(). " " .$company->getStreetAddress() ?></td>
                          </tr>
                          <tr>
                               <th>Código Postal</th>
