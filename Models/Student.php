@@ -16,7 +16,6 @@
         private $email;
         private $phoneNumber;
         private $state;
-        private $password; ///LA AGREGUE YO, DESPUES VEREMOS SI LA USAMOS
 
         function __construct()
         {
@@ -131,16 +130,6 @@
         public function setState($state)
         {
                 $this->state = $state;
-        }
-
-        public function getPassword()
-        {
-                return $this->password;
-        }
-
-        public function setPassword($password)
-        {
-                $this->password = $password;
         }
 
     }

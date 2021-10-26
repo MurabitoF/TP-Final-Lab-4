@@ -8,8 +8,8 @@ class Company{
     private $city;
     private $category;
     private $description;
-    private $adress;
-    private $headquartersLocation;
+    private $street;
+    private $streetAddress;
     private $postalCode;
     private $state;
 
@@ -90,14 +90,14 @@ class Company{
         return $this;
     }
 
-    public function getAdress()
+    public function getStreetAddress()
     {
-        return $this->adress;
+        return $this->streetAddress;
     }
 
-    public function setAdress($adress)
+    public function setStreetAddress($streetAddress)
     {
-        $this->adress = $adress;
+        $this->streetAddress = $streetAddress;
 
         return $this;
     }
@@ -122,6 +122,30 @@ class Company{
     public function setPostalCode($postalCode)
     {
         $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    public function setStreet($street)
+    {
+        $this->street = $street;
+
+        return $this;
+    }
+
+    public function getHqPostalCode()
+    {
+        return $this->hqPostalCode;
+    }
+
+    public function setHqPostalCode($hqPostalCode)
+    {
+        $this->hqPostalCode = $hqPostalCode;
 
         return $this;
     }
