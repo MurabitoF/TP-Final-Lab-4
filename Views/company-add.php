@@ -14,53 +14,59 @@ require_once('header.php');
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Nombre de la empresa</label>
-                            <input type="text" name="name" value="" class="form-control">
+                            <input type="text" name="name" value="" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Ciudad</label>
-                            <input type="text" name="city" value="" class="form-control">
+                            <input type="text" name="city" value="" class="form-control" required>
+                        </div>
+                    </div>                    
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="">Código Postal</label>
+                            <input type="number" name="postalCode" value="" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                         <label for="">Categoría</label>
-                            <select name="category" class="form-control">
+                            <select name="category" class="form-control" required>
                                 <option value="" selected>Categoria</option>
-                                <option value="Ingenieria">Ingenieria</option>
-                                <option value="Programacion">Programacion</option>
-                                <option value="Agriculcura">Agriculcura</option>
-                                <option value="Seguridad e Higiene"> Seguridad e Higiene</option>
+                                <?php
+                                    foreach($careerList as $career)
+                                    {
+                                     if($career->getActive())
+                                     {
+                                        ?>
+                                            <option value="<?php echo $career->getIdCareer()?>"><?php echo $career->getName() ?></option> 
+                                        <?php
+                                     }   
+                                    }
+                                ?>
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Descripción</label>
-                            <textarea type="text" name="description" value="" class="form-control"></textarea>
+                            <textarea type="text" name="description" value="" class="form-control" required></textarea>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Dirección de la sucursal</label>
-                            <input type="text" name="adress" value="" class="form-control">
+                            <label for="">Calle de la sucursal</label>
+                            <input type="text" name="street" value="" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Dirección de la sede central</label>
-                            <input type="text" name="headquartersLocation" value="" class="form-control">
+                            <label for="">Número de calle</label>
+                            <input type="number" name="streetAddress" value="" class="form-control" required>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Código Postal</label>
-                            <input type="number" name="postalCode" value="" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-dark ml-auto d-block">Agregar</button>
+                    <button type="submit" class="btn btn-dark ml-auto d-block">Agregar</button>           
             </form>
         </div>
     </section>
