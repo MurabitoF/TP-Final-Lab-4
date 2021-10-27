@@ -97,7 +97,7 @@ require_once('header.php');
                               </div>
                               <div class="row justify-content-end">
                                    <div class="mt-4 col-md-3">
-                                        <button type="submit" id="btn-submit" class="btn button-blue" disabled>Registrarme</button>
+                                        <button type="submit" class="btn button-blue" disabled>Registrarme</button>
                                    </div>
                               </div>
                          </form>

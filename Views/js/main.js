@@ -21,7 +21,7 @@ function StrengthChecker(passwordParameter) {
 	} else if (mediumPassword.test(passwordParameter)) {
 		strengthBadge.style.backgroundColor = mediumColor;
 		strengthBadge.textContent = "Media";
-		confirmPassword.disabled = true;
+		confirmPassword.disabled = false;
 	} else {
 		strengthBadge.style.backgroundColor = errorColor;
 		strengthBadge.textContent = "Debil";

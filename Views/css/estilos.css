@@ -25,10 +25,7 @@ nav {
 	background-color: #252525;
 }
 
-#login {
-	background-color: #1c819e;
-}
-
+/* Utilidades */
 .pos-relative {
 	position: relative;
 }
@@ -47,19 +44,16 @@ nav {
 .bg-dark-alpha {
 	background-color: rgba(0, 0, 0, 0.2);
 }
+
 .bg-light-alpha {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 
-.buttons {
-	margin-bottom: 25px;
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	text-align: center;
+.separator {
+	border: 1px solid #1c819e;
+	margin-bottom: 15px;
 }
-
+/* LogIn y Fomrmularios */
 .button-blue {
 	background-color: #1c819e;
 	color: #f2f2f0;
@@ -73,6 +67,10 @@ nav {
 	color: #f2f2f0;
 	background-color: #145b6e;
 	transition: all 0.3s ease-in-out;
+}
+
+#login {
+	background-color: #1c819e;
 }
 
 .login-form {
@@ -101,7 +99,7 @@ nav {
 	border-bottom: 1px solid #1c819e;
 }
 
-.form-textarea{
+.form-textarea {
 	resize: none;
 	margin-top: 1rem;
 	border: 1px solid #252525;
@@ -110,7 +108,7 @@ nav {
 	height: 10rem;
 }
 
-.form-textarea:focus{
+.form-textarea:focus {
 	border: 1px solid #1c819e;
 }
 
@@ -120,6 +118,7 @@ nav {
 	border: none;
 }
 
+/* Nav y Logo */
 .logo a > img,
 .logo > img {
 	width: 100%;
@@ -136,18 +135,93 @@ nav .logo img {
 	color: #252525;
 }
 .nav-link:hover {
-	color: #f2f2f0;
-}
-
-#registerLink:hover{
 	color: #1c819e;
 }
 
-.separator {
-	border: 1px solid #1c819e;
-	margin-bottom: 15px;
+nav .menu {
+	font-weight: bold;
+	color: #252525;
 }
 
+nav .menu:hover {
+	color: #1c819e;
+}
+
+.sidenav {
+	height: 50%; /* 100% Full-height */
+	width: 0; /* 0 width - change this with JavaScript */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Stay on top */
+	top: 0; /* Stay at the top */
+	right: 0;
+	background-color: #f2f2f0; /* Black*/
+	overflow-x: hidden; /* Disable horizontal scroll */
+	padding-top: 60px; /* Place content 60px from the top */
+	transition: 0.3s ease-in-out; /* 0.5 second transition effect to slide in the sidenav */
+	border: 1px solid #ccc;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.sidenav .closebtn {
+	position: absolute;
+	top: -5px;
+	right: 25px;
+	font-size: 3rem;
+	margin-left: 50px;
+	text-decoration: none;
+	color: #252525;
+}
+
+.sidenav .closebtn:hover {
+	color: #1c819e;
+	transition: all 0.3s ease-in-out;
+}
+
+#menu-text{
+	position: absolute;
+	top: 15px;
+	left: 25px;
+	font-size: 1.5rem;
+	font-weight: bolder;
+	color: #252525;
+}
+
+.menu-button{
+	background-color: #f2f2f0;
+	padding: 1rem;
+	transition: all .3s ease-in-out;
+}
+
+.menu-button a{
+	text-decoration: none;
+	color: #252525;
+	transition: all .3s ease-in-out;
+}
+
+.menu-button:hover{
+	transform: translateX(1rem);
+	background-color: #1c819e;
+	transition: all .3s ease-in-out;
+}
+
+.menu-button:hover a{
+	color: #f2f2f0;
+	font-weight: bold;
+	transition: all .3s ease-in-out;
+}
+
+.buttons{
+	position: absolute;
+	bottom: 0;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.buttons > div > a{
+	padding: 1rem;
+}
+
+/* Registro */
 #info-icon {
 	color: #252525;
 	border: none;
@@ -206,43 +280,57 @@ nav .logo img {
 	}
 }
 
-nav .menu {
-	font-weight: bold;
-	color: #252525;
+/* jobOfferList */
+
+.jobOffer-card {
+	border: 1px solid #ccc;
+	box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+	margin-top: 10px;
+	padding-bottom: 10px;
 }
 
-nav .menu:hover {
+.jobOffer-card h2 {
+	color: #1c819e;
+	font-weight: bold;
+	font-size: 2.5rem;
+}
+
+@media (max-width: 767.98px) {
+	.width-100 {
+		width: 100%;
+	}
+}
+
+.jobOffer-info {
+	margin-left: 10px;
+}
+
+.jobOffer-tags > div {
+	color: #252525;
+	font-weight: 500;
+	margin: 0;
+}
+
+.jobOffer-tags > div a {
+	color: #252525;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.jobOffer-tags > div a:hover {
 	color: #1c819e;
 }
 
-.sidenav {
-	height: 50%; /* 100% Full-height */
-	width: 0; /* 0 width - change this with JavaScript */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Stay on top */
-	top: 0; /* Stay at the top */
-	right: 0;
-	background-color: #1c819e; /* Black*/
-	overflow-x: hidden; /* Disable horizontal scroll */
-	padding-top: 60px; /* Place content 60px from the top */
-	transition: 0.3s ease-in-out; /* 0.5 second transition effect to slide in the sidenav */
-	border: 1px solid #ccc;
-	border-top: none;
-	border-right: none;
-	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+.jobOffer-description {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
-.sidenav .closebtn {
-	position: absolute;
-	top: 0;
-	right: 25px;
-	font-size: 36px;
-	margin-left: 50px;
-	text-decoration: none;
-	color: #252525;
-}
-
-.sidenav .closebtn:hover {
-	color: #f2f2f0;
-	transition: all 0.3s ease-in-out;
+@media (max-width: 575.98px) {
+	h2,
+	.jobOffer-tags > div {
+		text-align: center;
+	}
 }

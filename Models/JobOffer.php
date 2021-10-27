@@ -12,11 +12,10 @@
         private $workload;
         private $requirements;
         private $state;
-        ///Agregadas por mi
         private $title;
         private $description;
 
-        public function __construct() { ///vacie el constructor para mas facilidad en JobOfferDAO
+        public function __construct() {
             $this->state = true;
         }
 
@@ -50,10 +49,9 @@
         public function getState(){ return $this->state; }
         public function setState($state){ $this->state = $state; }
 
-        ///NUEVOS GETTERS Y SETTER
         public function getTitle(){ return $this->title; }
-        public function setTitle($title){ return $this; }
+        public function setTitle($title){ $this->title =$title; }
 
         public function getDescription(){ return $this->description; }
-        public function setDescription($description){ return $this; }
+        public function setDescription($description){ $this->description = $description; }
     }
