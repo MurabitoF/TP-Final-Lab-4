@@ -185,6 +185,15 @@ nav .logo {
 	}
 }
 
+nav .menu{
+	font-weight: bold;
+	color: #252525;
+}
+
+nav .menu:hover{
+	color: #1c819e;
+}
+
 .sidenav {
 	height: 50%; /* 100% Full-height */
 	width: 0; /* 0 width - change this with JavaScript */
@@ -195,7 +204,11 @@ nav .logo {
 	background-color: #1c819e; /* Black*/
 	overflow-x: hidden; /* Disable horizontal scroll */
 	padding-top: 60px; /* Place content 60px from the top */
-	transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+	transition: 0.5s ease-in-out; /* 0.5 second transition effect to slide in the sidenav */
+     border: 1px solid #ccc;
+     border-top: none;
+     border-right: none;
+     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .sidenav .closebtn {
@@ -206,4 +219,9 @@ nav .logo {
 	margin-left: 50px;
 	text-decoration: none;
 	color: #252525;
+}
+
+.sidenav .closebtn:hover {
+	color: #f2f2f0;
+	transition: all .3s ease-in-out;
 }

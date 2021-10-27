@@ -6,16 +6,20 @@ use DAO\StudentDAO as StudentDAO;
 use Models\Student as Student;
 use DAO\UserDAO as UserDAO;
 use Models\User as User;
+use DAO\CareerDAO as CareerDAO;
+use Models\Career as Career;
 use Models\Alert as Alert;
 
     class UserController
     {
         private $userDAO;
         private $studentDAO;
+        private $careerDAO;
 
         public function __construct() {
             $this->userDAO = new UserDAO;
             $this->studentDAO = new StudentDAO;
+            $this->careerDAO = new CareerDAO;
         }
 
         public function ShowHomeView()
@@ -115,6 +119,8 @@ use Models\Alert as Alert;
                 {
                     if($user->getState())
                     {
+                        $career = $this->careerDAO->GetbyId($user->GetCareerId());
+                        $user->setCareerId($career->getName());
                         $this->ShowRegisterView($user);          
                     } else {
                         $message = "Usted no se encuentra activo en el sistema de la UTN";

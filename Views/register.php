@@ -59,7 +59,7 @@ require_once('header.php');
                                         <label for="fileNumber">Legajo</label>
                                    </div>
                                    <div class="col-md-9 form-floating">
-                                        <input class="form-control form-input shadow-none" id="carrerId" type="text" value="Tecnico Universitario en Programacion" disabled>
+                                        <input class="form-control form-input shadow-none" id="carrerId" type="text" value="<?php echo $user->getCareerId() ?>" disabled>
                                         <label for="careerId">Carrera</label>
                                    </div>
                               </div>

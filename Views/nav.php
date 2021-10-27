@@ -12,7 +12,7 @@ $loggedUser = $_SESSION['loggedUser'];
                     <img src="http://localhost/TP-Final-Lab-4/Views/img/logo-utn-recruitment.png" alt="logo-utn">
                </a>
           </span>
-          <span class="btn" onclick="openNav()">Menu</span>
+          <span class="btn menu" onclick="openNav()">Menu <i class="fas fa-sort-down"></i></span>
           <div id="mySidenav" class="sidenav">
                <a href="javascript:void(0)" id="closeBtn" class="closebtn" onclick="closeNav()">&times;</a>
                <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowListView">Ver Empresas</a>
