@@ -27,45 +27,45 @@ require_once('header.php');
                          <form action="<?php FRONT_ROOT?>Add" method="POST">
                               <div class="row">
                                    <div class="col-md-4 form-floating">
-                                        <input class="form-control form-input shadow-none" id="firstName" type="text" value="<?php echo $user->getFirstName() ?>" disabled>
+                                        <input class="form-control form-input" id="firstName" type="text" value="<?php echo $user->getFirstName() ?>" disabled>
                                         <label for="firstName">Nombre</label>
                                    </div>
                                    <div class="col-md-4 form-floating">
-                                        <input class="form-control form-input shadow-none" id="lastName" type="text" value="<?php echo $user->getLastName() ?>" disabled>
+                                        <input class="form-control form-input" id="lastName" type="text" value="<?php echo $user->getLastName() ?>" disabled>
                                         <label for="lastName">Apellido</label>
                                    </div>
                                    <div class="col-md-4 form-floating">
-                                        <input class="form-control form-input shadow-none" id="dni" type="text" value="<?php echo $user->getDni() ?>" disabled>
+                                        <input class="form-control form-input" id="dni" type="text" value="<?php echo $user->getDni() ?>" disabled>
                                         <label for="dni">DNI</label>
                                    </div>
                               </div>
                               <div class="row">
                                    <div class="col-md-3 form-floating">
-                                        <input class="form-control form-input shadow-none" id="gender" type="text" value="<?php echo $user->getGender() ?>" disabled>
+                                        <input class="form-control form-input" id="gender" type="text" value="<?php echo $user->getGender() ?>" disabled>
                                         <label for="gender">Genero</label>
                                    </div>
                                    <div class="col-md-4 form-floating">
-                                        <input class="form-control form-input shadow-none" id="birthDate" type="text" value="<?php echo date("d/m/y", strtotime($user->getBirthDate())) ?>" disabled>
+                                        <input class="form-control form-input" id="birthDate" type="text" value="<?php echo date("d/m/y", strtotime($user->getBirthDate())) ?>" disabled>
                                         <label for="birthDate">Fecha Nacimiento</label>
                                    </div>
                                    <div class="col-md-5 form-floating">
-                                        <input class="form-control form-input shadow-none" id="phoneNumber" type="text" value="<?php echo $user->getPhoneNumber() ?>" disabled>
+                                        <input class="form-control form-input" id="phoneNumber" type="text" value="<?php echo $user->getPhoneNumber() ?>" disabled>
                                         <label for="phoneNumber">Nro Telefono</label>
                                    </div>
                               </div>
                               <div class="row">
                                    <div class="col-md-3 form-floating">
-                                        <input class="form-control form-input shadow-none" id="fileNumber" type="text" value="<?php echo $user->getFileNumber() ?>" disabled>
+                                        <input class="form-control form-input" id="fileNumber" type="text" value="<?php echo $user->getFileNumber() ?>" disabled>
                                         <label for="fileNumber">Legajo</label>
                                    </div>
                                    <div class="col-md-9 form-floating">
-                                        <input class="form-control form-input shadow-none" id="carrerId" type="text" value="<?php echo $user->getCareerId() ?>" disabled>
+                                        <input class="form-control form-input" id="carrerId" type="text" value="<?php echo $user->getCareerId() ?>" disabled>
                                         <label for="careerId">Carrera</label>
                                    </div>
                               </div>
                               <div class="row align-items-center mt-3">
                                    <div class="col-md-11 form-floating">
-                                        <input class="form-control form-input shadow-none" name="username" id="email" type="text" value="<?php echo $user->getEmail() ?>" readonly>
+                                        <input class="form-control form-input" name="username" id="email" type="text" value="<?php echo $user->getEmail() ?>" readonly>
                                         <label for="email">Email</label>
                                    </div>
                                    <div class="col-md-1 pos-relative">
@@ -82,7 +82,7 @@ require_once('header.php');
                               </div>
                               <div class="row">
                                    <div class="col-md-12">
-                                        <input class="form-control form-input shadow-none" id="passwordInput" type="text" placeholder="Ingrese una contraseña" required>
+                                        <input class="form-control form-input" id="passwordInput" type="text" placeholder="Ingrese una contraseña" required>
                                         <span id="strengthDisp" class="visually-hidden badge displayBadge">Debil</span>
                                         <p class="fst-italic mt-1 pass-text">
                                              La contraseña debería tener al menos 6 caracter(es), al menos 1 minúscula(s), al menos 1 numero(s) y al menos 1 caracter(es) especial
@@ -91,13 +91,13 @@ require_once('header.php');
                               </div>
                               <div class="row">
                                    <div class="col-md-12">
-                                        <input class="form-control mb-1 form-input shadow-none" name="verifiedPassword" id="verify-password" type="text" placeholder="Repita la contraseña" required disabled>
+                                        <input class="form-control mb-1 form-input" name="verifiedPassword" id="verify-password" type="text" placeholder="Repita la contraseña" required disabled>
                                         <p id="pass-error" class="fst-italic mt-0 pass-text"></p>
                                    </div>
                               </div>
                               <div class="row justify-content-end">
                                    <div class="mt-4 col-md-3">
-                                        <button type="submit" id="btn-submit" class="btn button-blue shadow-none" disabled>Registrarme</button>
+                                        <button type="submit" id="btn-submit" class="btn button-blue" disabled>Registrarme</button>
                                    </div>
                               </div>
                          </form>

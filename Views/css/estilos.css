@@ -65,6 +65,7 @@ nav {
 	color: #f2f2f0;
 	border: none;
 	border-radius: 0;
+	box-shadow: none !important;
 	transition: all 0.3s ease-in-out;
 }
 
@@ -91,12 +92,26 @@ nav {
 	border-bottom: 1px solid #252525;
 	border-radius: 0;
 	margin: 15px 0;
+	box-shadow: none !important;
 }
 
 .form-input:focus {
 	outline: none;
 	border: 0;
 	border-bottom: 1px solid #1c819e;
+}
+
+.form-textarea{
+	resize: none;
+	margin-top: 1rem;
+	border: 1px solid #252525;
+	border-radius: 0;
+	box-shadow: none !important;
+	height: 10rem;
+}
+
+.form-textarea:focus{
+	border: 1px solid #1c819e;
 }
 
 #rememberMe:checked {
@@ -109,10 +124,12 @@ nav {
 .logo > img {
 	width: 100%;
 	max-width: 30vw;
+	min-width: 250px;
 }
 
-nav .logo {
+nav .logo img {
 	max-width: 15vw;
+	min-width: 150px;
 }
 
 .nav-link {
@@ -120,6 +137,10 @@ nav .logo {
 }
 .nav-link:hover {
 	color: #f2f2f0;
+}
+
+#registerLink:hover{
+	color: #1c819e;
 }
 
 .separator {
@@ -185,12 +206,12 @@ nav .logo {
 	}
 }
 
-nav .menu{
+nav .menu {
 	font-weight: bold;
 	color: #252525;
 }
 
-nav .menu:hover{
+nav .menu:hover {
 	color: #1c819e;
 }
 
@@ -204,11 +225,11 @@ nav .menu:hover{
 	background-color: #1c819e; /* Black*/
 	overflow-x: hidden; /* Disable horizontal scroll */
 	padding-top: 60px; /* Place content 60px from the top */
-	transition: 0.5s ease-in-out; /* 0.5 second transition effect to slide in the sidenav */
-     border: 1px solid #ccc;
-     border-top: none;
-     border-right: none;
-     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	transition: 0.3s ease-in-out; /* 0.5 second transition effect to slide in the sidenav */
+	border: 1px solid #ccc;
+	border-top: none;
+	border-right: none;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .sidenav .closebtn {
@@ -223,5 +244,5 @@ nav .menu:hover{
 
 .sidenav .closebtn:hover {
 	color: #f2f2f0;
-	transition: all .3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }

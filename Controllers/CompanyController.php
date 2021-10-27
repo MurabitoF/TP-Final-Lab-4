@@ -67,16 +67,16 @@ class CompanyController
         require_once (VIEWS_PATH."company-list.php");
     }
 
-    public function Add($name, $city, $category, $description, $street, $streetAddress, $postalCode)
+    public function Add($name, $cuit, $city, $category, $description, $street, $streetAddress, $postalCode)
     {
 
         $alert = new Alert ("", "");
 
         try{
             $company = new Company();
-            $company->setIdCompany(count($this->companyDAO->GetAll())+1);
             $company->setName($name);
             $company->setCity($city);
+            $company->setCUIT($cuit);
             $company->setCategory($category);
             $company->setDescription($description);
             $company->setStreet($street);
