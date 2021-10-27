@@ -6,6 +6,7 @@ use DAO\StudentDAO as StudentDAO;
 use Models\Student as Student;
 use DAO\UserDAO as UserDAO;
 use Models\User as User;
+use Models\Alert as Alert;
 
     class UserController
     {
@@ -24,7 +25,10 @@ use Models\User as User;
 
         public function ShowLogInView($alert = NULL)
         {
-            session_start();
+            if(session_status() != PHP_SESSION_ACTIVE)
+            {
+                session_start();
+            }
             if(isset($_SESSION['loggedUser']))
             {
                 $this->ShowHomeView();
@@ -75,10 +79,17 @@ use Models\User as User;
                             $_SESSION['lastActivity'] = time();
                         }
                         $this->ShowHomeView();
+                    }else{
+                        $alert = new Alert('danger', 'Contraseña Incorrecta');
+                        $this->ShowLogInView($alert);
                     }
+                }else{
+                    $alert = new Alert('danger', 'Usuario Incorrecto');
+                    $this->ShowLogInView($alert);
                 }
             } else {
-
+                $alert = new Alert('danger', 'Usuario Incorrecto');
+                $this->ShowLogInView($alert);
             }
         }
 

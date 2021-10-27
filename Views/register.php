@@ -13,7 +13,7 @@ require_once('header.php');
                     <form class="mt-5" action="<?php echo FRONT_ROOT ?>User/VerifyEmail" method="POST">
                          <div class="row align-items-center justify-content-between">
                               <div class="form-group col-sm-8">
-                                   <input name="email" class="form-input form-controller shadow-none" type="text" value="<?php echo "" ?>" placeholder="Ingrese su email">
+                                   <input name="email" class="form-input form-controller shadow-none" type="text" placeholder="Ingrese su email">
                               </div>
                               <div class="col-sm-3">
                                    <button type="submit" class="mb-2 btn button-blue">Verificar</button>
@@ -23,7 +23,7 @@ require_once('header.php');
                </div>
                <div class="separator"></div>
                <?php if ($user) { ?>
-                    <div id="student-data" class="col-8">
+                    <div id="student-data" class="col-8 slide-in-top">
                          <form action="<?php FRONT_ROOT?>Add" method="POST">
                               <div class="row">
                                    <div class="col-md-4 form-floating">

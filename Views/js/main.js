@@ -6,12 +6,8 @@ let strengthBadge = document.getElementById("strengthDisp");
 let passError = document.getElementById("pass-error");
 let submitBtn = document.getElementById("btn-submit");
 
-let strongPassword = new RegExp(
-	"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
-);
-let mediumPassword = new RegExp(
-	"((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))"
-);
+let strongPassword = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})");
+let mediumPassword = new RegExp("((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))");
 
 let errorColor = "#C91D1D";
 let mediumColor = "#E8A530";

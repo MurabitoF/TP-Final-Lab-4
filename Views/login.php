@@ -3,6 +3,12 @@ require_once('header.php');
 ?>
 <main id="login" class="d-flex align-items-center justify-content-center height-100">
      <div class="conteiner ">
+          <?php
+          if ($alert) { ?>
+               <div class="alert alert-<?php echo $alert->getType() ?>" role="alert">
+                    <?php echo $alert->getMessage() ?>
+               </div>
+          <?php } ?>
           <form action="<?php echo FRONT_ROOT ?>User/LogIn" method="POST" class="login-form p-5">
                <div class="logo">
                     <img src="http://localhost/TP-Final-Lab-4/Views/img/logo-utn-recruitment.png" width="30vw" alt="logo utn">
@@ -19,7 +25,7 @@ require_once('header.php');
                </div>
                <button class="btn p-2 button-blue width-100" type="submit">Iniciar Sesión</button>
                <div class="mt-1">
-                    <a class="p-0 nav-link" href="<?php echo FRONT_ROOT?>User/ShowRegisterView">Registrarse</a>
+                    <a class="p-0 nav-link" href="<?php echo FRONT_ROOT ?>User/ShowRegisterView">Registrarse</a>
                </div>
           </form>
      </div>

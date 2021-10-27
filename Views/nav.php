@@ -12,25 +12,32 @@ $loggedUser = $_SESSION['loggedUser'];
                     <img src="http://localhost/TP-Final-Lab-4/Views/img/logo-utn-recruitment.png" alt="logo-utn">
                </a>
           </span>
-          <ul class="navbar-nav ms-auto>
-               <li class="nav-item">
-                    <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowListView">Ver Empresas</a>
-               </li>
+          <span class="btn" onclick="openNav()">Menu</span>
+          <div id="mySidenav" class="sidenav">
+               <a href="javascript:void(0)" id="closeBtn" class="closebtn" onclick="closeNav()">&times;</a>
+               <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowListView">Ver Empresas</a>
                <?php if ($loggedUser->getRole() == "Admin") { ?>
-                    <li class="nav-item">
-                         <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar Empresa</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link" href="<?php echo FRONT_ROOT ?>Student/ShowAddView">Agregar Alumno</a>
-                    </li>
+                    <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar Empresa</a>
+
+
+                    <a class="nav-link" href="<?php echo FRONT_ROOT ?>Student/ShowAddView">Agregar Alumno</a>
+
                <?php } else { ?>
-                    <li class="nav-item">
-                         <a class="nav-link" href="<?php echo FRONT_ROOT ?>Student/ShowDataView">Ver mis datos</a>
-                    </li>
+
+                    <a class="nav-link" href="<?php echo FRONT_ROOT ?>Student/ShowDataView">Ver mis datos</a>
+
                <?php } ?>
-               <li class="nav-item">
-                    <a class="nav-link" href="<?php echo FRONT_ROOT ?>User/LogOut">Log Out</a>
-               </li>
-          </ul>
+
+               <a class="nav-link" href="<?php echo FRONT_ROOT ?>User/LogOut">Log Out</a>
+          </div>
      </div>
 </nav>
+<script>
+     function openNav() {
+          document.getElementById("mySidenav").style.width = "250px";
+     }
+
+     function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+     }
+</script>
