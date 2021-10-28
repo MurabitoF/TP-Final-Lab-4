@@ -61,7 +61,13 @@ require_once('header.php');
                               ?>
                                    <tr>
                                         <td><?php echo $company->getName() ?></td>
-                                        <td><?php echo $company->getCity() ?></td>
+                                        <td>
+                                             <?php foreach($addressList as $address){
+                                                  if ($address->getIdCompany() == $company->getIdCompany()){
+                                                       echo $address->getCity();
+                                                  }
+                                             } ?>
+                                        </td>
                                         <td><?php echo $company->getCategory() ?></td>
                                         <td>
                                              <button type="submit" name="getData" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>">Ver datos</i></button>

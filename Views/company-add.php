@@ -8,31 +8,56 @@ require_once('header.php');
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-            <h2 class="mb-4">Agregar empresa</h2>
+            <h2 class="mb-4 text-center">Agregar empresa</h2>
             <form action="<?php echo FRONT_ROOT ?>Company/Add" method="post" class="bg-light-alpha p-5">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Nombre de la empresa</label>
-                            <input type="text" name="name" value="" class="form-control" required>
+                            <input type="text" name="name" class="form-control form-input" placeholder="Nombre de la empresa" required>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Ciudad</label>
-                            <input type="text" name="city" value="" class="form-control" required>
+                            <input type="number" name="cuit" class="form-control form-input shadow-none" placeholder="C.U.I.T." required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea name="description" class="form-control form-textarea" placeholder="Sobre la empresa" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="city" class="form-control form-input" placeholder="Ciudad" required>
                         </div>
                     </div>                    
-                    <div class="col-lg-4">
+                    
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label for="">Código Postal</label>
-                            <input type="number" name="postalCode" value="" class="form-control" required>
+                            <input type="text" name="street" value="" class="form-control form-input" placeholder="Calle" required>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+
+                    <div class="col-md-2">
                         <div class="form-group">
-                        <label for="">Categoría</label>
-                            <select name="category" class="form-control" required>
+                            <input type="number" name="streetAddress" value="" class="form-control form-input" placeholder="Número de calle" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="number" name="postalCode" value="" class="form-control form-input" placeholder="Código Postal" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <select name="category" class="form-select form-input" required>
                                 <option value="" selected>Categoria</option>
                                 <?php
                                     foreach($careerList as $career)
@@ -48,25 +73,13 @@ require_once('header.php');
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Descripción</label>
-                            <textarea type="text" name="description" value="" class="form-control" required></textarea>
-                        </div>
+                </div>
+                <div class="row mt-3 justify-content-end">
+                    <div class="col-md-3">
+                        <button type="submit" class="btn button-blue w-100">Agregar</button>
+
                     </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Calle de la sucursal</label>
-                            <input type="text" name="street" value="" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Número de calle</label>
-                            <input type="number" name="streetAddress" value="" class="form-control" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-dark ml-auto d-block">Agregar</button>           
+                </div>           
             </form>
         </div>
     </section>

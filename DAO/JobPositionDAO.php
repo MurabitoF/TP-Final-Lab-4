@@ -5,7 +5,7 @@ use DAO\IJobPositionDAO as IJobPositionDAO;
 use Models\JobPosition as JobPosition;
 
 class JobPositionDAO implements IJobPositionDAO{
-    private $jobPositionList;
+    private $jobPositionList = array();
 
     public function GetJobPositionById($id)
     {

@@ -6,15 +6,20 @@ use DAO\StudentDAO as StudentDAO;
 use Models\Student as Student;
 use DAO\UserDAO as UserDAO;
 use Models\User as User;
+use DAO\CareerDAO as CareerDAO;
+use Models\Career as Career;
+use Models\Alert as Alert;
 
     class UserController
     {
         private $userDAO;
         private $studentDAO;
+        private $careerDAO;
 
         public function __construct() {
             $this->userDAO = new UserDAO;
             $this->studentDAO = new StudentDAO;
+            $this->careerDAO = new CareerDAO;
         }
 
         public function ShowHomeView()
@@ -24,7 +29,10 @@ use Models\User as User;
 
         public function ShowLogInView($alert = NULL)
         {
-            session_start();
+            if(session_status() != PHP_SESSION_ACTIVE)
+            {
+                session_start();
+            }
             if(isset($_SESSION['loggedUser']))
             {
                 $this->ShowHomeView();
@@ -75,10 +83,17 @@ use Models\User as User;
                             $_SESSION['lastActivity'] = time();
                         }
                         $this->ShowHomeView();
+                    }else{
+                        $alert = new Alert('danger', 'Contraseña Incorrecta');
+                        $this->ShowLogInView($alert);
                     }
+                }else{
+                    $alert = new Alert('danger', 'Usuario Incorrecto');
+                    $this->ShowLogInView($alert);
                 }
             } else {
-
+                $alert = new Alert('danger', 'Usuario Incorrecto');
+                $this->ShowLogInView($alert);
             }
         }
 
@@ -104,6 +119,8 @@ use Models\User as User;
                 {
                     if($user->getState())
                     {
+                        $career = $this->careerDAO->GetbyId($user->GetCareerId());
+                        $user->setCareerId($career->getName());
                         $this->ShowRegisterView($user);          
                     } else {
                         $message = "Usted no se encuentra activo en el sistema de la UTN";
