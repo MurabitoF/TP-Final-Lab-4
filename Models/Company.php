@@ -5,12 +5,8 @@ class Company{
 
     private $idCompany;
     private $name;
-    private $city;
     private $category;
     private $description;
-    private $street;
-    private $streetAddress;
-    private $postalCode;
     private $state;
 
     public function __construct()
@@ -38,18 +34,6 @@ class Company{
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-    public function setCity($city)
-    {
-        $this->city = $city;
 
         return $this;
     }

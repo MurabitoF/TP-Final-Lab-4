@@ -19,18 +19,6 @@ require_once('header.php');
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Ciudad</label>
-                            <input type="text" name="city" value="" class="form-control" required>
-                        </div>
-                    </div>                    
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Código Postal</label>
-                            <input type="number" name="postalCode" value="" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
                         <label for="">Categoría</label>
                             <select name="category" class="form-control" required>
                                 <option value="" selected>Categoria</option>
@@ -48,6 +36,7 @@ require_once('header.php');
                             </select>
                         </div>
                     </div>
+                    
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Descripción</label>
@@ -56,8 +45,14 @@ require_once('header.php');
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
+                            <label for="">Ciudad</label>
+                            <input type="text" name="city" value="" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
                             <label for="">Calle de la sucursal</label>
-                            <input type="text" name="street" value="" class="form-control" required>
+                            <input type="text" name="streetName" value="" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-lg-4">
