@@ -51,6 +51,28 @@ class AddressDAO implements IAddressDAO{
            }
     }
 
+    public function Edit($address)
+    {
+        $latLng = $this->getLatLng($address->getStreetName(), $address->getStreetAddress(), $address->getCity());
+        try{
+
+            $query = "UPDATE ".$this->tablename." SET city =\"". $address->getCity() ."\",
+            streetName =\"". $address->getStreetName() ."\",
+            streetAddress =\"". $address->getStreetAddress() ."\",
+            latitude =\"". $latLng[0]['lat'] ."\",
+            longitude =\"". $latLng[0]['lon'] ."\" WHERE idAddress = ". $address->getIdAddress();
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query);
+
+        }catch(Exception $ex){
+            throw $ex;
+        }
+    }
+
+    
+
     public function Add(Address $address, $idCompany)
     {
 
@@ -78,11 +100,27 @@ class AddressDAO implements IAddressDAO{
         }
     }
 
+    public function Remove($idCompany)
+    {
+       
+        try{
+
+            $query = "UPDATE ".$this->tableName." SET active = FALSE WHERE idAddress = ".$idCompany;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query);
+
+        }catch(Exception $ex)
+        {
+            throw $ex;
+        }
+
+    }
+
     public function getAddresses($idCompany)
     {
         $foundAddress = new Address;
-
-        $addressList = array();
 
         try{
             $query = "SELECT * FROM " .$this->tablename. " WHERE `idCompany` = ". $idCompany;
@@ -104,11 +142,9 @@ class AddressDAO implements IAddressDAO{
                 $address->setActive($row["active"]);
                 $address->setIdCompany($row["idCompany"]);
 
-                array_push($addressList, $address);
-
             }
 
-            return $addressList ;
+            return $address;
 
         } catch(Exception $ex)
         {

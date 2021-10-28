@@ -38,19 +38,13 @@ require_once('header.php');
                     
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="text" name="street" value="" class="form-control form-input" placeholder="Calle" required>
+                            <input type="text" name="streetName" value="" class="form-control form-input" placeholder="Calle" required>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="form-group">
                             <input type="number" name="streetAddress" value="" class="form-control form-input" placeholder="Número de calle" required>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <input type="number" name="postalCode" value="" class="form-control form-input" placeholder="Código Postal" required>
                         </div>
                     </div>
                 </div>
@@ -84,3 +78,7 @@ require_once('header.php');
         </div>
     </section>
 </main>
+
+<?php
+require_once ("footer.php");
+?>

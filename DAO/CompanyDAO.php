@@ -17,11 +17,11 @@ class CompanyDAO implements ICompanyDAO
     public function Add(Company $company)
     {
         try{
-            $query = "INSERT INTO ".$this->tableName." (companyName, description, active, idJobPosition) VALUES (:companyName, :description, :active, :idJobPosition);";
+            $query = "INSERT INTO ".$this->tableName." (companyName, cuit, description, active) VALUES (:companyName, :cuit, :description, :active);";
             $parameters["companyName"] = $company->getName();
+            $parameters["cuit"] = $company->getCUIT();
             $parameters["description"] = $company->getDescription();
             $parameters["active"] = $company->getState();
-            $parameters["idJobPosition"] = $company->getCategory();
 
             $this->connection = Connection::GetInstance();
 
@@ -52,9 +52,9 @@ class CompanyDAO implements ICompanyDAO
                 
                 $company->setIdCompany($row["idCompany"]);
                 $company->setName($row["companyName"]);
+                $company->setCUIT($row["cuit"]);
                 $company->setDescription($row["description"]);
                 $company->setState($row["active"]);
-                $company->setCategory($row["idJobPosition"]);
     
                 array_push($companyList, $company);
     
@@ -92,9 +92,9 @@ class CompanyDAO implements ICompanyDAO
         try{
 
             $query = "UPDATE ".$this->tableName." SET companyName =\"". $company->getName() ."\",
+            cuit =\"". $company->getCUIT() ."\",
             description =\"". $company->getDescription() ."\",
-            active =". $company->getState() .",
-            idJobPosition =". $company->getCategory() ." WHERE idCompany = ". $company->getIdCompany();
+            active =". $company->getState() ." WHERE idCompany = ". $company->getIdCompany();
 
             $this->connection = Connection::GetInstance();
 
@@ -144,9 +144,9 @@ class CompanyDAO implements ICompanyDAO
                 
                 $company->setIdCompany($row["idCompany"]);
                 $company->setName($row["companyName"]);
+                $company->setCUIT($row["cuit"]);
                 $company->setDescription($row["description"]);
                 $company->setState($row["active"]);
-                $company->setCategory($row["idJobPosition"]);
 
             }
 
