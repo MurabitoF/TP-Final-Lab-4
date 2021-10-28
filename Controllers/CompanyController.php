@@ -2,10 +2,10 @@
 
 namespace Controllers;
 
+use Exception;
 use DAO\CompanyDAO as CompanyDAO;
 use DAO\CareerDAO as CareerDAO;
 use DAO\AddressDAO as AddressDAO;
-use Exception;
 use Models\Company as Company;
 use Models\Address as Address;
 use Models\Alert as Alert;
@@ -23,15 +23,12 @@ class CompanyController
         $this->addressDAO = new AddressDAO;
     }
 
-    public function ShowAddView($alert = null)
+
+    public function ShowAddView($alert = NULL)
     {
         session_start();
 
         $careerList = $this->careerDAO->GetAll();
-
-        if($alert){
-        echo $alert->getType().": ". $alert->getMessage();
-        }
 
         require_once (VIEWS_PATH."company-add.php");
     }
@@ -79,7 +76,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-list.php");
     }
 
-    public function Add($name, $city, $category, $description, $streetName, $streetAddress)
+    public function Add($name, $cuit, $city, $category, $description, $streetName, $streetAddress)
     {
 
         $alert = new Alert ("", "");
@@ -87,6 +84,7 @@ class CompanyController
         try{
             $company = new Company();
             $company->setName($name);
+            $company->setCUIT($cuit);
             $company->setCategory($category);
             $company->setDescription($description);
 
