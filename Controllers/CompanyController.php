@@ -5,19 +5,24 @@ namespace Controllers;
 use Exception;
 use DAO\CompanyDAO as CompanyDAO;
 use DAO\CareerDAO as CareerDAO;
+use DAO\AddressDAO as AddressDAO;
 use Models\Company as Company;
+use Models\Address as Address;
 use Models\Alert as Alert;
 
 class CompanyController
 {
     private $companyDAO;
     private $careerDAO;
+    private $addressDAO;
 
     public function __construct()
     {
         $this->companyDAO = new CompanyDAO;
         $this->careerDAO = new CareerDAO;
+        $this->addressDAO = new AddressDAO;
     }
+
 
     public function ShowAddView($alert = NULL)
     {
@@ -49,6 +54,8 @@ class CompanyController
 
         $career = $this->careerDAO->GetbyId($company->getCategory());
 
+        $addressList = $this->addressDAO->getAddresses($idCompany);
+
         require_once (VIEWS_PATH."company-data.php");
     }
 
@@ -59,6 +66,8 @@ class CompanyController
         
         $careerList = $this->careerDAO->GetAll();
 
+        $addressList = $this->addressDAO->GetAll();
+
         if($name || $city || $category)
         {
             $companyList = $this->filterList($companyList, $name, $city, $category);
@@ -67,7 +76,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-list.php");
     }
 
-    public function Add($name, $cuit, $city, $category, $description, $street, $streetAddress, $postalCode)
+    public function Add($name, $cuit, $city, $category, $description, $streetName, $streetAddress)
     {
 
         $alert = new Alert ("", "");
@@ -75,15 +84,20 @@ class CompanyController
         try{
             $company = new Company();
             $company->setName($name);
-            $company->setCity($city);
             $company->setCUIT($cuit);
             $company->setCategory($category);
             $company->setDescription($description);
-            $company->setStreet($street);
-            $company->setStreetAddress($streetAddress);
-            $company->setPostalCode($postalCode);
+
+            $address = new Address();
+            $address->setCity($city);
+            $address->setStreetName($streetName);
+            $address->setStreetAddress($streetAddress);
 
             $this->companyDAO->Add($company);
+
+            $idCompany = $this->companyDAO->getId($name);
+
+            $this->addressDAO->Add($address, $idCompany);
 
         } catch(Exception $ex){
 
@@ -91,6 +105,9 @@ class CompanyController
             if(str_contains($ex->getMessage(),1062))
             {
                 $alert->setMessage("La empresa ingresada ya existe");
+            } else
+            {
+                $alert->setMessage($ex->getMessage());
             }
 
         }finally{
