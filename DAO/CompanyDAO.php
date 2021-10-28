@@ -6,7 +6,6 @@ use \Exception as Exception;
 use DAO\ICompanyDAO as ICompanyDAO;
 use DAO\Connection as Connection;
 use Models\Company as Company;
-use Models\City as City;
 use Models\Categoty as Category;
 
 class CompanyDAO implements ICompanyDAO
@@ -18,13 +17,10 @@ class CompanyDAO implements ICompanyDAO
     public function Add(Company $company)
     {
         try{
-            $query = "INSERT INTO ".$this->tableName." (name, description, street, streetAddress, active, postalCode, idJobPosition) VALUES (:name, :description, :street, :streetAddress, :active, :postalCode, :idJobPosition);";
-            $parameters["name"] = $company->getName();
+            $query = "INSERT INTO ".$this->tableName." (companyName, description, active, idJobPosition) VALUES (:companyName, :description, :active, :idJobPosition);";
+            $parameters["companyName"] = $company->getName();
             $parameters["description"] = $company->getDescription();
-            $parameters["street"] = $company->getStreet();
-            $parameters["streetAddress"] = $company->getStreetAddress();
             $parameters["active"] = $company->getState();
-            $parameters["postalCode"] = $company->getPostalCode();
             $parameters["idJobPosition"] = $company->getCategory();
 
             $this->connection = Connection::GetInstance();
@@ -55,12 +51,9 @@ class CompanyDAO implements ICompanyDAO
                 $company = new Company();
                 
                 $company->setIdCompany($row["idCompany"]);
-                $company->setName($row["name"]);
+                $company->setName($row["companyName"]);
                 $company->setDescription($row["description"]);
-                $company->setStreet($row["street"]);
-                $company->setStreetAddress($row["streetAddress"]);
                 $company->setState($row["active"]);
-                $company->setPostalCode($row["postalCode"]);
                 $company->setCategory($row["idJobPosition"]);
     
                 array_push($companyList, $company);
@@ -98,12 +91,9 @@ class CompanyDAO implements ICompanyDAO
     {
         try{
 
-            $query = "UPDATE ".$this->tableName." SET name =\"". $company->getName() ."\",
+            $query = "UPDATE ".$this->tableName." SET companyName =\"". $company->getName() ."\",
             description =\"". $company->getDescription() ."\",
-            street =\"". $company->getStreet() ."\",
-            streetAddress =". $company->getStreetAddress() .",
             active =". $company->getState() .",
-            postalCode =". $company->getPostalCode() .",
             idJobPosition =". $company->getCategory() ." WHERE idCompany = ". $company->getIdCompany();
 
             $this->connection = Connection::GetInstance();
@@ -111,6 +101,29 @@ class CompanyDAO implements ICompanyDAO
             $this->connection->ExecuteNonQuery($query);
 
         }catch(Exception $ex){
+            throw $ex;
+        }
+    }
+
+    public function getId($name)
+    {
+        $foundCompany = new Company;
+        try{
+
+            $query = "SELECT idCompany FROM " .$this->tableName. ' WHERE companyName = :companyName;';
+
+            $parameters["companyName"] = "$name";
+
+            $this->connection = Connection::GetInstance();
+    
+            $foundCompany  = $this->connection->Execute($query, $parameters);
+
+            $idCompany = $foundCompany[0]["idCompany"];
+            
+            return $idCompany;
+
+        } catch(Exception $ex)
+        {
             throw $ex;
         }
     }
@@ -130,12 +143,9 @@ class CompanyDAO implements ICompanyDAO
                 $company = new Company();
                 
                 $company->setIdCompany($row["idCompany"]);
-                $company->setName($row["name"]);
+                $company->setName($row["companyName"]);
                 $company->setDescription($row["description"]);
-                $company->setStreet($row["street"]);
-                $company->setStreetAddress($row["streetAddress"]);
                 $company->setState($row["active"]);
-                $company->setPostalCode($row["postalCode"]);
                 $company->setCategory($row["idJobPosition"]);
 
             }
