@@ -95,9 +95,9 @@ require_once('header.php');
                                         <p id="pass-error" class="fst-italic mt-0 pass-text"></p>
                                    </div>
                               </div>
-                              <div class="row justify-content-end">
+                              <div class="row justify-content-end mt-5">
                                    <div class="mt-4 col-md-3">
-                                        <button type="submit" class="btn button-blue" disabled>Registrarme</button>
+                                        <button id="btn-submit" type="submit" class="btn button-blue" disabled>Registrarme</button>
                                    </div>
                               </div>
                          </form>

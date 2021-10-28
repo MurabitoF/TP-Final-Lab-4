@@ -37,9 +37,6 @@ nav {
 .height-100 {
 	height: 100%;
 }
-.width-100 {
-	width: 100%;
-}
 
 .bg-dark-alpha {
 	background-color: rgba(0, 0, 0, 0.2);
@@ -333,4 +330,12 @@ nav .menu:hover {
 	.jobOffer-tags > div {
 		text-align: center;
 	}
+}
+
+/* Perfil empresa */
+#mapid {    
+	width: 900px; 
+	height: 450px;
+	position: relative; 
+	outline: none; 
 }

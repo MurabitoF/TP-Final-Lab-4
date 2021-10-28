@@ -16,9 +16,11 @@ require_once('nav.php');
                             <h2><?php echo $jobOffer->getTitle() ?></h2>
                             <div class="row justify-content-start jobOffer-tags">
                                 <div class="col-sm-2"><a href="#"><?php echo $jobOffer->getCompany() ?></a></div>
-                                <div class="col-sm-2"><?php echo $jobOffer->getJobPosition() ?></div>
-                                <div class="col-sm-2"><?php echo $jobOffer->getCategory() ?></div>
+                                <div class="col-sm-3"><?php echo $jobOffer->getJobPosition() ?></div>
                                 <div class="col-sm-2"><?php echo $jobOffer->getCity() ?></div>
+                            </div>
+                            <div class="row jobOffer-tags">
+                                <div class="col-sm-8"><?php echo $jobOffer->getCategory() ?></div>
                             </div>
                             <div class="separator"></div>
                             <div class="row">

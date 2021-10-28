@@ -75,7 +75,7 @@ require_once('header.php');
                     </div>
                 </div>
                 <div class="row mt-3 justify-content-end">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <button type="submit" class="btn button-blue w-100">Agregar</button>
                     </div>
                 </div>           

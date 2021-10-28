@@ -33,11 +33,11 @@ class JobOfferController
         $jobOffer = new JobOffer();
         $jobOffer->setIdJobOffer(1);
         $jobOffer->setTitle("Se busca Programador");
-        $jobOffer->setJobPosition("Front End");
+        $jobOffer->setJobPosition("Front End Developer");
         $jobOffer->setCompany("Accenture");
         $jobOffer->setIncome("50.000");
         $jobOffer->setCity("Mar del Plata");
-        $jobOffer->setCategory("Programador");
+        $jobOffer->setCategory("University technician in environmental procedures and technologies");
         $jobOffer->setApplicants(array());
         $jobOffer->setWorkload("Full Time");
         $jobOffer->setRequirements("Javascript");
