@@ -32,7 +32,7 @@ $loggedUser = $_SESSION['loggedUser'];
                     </div>
                <?php } else { ?>
                     <div class="menu-button">
-                         <a href="<?php echo FRONT_ROOT ?>Student/ShowDataView">Ver mis datos</a>
+                         <a href="<?php echo FRONT_ROOT ?>Student/ShowDataView?idUser=<?php echo $loggedUser->getStudentId() ?>">Ver mis datos</a>
                     </div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowStudentListView">Ver Publicaciones</a>

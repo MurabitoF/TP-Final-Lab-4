@@ -21,7 +21,17 @@
         {
                 
         }
+        
+        public function getStudentId()
+        {
+                return $this->studentId;
+        }
 
+        public function setStudentId($studentId)
+        {
+                $this->studentId = $studentId;
+        }
+        
         public function getFirstName()
         {
             return $this->firstName;
@@ -42,15 +52,6 @@
             $this->lastName = $lastName;
         }
 
-        public function getStudentId()
-        {
-                return $this->studentId;
-        }
-
-        public function setStudentId($studentId)
-        {
-                $this->studentId = $studentId;
-        }
 
         public function getCareerId()
         {

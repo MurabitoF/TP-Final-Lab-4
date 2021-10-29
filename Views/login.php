@@ -1,7 +1,7 @@
 <?php
 require_once('header.php');
 ?>
-<main id="login" class="d-flex align-items-center justify-content-center height-100">
+<main class="d-flex align-items-center justify-content-center height-100 bg-blue">
      <div class="conteiner ">
           <?php
           if ($alert) { ?>

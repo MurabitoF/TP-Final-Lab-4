@@ -38,6 +38,19 @@ class StudentDAO implements IStudentDAO
         return NULL;
     }
 
+    public function GetById($id)
+    {
+        $this->RetrieveData();
+
+        foreach ($this->studentList as $arrayValue) {
+            if ($arrayValue->getEmail() == $id) {
+                return $arrayValue;
+            }
+        }
+
+        return NULL;
+    }
+
     private function SaveData()
     {
         $arrayToEncode = array();
@@ -75,7 +88,7 @@ class StudentDAO implements IStudentDAO
 
         foreach ($arrayToDecode as $valuesArray) {
             $student = new Student();
-            $student->setStudentId($valuesArray["studentId"]); ///MODIFIQUE recordId por studentId (MIRAR BIEN ESTO)
+            $student->setStudentId($valuesArray["studentId"]);
             $student->setFirstName($valuesArray["firstName"]);
             $student->setLastName($valuesArray["lastName"]);
             $student->setCareerId($valuesArray["careerId"]);
@@ -86,7 +99,6 @@ class StudentDAO implements IStudentDAO
             $student->setEmail($valuesArray["email"]);
             $student->setPhoneNumber($valuesArray["phoneNumber"]);
             $student->setState($valuesArray['active']);
-            $student->setPassword("");
 
             array_push($this->studentList, $student);
         }
