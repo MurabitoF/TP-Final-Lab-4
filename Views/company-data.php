@@ -59,3 +59,7 @@ require_once('header.php');
          marker.bindPopup("<b><?php echo $company->getName() ?></b>");
 
 </script>
+
+<?php
+require_once ("footer.php");
+?>
