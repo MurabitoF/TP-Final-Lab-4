@@ -40,7 +40,12 @@ use Models\Alert as Alert;
                 require_once(VIEWS_PATH."login.php");
             }
         }
-
+        
+        public function ShowRegisterView($user = NULL, $message = "")
+        {
+            require_once(VIEWS_PATH."register.php");
+        }
+        
         public function Add($username, $verifiedPassword)
         {
             $encryptedPass = password_hash($verifiedPassword, PASSWORD_DEFAULT);
@@ -55,10 +60,6 @@ use Models\Alert as Alert;
             $this->ShowLogInView();
         }
 
-        public function ShowRegisterView($user = NULL, $message = "")
-        {
-            require_once(VIEWS_PATH."register.php");
-        }
 
         public function LogIn($username, $password, $remeberMe = false)
         {
@@ -75,6 +76,9 @@ use Models\Alert as Alert;
                             $studentUser->setPassword($user->getPassword());
                             $studentUser->setRole($user->getRole());
                             $studentUser->setActive($user->getActive());
+                            $career = $this->careerDAO->GetbyId($studentUser->getCareerId());
+                            $studentUser->setCareerId($career->getName());
+
 
                             $_SESSION['loggedUser'] = $studentUser;
                             $_SESSION['lastActivity'] = time();

@@ -5,7 +5,7 @@ use Models\User as User;
 $loggedUser = $_SESSION['loggedUser'];
 ?>
 
-<nav class="navbar navbar-expand-lg justify-content-end">
+<nav class="navbar sticky-top navbar-expand-lg justify-content-end">
      <div class="container-fluid">
           <span class="logo">
                <a class="navbar-brand" href="<?php echo FRONT_ROOT ?>User/ShowHomeView">
@@ -32,7 +32,7 @@ $loggedUser = $_SESSION['loggedUser'];
                     </div>
                <?php } else { ?>
                     <div class="menu-button">
-                         <a href="<?php echo FRONT_ROOT ?>Student/ShowDataView">Ver mis datos</a>
+                         <a href="<?php echo FRONT_ROOT ?>Student/ShowDataView?idUser=<?php echo $loggedUser->getStudentId() ?>">Ver mis datos</a>
                     </div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowStudentListView">Ver Publicaciones</a>

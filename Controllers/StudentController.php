@@ -25,10 +25,15 @@ class StudentController
         require_once(VIEWS_PATH . "student-add.php");
     }
 
-    public function ShowDataView()
+    public function ShowDataView($idUser)
     {
         session_start();
-        $loggedUser = $_SESSION["loggedUser"] ;
+        if($_SESSION['loggedUser']->getStudentId() == $idUser)
+        {
+            $user = $_SESSION["loggedUser"];
+        } else {
+            $user = $this->studentDAO->GetById($idUser);
+        }
         require_once(VIEWS_PATH . "student-data.php");
     }
 

@@ -11,12 +11,12 @@ require_once('header.php');
                <table class="table bg-light-alpha">
                     <tbody>
                          <tr>
-                              <th>Categoria</th>
-                              <td><?php echo $career->getName(); ?></td>
-                         </tr>
-                         <tr>
                               <th>Sobre nosotros</th>
                               <td><?php echo $company->getDescription() ?></td>
+                         </tr>
+                         <tr>
+                              <th>Dirección</th>
+                              <td><?php echo $address->getStreetName() ." ". $address->getStreetAddress().", ". $address->getCity() ?></td>
                          </tr>
                     </tbody>
                </table>
@@ -26,7 +26,7 @@ require_once('header.php');
                <div class="col-lg-1"><label>Ubicación</label></div>
                </div>
                <div class="row justify-content-center">
-               <div class="col-xxl-12" id="mapid"></div>
+               <div class="col-sm-12" id="mapid"></div>
           </div>
           <div>
 
@@ -34,14 +34,10 @@ require_once('header.php');
      </section>
 </main>
 
-<?php
-require_once('footer.php');
-?>
-
 <script>
     var mymap;
 
-    mymap = L.map('mapid').setView([<?php echo $addressList[0]->getLatitude() ?>, <?php echo $addressList[0]->getLongitude() ?>], 15);
+    mymap = L.map('mapid').setView([<?php echo $address->getLatitude() ?>, <?php echo $address->getLongitude() ?>], 15);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -56,16 +52,14 @@ require_once('footer.php');
     var marker = null;
 
     var markerLayer = new L.LayerGroup();
-
-    <?php foreach($addressList as $address)
-    {
-         ?>
          marker = new L.marker([<?php echo $address->getLatitude() ?>, <?php echo $address->getLongitude() ?>]);    
          markerLayer.addLayer(marker);
          mymap.addLayer(markerLayer);
 
          marker.bindPopup("<b><?php echo $company->getName() ?></b>");
-         <?php
-     }?>
 
 </script>
+
+<?php
+require_once ("footer.php");
+?>

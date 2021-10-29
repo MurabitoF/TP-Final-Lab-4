@@ -14,15 +14,19 @@ body {
 }
 
 nav {
+	background-color: #f2f2f0;
 	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
-#footer {
+.footer {
 	position: absolute;
-	bottom: 0;
 	width: 100%;
-	height: 5rem;
+  	height: 100px;
 	background-color: #252525;
+}
+
+.push{
+	height: 100px;
 }
 
 /* Utilidades */
@@ -46,11 +50,15 @@ nav {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 
+.bg-blue {
+	background-color: #1c819e;
+}
+
 .separator {
 	border: 1px solid #1c819e;
 	margin-bottom: 15px;
 }
-/* LogIn y Fomrmularios */
+
 .button-blue {
 	background-color: #1c819e;
 	color: #f2f2f0;
@@ -66,9 +74,21 @@ nav {
 	transition: all 0.3s ease-in-out;
 }
 
-#login {
-	background-color: #1c819e;
+.button-white{
+	background-color: #f2f2f0;
+	color: #1c819e;
+	border: none;
+	border-radius: 0;
+	transition: all 0.3s ease-in-out;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)!important;
 }
+
+.button-white:hover{
+	color: #1c819e;
+	background-color: #d6d6d6;
+	transition: all 0.3s ease-in-out;
+}
+/* LogIn y Fomrmularios */
 
 .login-form {
 	max-width: 500px;
@@ -109,12 +129,6 @@ nav {
 	border: 1px solid #1c819e;
 }
 
-#rememberMe:checked {
-	background-color: #1c819e;
-	outline: 1px solid #145b6e;
-	border: none;
-}
-
 /* Nav y Logo */
 .logo a > img,
 .logo > img {
@@ -148,7 +162,7 @@ nav .menu:hover {
 	height: 50%; /* 100% Full-height */
 	width: 0; /* 0 width - change this with JavaScript */
 	position: fixed; /* Stay in place */
-	z-index: 1; /* Stay on top */
+	z-index: 10; /* Stay on top */
 	top: 0; /* Stay at the top */
 	right: 0;
 	background-color: #f2f2f0; /* Black*/
@@ -157,6 +171,12 @@ nav .menu:hover {
 	transition: 0.3s ease-in-out; /* 0.5 second transition effect to slide in the sidenav */
 	border: 1px solid #ccc;
 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+@media (max-height:640px){
+	.sidenav{
+		height: 65%;
+	}
 }
 
 .sidenav .closebtn {
@@ -245,6 +265,7 @@ nav .menu:hover {
 
 .pass-text {
 	font-size: 0.75rem;
+}
 
 .slide-in-top {
 	-webkit-animation: slide-in-top 0.5s ease-in-out both;
@@ -331,10 +352,41 @@ nav .menu:hover {
 	}
 }
 
+/* Perfil alumno */
+.img-profile{
+	max-width: 15vw;
+	border-radius: 50%;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 767.98px) {
+	.img-profile{
+		visibility: hidden;
+		display: none;
+	}
+}
+
+.name{
+	color: #f2f2f0;
+	font-weight: bold;
+	font-size: 4rem;
+}
+
+.student-university-data{
+	color: #f2f2f0;
+	font-weight: 300;
+	font-size: 1.5rem;
+}
+
+.info-title{
+	font-size: 1.5rem;
+	font-weight: 300;
+}
+
 /* Perfil empresa */
 #mapid {    
 	width: 900px; 
 	height: 450px;
-	position: relative; 
+	z-index: 1;
 	outline: none; 
 }

@@ -1,6 +1,5 @@
 </body>
-<footer id="footer">
-    hola soy un footer
-</footer>
+<div class="push"></div>
+<div class="footer"></div>
 </html>
 
