@@ -6,7 +6,6 @@ class Company{
     private $idCompany;
     private $name;
     private $CUIT;
-    private $category;
     private $description;
     private $state;
 
@@ -23,9 +22,6 @@ class Company{
 
     public function getCUIT(){ return $this->CUIT; }
 	  public function setCUIT($CUIT){ $this->CUIT = $CUIT; }
-
-    public function getCategory(){ return $this->category; }
-    public function setCategory($category){ $this->category = $category; }
  
     public function getState(){ return $this->state; }
     public function setState($state){ $this->state = $state; }

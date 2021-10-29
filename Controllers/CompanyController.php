@@ -33,15 +33,15 @@ class CompanyController
         require_once (VIEWS_PATH."company-add.php");
     }
 
-    public function ShowEditView($Edit)
+    public function ShowEditView($idCompany)
     {
         session_start();
 
-        $company = $this->companyDAO->searchId($Edit);
+        $company = $this->companyDAO->searchId($idCompany);
         
         $this->companyDAO->Edit($company);
-        $careerList = $this->careerDAO->GetAll();
-        $career = $this->careerDAO->GetbyId($company->getCategory());
+
+        $address= $this->addressDAO->getAddresses($idCompany);
 
         require_once (VIEWS_PATH."company-edit.php");
     }
@@ -52,9 +52,7 @@ class CompanyController
 
         $company = $this->companyDAO->searchId($idCompany);
 
-        $career = $this->careerDAO->GetbyId($company->getCategory());
-
-        $addressList = $this->addressDAO->getAddresses($idCompany);
+        $address= $this->addressDAO->getAddresses($idCompany);
 
         require_once (VIEWS_PATH."company-data.php");
     }
@@ -63,8 +61,6 @@ class CompanyController
     {
         session_start();
         $companyList = $this->companyDAO->getAll();
-        
-        $careerList = $this->careerDAO->GetAll();
 
         $addressList = $this->addressDAO->GetAll();
 
@@ -76,7 +72,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-list.php");
     }
 
-    public function Add($name, $cuit, $city, $category, $description, $streetName, $streetAddress)
+    public function Add($name, $cuit, $city, $description, $streetName, $streetAddress)
     {
 
         $alert = new Alert ("", "");
@@ -85,7 +81,6 @@ class CompanyController
             $company = new Company();
             $company->setName($name);
             $company->setCUIT($cuit);
-            $company->setCategory($category);
             $company->setDescription($description);
 
             $address = new Address();
@@ -115,20 +110,24 @@ class CompanyController
         }
     }
 
-    public function Edit ($idCompany, $name, $city, $category, $state, $description, $street, $streetAddress, $postalCode)
+    public function Edit ($idCompany, $name, $cuit, $city, $state, $description, $streetName, $streetAddress)
     {
         $company = $this->companyDAO->searchId($idCompany);
 
+        $address = $this->addressDAO->getAddresses($idCompany);
+
         $company->setName($name);
-        $company->setCity($city);
-        $company->setCategory($category);
+        $company->setCUIT($cuit);
         $company->setDescription($description);
-        $company->setStreet($street);
-        $company->setStreetAddress($streetAddress);
-        $company->setPostalCode($postalCode);
         $company->setState($state);
 
         $this->companyDAO->Edit($company);
+
+        $address->setCity($city);
+        $address->setStreetName($streetName);
+        $address->setStreetAddress($streetAddress);
+
+        $this->addressDAO->Edit($address);
         
         $this->ShowListView();
     }
@@ -141,6 +140,7 @@ class CompanyController
         } else if($Remove != "")
         {
             $this->companyDAO->Remove($Remove);
+            $this->addressDAO->Remove($Remove);
             $this->ShowListView();
         } else if($getData != "")
         {
