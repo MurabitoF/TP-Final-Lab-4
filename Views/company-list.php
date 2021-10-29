@@ -48,7 +48,6 @@ require_once('header.php');
                     <thead>
                          <th>Nombre</th>
                          <th>Ciudad</th>
-                         <th>Categoria</th>
                          <th>Acciones</th>
                     </thead>
                     <tbody>

@@ -56,8 +56,7 @@ class CareerDAO implements ICareerDAO{
                 $career->setName($valuesArray["description"]);
                 $career->setActive($valuesArray["active"]);
 
-                array_push($this->careerList, $career);
-                
+                array_push($this->careerList, $career);                
             }
     }
 }
