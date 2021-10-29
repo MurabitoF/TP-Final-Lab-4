@@ -1,7 +1,7 @@
 <?php
 require_once('header.php');
 ?>
-<main id="login" class="height-100">
+<main class="height-100 bg-blue">
      <div class="container bg-white height-100">
           <div class="row ms-1 me-1 justify-content-center">
                <div class="col-6">

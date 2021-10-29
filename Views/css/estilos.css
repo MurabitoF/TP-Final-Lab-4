@@ -46,11 +46,15 @@ nav {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 
+.bg-blue {
+	background-color: #1c819e;
+}
+
 .separator {
 	border: 1px solid #1c819e;
 	margin-bottom: 15px;
 }
-/* LogIn y Fomrmularios */
+
 .button-blue {
 	background-color: #1c819e;
 	color: #f2f2f0;
@@ -66,9 +70,21 @@ nav {
 	transition: all 0.3s ease-in-out;
 }
 
-#login {
-	background-color: #1c819e;
+.button-white{
+	background-color: #f2f2f0;
+	color: #1c819e;
+	border: none;
+	border-radius: 0;
+	transition: all 0.3s ease-in-out;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)!important;
 }
+
+.button-white:hover{
+	color: #1c819e;
+	background-color: #d6d6d6;
+	transition: all 0.3s ease-in-out;
+}
+/* LogIn y Fomrmularios */
 
 .login-form {
 	max-width: 500px;
@@ -107,12 +123,6 @@ nav {
 
 .form-textarea:focus {
 	border: 1px solid #1c819e;
-}
-
-#rememberMe:checked {
-	background-color: #1c819e;
-	outline: 1px solid #145b6e;
-	border: none;
 }
 
 /* Nav y Logo */
@@ -245,6 +255,7 @@ nav .menu:hover {
 
 .pass-text {
 	font-size: 0.75rem;
+}
 
 .slide-in-top {
 	-webkit-animation: slide-in-top 0.5s ease-in-out both;
@@ -329,6 +340,37 @@ nav .menu:hover {
 	.jobOffer-tags > div {
 		text-align: center;
 	}
+}
+
+/* Perfil alumno */
+.img-profile{
+	max-width: 15vw;
+	border-radius: 50%;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 767.98px) {
+	.img-profile{
+		visibility: hidden;
+		display: none;
+	}
+}
+
+.name{
+	color: #f2f2f0;
+	font-weight: bold;
+	font-size: 4rem;
+}
+
+.student-university-data{
+	color: #f2f2f0;
+	font-weight: 300;
+	font-size: 1.5rem;
+}
+
+.info-title{
+	font-size: 1.5rem;
+	font-weight: 300;
 }
 
 /* Perfil empresa */
