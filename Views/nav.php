@@ -28,6 +28,9 @@ $loggedUser = $_SESSION['loggedUser'];
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAdminListView">Ver Publicaciones</a>
                     </div>
                     <div class="menu-button">
+                         <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAddView">Agregar Publicacion</a>
+                    </div>
+                    <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>Student/ShowAddView">Agregar Alumno</a>
                     </div>
                <?php } else { ?>

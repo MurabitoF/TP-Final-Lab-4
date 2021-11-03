@@ -65,7 +65,7 @@ require_once('header.php');
                                                        }
                                                   } ?>
                                              </td>
-                                             <td><?php echo $company->getCategory() ?></td>
+                                             <td><?php //echo $company->getCategory() LINEA COMENTADA?></td>
                                              <td>
                                                   <button type="submit" name="getData" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>">Ver datos</i></button>
                                                   <?php

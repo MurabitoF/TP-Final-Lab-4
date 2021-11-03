@@ -60,11 +60,13 @@ ON UPDATE CASCADE
 
 CREATE TABLE `JobOffers`(
 `idJobOffer` INT NOT NULL AUTO_INCREMENT,
-`jobPossition` VARCHAR(45) NOT NULL,
-`description` VARCHAR(200),
-`income` FLOAT NOT NULL,
-`workload` VARCHAR(10) NOT NULL,
+`title` VARCHAR(200) NOT NULL,
+`company` VARCHAR(45) NOT NULL,
+`city` VARCHAR(45) NOT NULL,
 `requirements` VARCHAR(45),
+`workload` VARCHAR(10) NOT NULL,
+`income` FLOAT NOT NULL,
+`description` VARCHAR(200),
 `postDate` DATE NOT NULL,
 `expireDate` DATE NOT NULL,
 `active` BOOLEAN DEFAULT TRUE,

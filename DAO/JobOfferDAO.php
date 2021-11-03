@@ -2,91 +2,158 @@
 
 namespace DAO;
 
+use \Exception as Exception;
 use DAO\IJobOfferDAO as IJobOfferDAO;
 use Models\JobOffer as JobOffer;
+use DAO\Connection as Connection;
 
 class JobOfferDAO implements IJobOfferDAO
 {
+    private $connection;
 
-    private $jobOfferList = array();
+    private $tableName = "JobOffers";
 
     public function Add(JobOffer $jobOffer)
     {
-        $this->retriveData();
+        try{
+            $query = "INSERT INTO ". $this->tableName . " (title, description, workload, requirements, postDate, expireDate, active, 
+            city, idJobPosition, idCareer) VALUES (:title, :description, :workload, :requirements, :postDate, :expireDate, :active, 
+            :city, :idJobPosition, :idCareer);";
 
-        array_push($this->jobOfferList, $jobOffer);
+            var_dump($jobOffer);
 
-        $this->saveData();
+            $parameters["title"] = $jobOffer->getTitle();
+            $parameters["description"] = $jobOffer->getDescription();
+            $parameters["workload"] = $jobOffer->getWorkload();
+            $parameters["requeriments"] = $jobOffer->getRequirements();
+            $parameters["postDate"] = $jobOffer->getPostDate();
+            $parameters["expireDate"] = $jobOffer->getExpireDate();
+            $parameters["active"] = $jobOffer->getActive();
+            $parameters["city"] = $jobOffer->getCity();
+            $parameters["idJobPositon"] = ($jobOffer->getJobPosition());
+            $parameters["idCareer"] = ($jobOffer->getCareer());
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query, $parameters);
+            
+        }catch(Exception $ex){
+            throw $ex;
+        }
     }
 
     public function GetAll()
     {
-        $this->retriveData();
+        try{
+            $jobOfferList = array();
+    
+            $query = "SELECT * FROM ".$this->tableName;
+    
+            $this->connection = Connection::GetInstance();
+    
+            $resultSet = $this->connection->Execute($query);
+    
+            foreach($resultSet as $row)
+            {
+                $jobOffer = new JobOffer();
+                
+                $jobOffer->setIdJobOffer($row["idJobOffer"]);
+                $jobOffer->setJobPosition($row["idJobPosition"]);
+                //$jobOffer->setCompany($row["company"]);
+                $jobOffer->setPostDate($row["postDate"]);
+                $jobOffer->setExpireDate($row["expireDate"]);
+                $jobOffer->setCity($row["city"]);
+                $jobOffer->setCareer($row["idCareer"]);
+                //$jobOffer->setApplicants($row["applicants"]);
+                $jobOffer->setWorkload($row["workload"]);
+                $jobOffer->setRequirements($row["requeriments"]);
+                $jobOffer->setActive($row["active"]);
+                $jobOffer->setTitle($row["title"]);
+                $jobOffer->setDescription($row["description"]);
+    
+                array_push($jobOfferList, $jobOffer);
+            }
+    
+            return $jobOfferList;
 
-        return $this->jobOfferList;
+        }catch(Exception $ex){
+            throw $ex;
+        }
     }
 
     public function Remove($idJobOffer)
     {
-        $this->retriveData();
+        try{
+            $query = "UPDATE ".$this->tableName." SET state = FALSE WHERE idJobOffer = ".$idJobOffer;
 
-        foreach ($this->jobOfferList as $key => $value) {
-            if ($value->getIdJobOffer == $idJobOffer) {
-                $this->jobOfferList[$key]->setState(false);
-            }
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query);
+
+        }catch(Exception $ex){
+            throw $ex;
         }
-        $this->saveData();
     }
 
-    private function saveData()
+    public function Edit($jobOffer)
     {
-        $arrayToEncode = array();
-        foreach ($this->jobOfferList as $jobOffer) {
-            $valuesArray["idJobOffer"] = $jobOffer->getIdJobOffer();
-            $valuesArray["jobPosition"] = $jobOffer->getJobPosition();
-            $valuesArray["company"] = $jobOffer->getCompany();
-            $valuesArray["income"] = $jobOffer->getIncome();
-            $valuesArray["city"] = $jobOffer->getCity();
-            $valuesArray["category"] = $jobOffer->getCategory();
-            $valuesArray["applicants"] = $jobOffer->getApplicants();
-            $valuesArray["workload"] = $jobOffer->getWorkload();
-            $valuesArray["requirements"] = $jobOffer->getRequirements();
-            $valuesArray["state"] = $jobOffer->getState();
-            $valuesArray["title"] = $jobOffer->getTitle();
-            $valuesArray["description"] = $jobOffer->getDescription();
+        try{
+            $query = "UPDATE ".$this->tableName." SET idjobPosition =\"". $jobOffer->getJobPosition() ."\",
+            company =\"". $jobOffer->getCompany() ."\",
+            postDate =\"". $jobOffer->getPostDate() ."\",
+            expireDate =\"". $jobOffer->getExpireDate() ."\",
+            city =\"". $jobOffer->getCity() ."\",
+            idCareer =\"". $jobOffer->getCareer() ."\",
+            workload =\"". $jobOffer->getWorkload() ."\",
+            requirements =\"". $jobOffer->getRequeriments() ."\",
+            active =\"". $jobOffer->getActive ."\",
+            title =\"". $jobOffer->getTitle() ."\",
+            description =". $jobOffer->getDescription() ." WHERE idJobOffer = ". $jobOffer->getIdJobOffer();
 
-            array_push($arrayToEncode, $valuesArray);
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query);
+
+        }catch(Exception $ex){
+            throw $ex;
         }
-
-        $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-        file_put_contents('Data/jobOffers.json', $jsonContent);
     }
 
-    private function retriveData()
+    public function searchId($idJobOffer)
     {
-        $this->jobOfferList = array();
-        if (file_exists('Data/jobOffers.json')) {
-            $jsonContent = file_get_contents('Data/jobOffers.json');
-            $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+        $foundJobOffer = new JobOffer;
+        try{
+            $query = "SELECT * FROM " .$this->tableName. " WHERE 'idJobOffer' = ". $idJobOffer;
 
-            foreach ($arrayToDecode as $valuesArray) {
-                if ($valuesArray["state"]) {
-                    $jobOffer = new JobOffer();
-                    $jobOffer->setIdJobOffer($valuesArray["idJobOffer"]);
-                    $jobOffer->setJobPosition(($valuesArray["jobPosition"]));
-                    $jobOffer->setIncome($valuesArray["income"]);
-                    $jobOffer->setCity($valuesArray["city"]);
-                    $jobOffer->setCategory($valuesArray["category"]);
-                    $jobOffer->setApplicants($valuesArray["applicants"]);
-                    $jobOffer->setWorkload($valuesArray["workload"]);
-                    $jobOffer->setRequirements($valuesArray["requeriments"]);
-                    $jobOffer->setState($valuesArray["state"]);
-                    $jobOffer->setTitle($valuesArray["title"]);
-                    $jobOffer->setDescription($valuesArray["description"]);
+            $this->connection = Connection::GetInstance();
 
-                    array_push($this->jobOfferList, $jobOffer);
-                }
+            $foundJobOffer  = $this->connection->Execute($query);
+            
+            foreach ($foundJobOffer as $row)
+            {
+                $jobOffer = new JobOffer();
+                
+                $jobOffer->setIdJobOffer($row["idJobOffer"]);
+                $jobOffer->setJobPosition($row["idJobPosition"]);
+                $jobOffer->setCompany($row["company"]);
+                $jobOffer->setPostDate($row["postDate"]);
+                $jobOffer->setExpireDate($row["expireDate"]);
+                $jobOffer->setCity($row["city"]);
+                $jobOffer->setCareer($row["idCareer"]);
+                $jobOffer->setApplicants($row["applicants"]);
+                $jobOffer->setWorkload($row["workload"]);
+                $jobOffer->setRequirements($row["requeriments"]);
+                $jobOffer->setActive($row["active"]);
+                $jobOffer->setTitle($row["title"]);
+                $jobOffer->setDescription($row["description"]);
+
             }
+
+            return $jobOffer;
+
+        }catch(Exception $ex){
+            throw $ex;
         }
     }
+
 }
