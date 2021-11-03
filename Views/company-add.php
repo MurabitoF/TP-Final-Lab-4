@@ -48,26 +48,6 @@ require_once('header.php');
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <select name="category" class="form-select form-input" required>
-                                <option value="" selected>Categoria</option>
-                                <?php
-                                    foreach($careerList as $career)
-                                    {
-                                     if($career->getActive())
-                                     {
-                                        ?>
-                                            <option value="<?php echo $career->getIdCareer()?>"><?php echo $career->getName() ?></option> 
-                                        <?php
-                                     }   
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
                 <div class="row mt-3 justify-content-end">
                     <div class="col-md-3">
                         <button type="submit" class="btn button-blue w-100">Agregar</button>

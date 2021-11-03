@@ -1,4 +1,5 @@
 <?php 
+require_once('verify-login.php');
 include('header.php');
 include('nav.php');
 
@@ -6,48 +7,35 @@ include('nav.php');
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
-               <h2 class="mb-4">Agregar Publicacion</h2> 
-
-               <form action="<?php echo FRONT_ROOT?>JobOffer/Add" method="post" class="bg-light-alpha p-5">
+               <h2 class="mb-4 text-center">Agregar Publicación</h2> 
+               <form action="<?php echo FRONT_ROOT ?>JobOffer/Add" method="post" class="bg-light-alpha p-5">
                     <div class="row">
-                         
-                         <div class="col-lg-4">
+                         <div class="col-md-6">
                               <div class="form-group">
-                                    <label for="">Titulo</label>
-                                    <textarea type="text" name = "title" value="" class="form-control"></textarea>
+                                   <input type="text" name="title" class="form-control form-input shadow-none" placeholder="Título de la publicación" required>      
                               </div>
                          </div>
-                         
-                         <div class="col-lg-4">
-                            <div class="form-group">
-                                <label for="">Carrera</label>
-                                    <select name="category" class="form-control" required>
-                                        <option value=""></option>
-                                        <option value="Ingenieria">Ingenieria</option>
-                                        <option value="Programacion">Programacion</option>
-                                        <option value="Agriculcura">Agriculcura</option>
-                                        <option value="Seguridad e Higiene"> Seguridad e Higiene</option>
-                                    </select>
-                            </div>
-                        </div>
-                    
-                         <div class="col-lg-4">
+
+                         <div class="col-md-6">
                               <div class="form-group">  
-                                <label for="">Empresa</label><!-- ver si anda esto -->
-                                <select name="company" class="form-control" required>
-                                    <?php foreach($companyList as $company){?>
-                                        <option value="<?php $company?>"><?php $company->GetName?></option>
+                                <select name="idJobPosition" class="form-control form-input" required>
+                                   <option value="" selected>Posición de Trabajo</option>
+                                    <?php foreach($jobPositionList as $jobPosition){?>
+                                        <option value="<?php echo $jobPosition->getIdJobPosition()?>"><?php echo $jobPosition->getName()?></option>
                                     <?php
                                 }?>
                                 </select>
                               </div>
-                         </div>
+                         </div> 
+                         
+                    </div>
 
-                         <div class="col-lg-4">
+
+                    <div class="row">
+                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Ciudad</label>
-                                    <select name="city" class="form-control" required>
-                                        <option value=""></option>
+                                    <select name="city" class="form-control form-input" required>
+                                        <option value="">Ciudad</option>
                                         <option value="bahia">Bahia Blanca</option>
                                         <option value="buenosAires"> Buenos Aires</option>
                                         <option value="comodoro"> Comodoro Rivadavia</option>
@@ -68,48 +56,66 @@ include('nav.php');
                             </div>
                          </div>
 
-                        <div class="col-lg-4">
+                         <div class="col-md-4">
+                              <div class="form-group">  
+                                <select name="idCareer" class="form-control form-input" required>
+                                   <option value="" selected>Carrera</option>
+                                    <?php foreach($careerList as $career){?>
+                                        <option value="<?php echo $career->getIdCareer()?>"><?php echo $career->getName()?></option>
+                                    <?php
+                                }?>
+                                </select>
+                              </div>
+                         </div> 
+
+                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Posicion de Trabajo</label>  <!--VER Y AGREGAR PUESTOS COHERENTES DESPUES --> 
-                                    <select name="jobPosition" class="form-control" required>
-                                        <option value=""></option>
-                                        <option value="ceo">CEO</option>
-                                        <option value="ingeniero">Ingeniero</option>
-                                        <option value="programador">Programador</option>
-                                    </select>
+                                <input type="text" name="workload" class="form-control form-input" placeholder="Carga Horaria" required>
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
                               <div class="form-group">
-                                    <label for="">Requerimientos</label> <!-- VER LUEGO SI CONVIENE YA DAR OPCIONES PREDETERMINADAS PARA ELEGIR -->
-                                    <textarea type="text" name = "requeriments" value="" class="form-control"></textarea>
+                                    <textarea type="text" name = "requeriments" value="" class="form-control form-textarea" placeholder="Requerimientos" required></textarea>
                               </div>
                          </div>
 
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label for="">Carga Horaria</label>
-                                <input type="number" name="workload" class="form-control" min="0" required>
-                            </div>
-                        </div>
+                         <div class="col-md-6">
+                              <div class="form-group">
+                                    <textarea type="text" name = "description" value="" class="form-control form-textarea" placeholder="Sobre la publicación" required></textarea>
+                              </div>
+                         </div>
 
-                        <div class="col-lg-4">
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
                               <div class="form-group">
                                    <label for="">Fecha de Ingreso</label>
-                                   <input type="date" name="income" value="" class="form-control">
+                                   <input type="date" name="postDate" value="" class="form-control" required>
+                              </div>
+                         </div>
+
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                   <label for="">Fecha de Expiración</label>
+                                   <input type="date" name="expireDate" value="" class="form-control" required>
                               </div>
                          </div>
                         
-                         <div class="col-lg-4">
-                              <div class="form-group">
-                                    <label for="">Descripcion</label>
-                                    <textarea type="text" name = "jobOffer_description" value="" class="form-control"></textarea>
-                              </div>
-                         </div>
-          
                     </div>
-                    <button type="submit" name="button" class="btn btn-dark ml-auto d-block">Agregar</button>
+
+                    <div class="row mt-3 justify-content-end">
+                         <div class="col-md-3">
+                              <button type="submit" class="btn button-blue w-100">Agregar</button>
+                         </div>
+                    </div> 
+
                </form>
           </div>
      </section>
