@@ -5,18 +5,20 @@
         private $idJobOffer;
         private $jobPosition;
         private $company;
-        private $income;
         private $city;
-        private $category;
-        private $applicants;
+        private $career; 
+        //private $applicants;
         private $workload;
         private $requirements;
-        private $state;
+        private $active;
         private $title;
         private $description;
+        private $postDate;
+        private $expireDate;
+
 
         public function __construct() {
-            $this->state = true;
+            $this->active = true;
         }
 
         public function getIdJobOffer(){ return $this->idJobOffer; }
@@ -28,14 +30,11 @@
         public function getCompany(){ return $this->company; }
         public function setCompany($company){ $this->company = $company; }
 
-        public function getIncome(){ return $this->income; }
-        public function setIncome($income){ $this->income = $income; }
-
         public function getCity(){ return $this->city; }
         public function setCity($city){ $this->city = $city; }
 
-        public function getCategory(){ return $this->category; }
-        public function setCategory($category){ $this->category = $category; }
+        public function getCareer(){ return $this->career; }
+        public function setCareer($career){ $this->career = $career; }
 
         public function getApplicants(){ return $this->applicants; }
         public function setApplicants($applicants){ $this->applicants = $applicants; }
@@ -46,12 +45,18 @@
         public function getRequirements(){ return $this->requirements; }
         public function setRequirements($requirements){ $this->requirements = $requirements; }
 
-        public function getState(){ return $this->state; }
-        public function setState($state){ $this->state = $state; }
+        public function getActive(){ return $this->active; }
+        public function setActive($active){ $this->active = $active; }
 
         public function getTitle(){ return $this->title; }
         public function setTitle($title){ $this->title =$title; }
 
         public function getDescription(){ return $this->description; }
         public function setDescription($description){ $this->description = $description; }
+
+        public function getPostDate(){ return $this->postDate;}
+        public function setPostDate($postDate){$this->postDate = $postDate;}
+
+        public function getExpireDate(){return $this->expireDate;}
+        public function setExpireDate($expireDate){ $this->expireDate = $expireDate;}
     }

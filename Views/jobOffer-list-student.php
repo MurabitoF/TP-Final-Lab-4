@@ -20,7 +20,7 @@ require_once('nav.php');
                                 <div class="col-sm-2"><?php echo $jobOffer->getCity() ?></div>
                             </div>
                             <div class="row jobOffer-tags">
-                                <div class="col-sm-8"><?php echo $jobOffer->getCategory() ?></div>
+                                <div class="col-sm-8"><?php echo $jobOffer->getCareer() ?></div><!--modificado category por career-->
                             </div>
                             <div class="separator"></div>
                             <div class="row">

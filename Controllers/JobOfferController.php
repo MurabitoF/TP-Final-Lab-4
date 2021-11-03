@@ -1,21 +1,36 @@
 <?php
-
 namespace Controllers;
 
+use Exception;
 use DAO\JobOfferDAO as JobOfferDAO;
 use Models\JobOffer as JobOffer;
+use DAO\CompanyDAO as CompanyDAO;
+use DAO\JobPositionDAO as JobPositionDAO;
+use DAO\CareerDAO as CareerDao;
 
 class JobOfferController
 {
     private $jobOfferDAO;
+    private $companyDAO;
+    private $jobPositionDAO;
+    private $careerDAO;
 
     public function __construct()
     {
         $this->jobOfferDAO = new JobOfferDAO();
+        $this->companyDAO = new CompanyDAO();
+        $this->jobPositionDAO = new JobPositionDAO();
+        $this->careerDAO = new CareerDao();
     }
 
     public function ShowAddView()
     {
+        session_start();
+
+        $companyList = $this->companyDAO->GetAll();
+        $jobPositionList = $this->jobPositionDAO->GetAll();
+        $careerList = $this->careerDAO->GetAll();
+
         require_once(VIEWS_PATH . "jobOffer-add.php");
     }
 
@@ -35,9 +50,8 @@ class JobOfferController
         $jobOffer->setTitle("Se busca Programador");
         $jobOffer->setJobPosition("Front End Developer");
         $jobOffer->setCompany("Accenture");
-        $jobOffer->setIncome("50.000");
         $jobOffer->setCity("Mar del Plata");
-        $jobOffer->setCategory("University technician in environmental procedures and technologies");
+        $jobOffer->setCareer("University technician in environmental procedures and technologies");
         $jobOffer->setApplicants(array());
         $jobOffer->setWorkload("Full Time");
         $jobOffer->setRequirements("Javascript");
@@ -49,23 +63,69 @@ class JobOfferController
         require_once(VIEWS_PATH . "jobOffer-list-student.php");
     }
 
-    public function Add($jobPosition, $company, $income, $city, $category, $workload, $requeriments, $title, $description)
+    public function ShowEditView($idJobOffer)
     {
-        $jobOffer = new JobOffer();
-        $jobOffer->setIdJobOffer(count($this->jobOfferDAO->GetAll()) + 1);
-        $jobOffer->setJobPosition($jobPosition);
-        $jobOffer->setCompany($company);
-        $jobOffer->setIncome($income);
-        $jobOffer->setCity($city);
-        $jobOffer->setCategory($category);
-        //$jobOffer->setApplicants(); VER DESPUES
-        $jobOffer->setWorkload($workload);
-        $jobOffer->setRequirements($requeriments);
+        session_start();
+
+        $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
+        
+        $this->jobOfferDAO->Edit($jobOffer);
+
+        require_once (VIEWS_PATH."jobOffer-edit.php");
+    }
+
+    public function Add($title, $idCareer, $city, $idJobPosition, $requeriments, $workload, $postDate, $expireDate, $description)
+    {
+            $jobOffer = new JobOffer();
+
+            $jobOffer->setTitle($title);
+            $jobOffer->setCareer($idCareer);
+            //$jobOffer->setCompany($idCompany);
+            $jobOffer->setCity($city);
+            $jobOffer->setJobPosition($idJobPosition);
+            $jobOffer->setRequirements($requeriments);
+            $jobOffer->setPostDate($postDate);
+            $jobOffer->setExpireDate($expireDate);
+            $jobOffer->setWorkload($workload);
+            $jobOffer->setDescription($description);
+
+            $this->jobOfferDAO->Add($jobOffer);
+
+            $this->ShowAddView();
+    }
+
+    public function Edit($idJobOffer, $title, $idCareer, $city, $idJobPosition, $requeriments, $workload, $postDate, $expireDate, $description)
+    {
+        $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
+
         $jobOffer->setTitle($title);
+        $jobOffer->setCareer($idCareer);
+        //$jobOffer->setCompany($idCompany);
+        $jobOffer->setCity($city);
+        $jobOffer->setJobPosition($idJobPosition);
+        $jobOffer->setRequirements($requeriments);
+        $jobOffer->setPostDate($postDate);
+        $jobOffer->setExpireDate($expireDate);
+        $jobOffer->setWorkload($workload);
         $jobOffer->setDescription($description);
 
-        $this->JobOfferDAO->Add($jobOffer);
+        $this->companyDAO->Edit($jobOffer);
+        
+        $this->ShowAdminListView();
+    }
 
-        $this->ShowAddView();
+    public function Action($Remove = "", $Edit = "") ///ROBADA DE COMPANYDAO PARA VER SU USO
+    {
+        if ($Edit != "")
+        {
+            $this->ShowEditView($Edit);
+        } else if($Remove != "")
+        {
+            $this->jobOfferDAO->Remove($Remove);
+            $this->ShowAdminListView();
+        }else
+        {
+            echo "Ha ocurrido un error";
+        }
     }
 }

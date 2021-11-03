@@ -27,7 +27,7 @@ include('nav.php');
                                         ?>
                                              <tr>
                                                   <td><?php echo $jobOffer->getTitle(); ?></td>
-                                                  <td><?php echo $jobOffer->getCategory(); ?></td>
+                                                  <td><?php echo $jobOffer->getCareer(); ?></td><!--modificado category por career-->
                                                   <td><?php echo $jobOffer->getCompany(); ?></td>
                                                   <td><?php echo $jobOffer->getCity(); ?></td>
                                                   <td><?php echo $jobOffer->getJobPosition(); ?></td>
