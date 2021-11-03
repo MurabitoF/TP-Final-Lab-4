@@ -84,8 +84,10 @@ class JobOfferController
             $jobOffer->setCity($city);
             $jobOffer->setJobPosition($idJobPosition);
             $jobOffer->setRequirements($requeriments);
-            $jobOffer->setPostDate($postDate);
-            $jobOffer->setExpireDate($expireDate);
+            $postDate2 = date("Y/m/d", strtotime($postDate));
+            $jobOffer->setPostDate($postDate2);
+            $expireDate2 = date("Y/m/d", strtotime($expireDate));
+            $jobOffer->setExpireDate($expireDate2);
             $jobOffer->setWorkload($workload);
             $jobOffer->setDescription($description);
 
