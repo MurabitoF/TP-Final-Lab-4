@@ -16,22 +16,21 @@ class JobOfferDAO implements IJobOfferDAO
     public function Add(JobOffer $jobOffer)
     {
         try{
-            $query = "INSERT INTO ". $this->tableName . " (title, description, workload, requirements, postDate, expireDate, active, 
-            city, idJobPosition, idCareer) VALUES (:title, :description, :workload, :requirements, :postDate, :expireDate, :active, 
-            :city, :idJobPosition, :idCareer);";
-
-            var_dump($jobOffer);
+            $query = "INSERT INTO ". $this->tableName . " (title, description, workload, requirements, postDate, expireDate, active, city, idJobPosition, idCareer) 
+            VALUES (:title, :description, :workload, :requirements, :postDate, :expireDate, :active, :city, :idJobPosition, :idCareer);";
 
             $parameters["title"] = $jobOffer->getTitle();
             $parameters["description"] = $jobOffer->getDescription();
             $parameters["workload"] = $jobOffer->getWorkload();
-            $parameters["requeriments"] = $jobOffer->getRequirements();
+            $parameters["requirements"] = $jobOffer->getRequirements();
             $parameters["postDate"] = $jobOffer->getPostDate();
             $parameters["expireDate"] = $jobOffer->getExpireDate();
             $parameters["active"] = $jobOffer->getActive();
             $parameters["city"] = $jobOffer->getCity();
-            $parameters["idJobPositon"] = ($jobOffer->getJobPosition());
-            $parameters["idCareer"] = ($jobOffer->getCareer());
+            $parameters["idJobPosition"] = intval($jobOffer->getJobPosition());
+            $parameters["idCareer"] = intval($jobOffer->getCareer());
+
+            var_dump($parameters);
 
             $this->connection = Connection::GetInstance();
 

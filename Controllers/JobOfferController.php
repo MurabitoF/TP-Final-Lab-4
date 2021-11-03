@@ -74,7 +74,7 @@ class JobOfferController
         require_once (VIEWS_PATH."jobOffer-edit.php");
     }
 
-    public function Add($title, $idCareer, $city, $idJobPosition, $requeriments, $workload, $postDate, $expireDate, $description)
+    public function Add($title, $idCareer, $city, $idJobPosition, $requirements, $workload, $postDate, $expireDate, $description)
     {
             $jobOffer = new JobOffer();
 
@@ -83,7 +83,7 @@ class JobOfferController
             //$jobOffer->setCompany($idCompany);
             $jobOffer->setCity($city);
             $jobOffer->setJobPosition($idJobPosition);
-            $jobOffer->setRequirements($requeriments);
+            $jobOffer->setRequirements($requirements);
             $jobOffer->setPostDate($postDate);
             $jobOffer->setExpireDate($expireDate);
             $jobOffer->setWorkload($workload);
