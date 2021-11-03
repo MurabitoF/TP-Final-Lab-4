@@ -6,8 +6,8 @@
         private $jobPosition;
         private $company;
         private $city;
-        private $career; 
-        //private $applicants;
+        private $career;
+        private $applicants;
         private $workload;
         private $requirements;
         private $active;

@@ -8,23 +8,25 @@ use Models\CV as CV;
 
 class CurriculumDAO implements ICurriculumDAO
 {
-    private $validFileTypes = ["pdf", "doc", "docx", "odt", "ott", "oxt"];
+    private $validFileTypes = ["pdf", "doc", "docx", "odt", "ott", "oxt", "txt"];
 
-    public function UploadCV($cv)
+    public function UploadCV($cv, $idJobOffer)
     {
         try {
             $fileName = $cv["name"];
             $tempFileName = $cv["tmp_name"];
             $fileType = $cv["type"];
 
-            $filePath = UPLOADS_PATH . basename($fileName);
+            $filePath = UPLOADS_PATH . $idJobOffer .'/'. basename($fileName);
 
             $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
             if (in_array($fileType, $this->validFileTypes)) {
+                if(!is_dir(UPLOADS_PATH . $idJobOffer )){
+                    mkdir(UPLOADS_PATH . $idJobOffer );
+                }
                 if (move_uploaded_file($tempFileName, $filePath)) {
-                    $cv = new CV($fileName);
-                    return $cv;
+                    return $fileName;
                 }
             } else {
                 return NULL;

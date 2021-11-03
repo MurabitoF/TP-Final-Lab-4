@@ -5,26 +5,24 @@ require_once('header.php');
 
 ?>
 
-<main>
+<main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Listado de empresas</h2>
-               <form action="<?php echo FRONT_ROOT ?>Company/ShowListView" method="post" class="bg-light-alpha p-5">
-                    <div class="row">
-                         <div class="col-lg-6">
+               <form action="<?php echo FRONT_ROOT ?>Company/ShowListView" method="post">
+                    <div class="row align-items-center">
+                         <div class="col-lg-5">
                               <div class="form-group">
                                    <input type="text" name="name" value="<?php echo $name; ?>" placeholder="Nombre de la empresa" class="form-control form-input">
                               </div>
                          </div>
-                         <div class="col-lg-6">
+                         <div class="col-lg-5">
                               <div class="form-group">
-                                   <input type="text" name="city" value="<?php echo $city; ?>" placeholder="City" class="form-control">
+                                   <input type="text" name="city" value="<?php echo $city; ?>" placeholder="City" class="form-control form-input">
                               </div>
                          </div>
-                    </div>
-                    <div class="row">
-                         <div class="col-lg-6">
-                              <button type="submit" name="" class="btn col-lg-12 btn-dark ml-auto d-block">Buscar</button>
+                         <div class="col-lg-2">
+                              <button type="submit" class="btn button-blue w-100">Buscar</button>
                          </div>
                     </div>
                </form>

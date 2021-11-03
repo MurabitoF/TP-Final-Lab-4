@@ -72,6 +72,7 @@ use Models\Alert as Alert;
                     if(password_verify($password, $user->getPassword())){
                         if($user->getRole() === "Student"){
                             $studentUser = $this->studentDAO->GetByUserName($username);
+                            $studentUser->setIdUser($user->getIdUser());
                             $studentUser->setUsername($user->getUsername());
                             $studentUser->setPassword($user->getPassword());
                             $studentUser->setRole($user->getRole());

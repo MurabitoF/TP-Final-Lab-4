@@ -80,6 +80,11 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
+    public function GetById($id)
+    {
+        
+    }
+
     public function Remove($idJobOffer)
     {
         try{
