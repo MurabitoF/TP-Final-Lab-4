@@ -88,6 +88,39 @@ nav {
 	background-color: #d6d6d6;
 	transition: all 0.3s ease-in-out;
 }
+
+.button-red {
+	background-color: #C91D1D;
+	color: #f2f2f0;
+	border: none;
+	border-radius: 0;
+	box-shadow: none !important;
+	transition: all 0.3s ease-in-out;
+}
+
+.button-red:hover{
+	color: #f2f2f0;
+	background-color: #af1a1a;
+	transition: all 0.3s ease-in-out;
+}
+
+.button-black {
+	background-color: #252525;
+	color: #f2f2f0;
+	border: none;
+	border-radius: 0;
+	box-shadow: none !important;
+	transition: all 0.3s ease-in-out;
+}
+
+.button-black:hover{
+	color: #f2f2f0;
+	background-color: #0f0f0f;
+	transition: all 0.3s ease-in-out;
+}
+
+
+
 /* LogIn y Fomrmularios */
 
 .login-form {
@@ -372,7 +405,7 @@ nav .menu:hover {
 	font-size: 4rem;
 }
 
-.student-university-data{
+.student-university-data {
 	color: #f2f2f0;
 	font-weight: 300;
 	font-size: 1.5rem;
@@ -384,6 +417,26 @@ nav .menu:hover {
 }
 
 /* Perfil empresa */
+
+.company-description{
+	color: #252525;
+	font-weight: 300;
+	font-size: 1rem;
+}
+
+.company-address{
+	color: #f2f2f0;
+	font-weight: 300;
+	font-size: 1.5rem;
+}
+
+.company-data{
+	color: #f2f2f0;
+	font-weight: 300;
+	font-size: 1rem;
+}
+
+
 #mapid {    
 	width: 900px; 
 	height: 450px;

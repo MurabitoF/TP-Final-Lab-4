@@ -10,7 +10,7 @@ use \Exception as Exception;
 class AddressDAO implements IAddressDAO{
 
     private $connection;
-    private $tablename = "Address";
+    private $tableName = "Address";
 
 
     public function GetAll()
@@ -19,7 +19,7 @@ class AddressDAO implements IAddressDAO{
 
             $addressList = array();
     
-            $query = "SELECT * FROM ". $this->tablename;
+            $query = "SELECT * FROM ". $this->tableName;
     
             $this->connection = Connection::GetInstance();
     
@@ -56,7 +56,7 @@ class AddressDAO implements IAddressDAO{
         $latLng = $this->getLatLng($address->getStreetName(), $address->getStreetAddress(), $address->getCity());
         try{
 
-            $query = "UPDATE ".$this->tablename." SET city =\"". $address->getCity() ."\",
+            $query = "UPDATE ".$this->tableName." SET city =\"". $address->getCity() ."\",
             streetName =\"". $address->getStreetName() ."\",
             streetAddress =\"". $address->getStreetAddress() ."\",
             latitude =\"". $latLng[0]['lat'] ."\",
@@ -80,7 +80,7 @@ class AddressDAO implements IAddressDAO{
 
         try{
 
-            $query = "INSERT INTO " .$this->tablename." (streetName, streetAddress, city, active, latitude, longitude, idCompany) VALUES (:streetName, :streetAddress, :city, :active, :latitude, :longitude, :idCompany);";
+            $query = "INSERT INTO " .$this->tableName." (streetName, streetAddress, city, active, latitude, longitude, idCompany) VALUES (:streetName, :streetAddress, :city, :active, :latitude, :longitude, :idCompany);";
 
             $parameters["streetName"] = $address->getStreetName();
             $parameters["streetAddress"] = $address->getStreetAddress();
@@ -123,7 +123,7 @@ class AddressDAO implements IAddressDAO{
         $foundAddress = new Address;
 
         try{
-            $query = "SELECT * FROM " .$this->tablename. " WHERE `idCompany` = ". $idCompany;
+            $query = "SELECT * FROM " .$this->tableName. " WHERE `idCompany` = ". $idCompany;
 
             $this->connection = Connection::GetInstance();
 

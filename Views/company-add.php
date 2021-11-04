@@ -9,6 +9,13 @@ require_once('header.php');
     <section id="listado" class="mb-5">
         <div class="container">
             <h2 class="mb-4 text-center">Agregar empresa</h2>
+            <?php
+            if($alert){
+                ?>
+                <div class="alert alert-<?php echo $alert->getType()?> text-center fwbold" role="alert"><?php echo $alert->getMessage()?></div>
+                <?php
+            }
+            ?>
             <form action="<?php echo FRONT_ROOT ?>Company/Add" method="post" class="bg-light-alpha p-5">
                 <div class="row">
                     <div class="col-md-6">
@@ -18,7 +25,17 @@ require_once('header.php');
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="number" name="cuit" class="form-control form-input shadow-none" placeholder="C.U.I.T." required>
+                            <input type="text" name="cuit" class="form-control form-input shadow-none" placeholder="C.U.I.T." pattern="[0-9]{2}+\-+[0-9]{8}+\-+[0-9]{1}$" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="phoneNumber" class="form-control form-input shadow-none" placeholder="Número de teléfono" pattern="[0-9]{3}+\-+[0-9]{4}$" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="email" class="form-control form-input shadow-none" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                         </div>
                     </div>
                 </div>
@@ -44,27 +61,7 @@ require_once('header.php');
 
                     <div class="col-md-2">
                         <div class="form-group">
-                            <input type="number" name="streetAddress" value="" class="form-control form-input" placeholder="Número de calle" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <select name="category" class="form-select form-input" required>
-                                <option value="" selected>Categoria</option>
-                                <?php
-                                    foreach($careerList as $career)
-                                    {
-                                     if($career->getActive())
-                                     {
-                                        ?>
-                                            <option value="<?php echo $career->getIdCareer()?>"><?php echo $career->getName() ?></option> 
-                                        <?php
-                                     }   
-                                    }
-                                ?>
-                            </select>
+                            <input type="number" name="streetAddress" value="" class="form-control form-input" placeholder="Número" required>
                         </div>
                     </div>
                 </div>
