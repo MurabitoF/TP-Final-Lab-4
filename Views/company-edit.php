@@ -18,7 +18,17 @@ require_once('header.php');
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="number" name="cuit" class="form-control form-input shadow-none" placeholder="C.U.I.T." value="<?php echo $company->getCUIT() ?>" required>
+                            <input type="text" name="cuit" class="form-control form-input shadow-none" placeholder="C.U.I.T." value="<?php echo $company->getCUIT() ?>" pattern="[0-9]{2}+\-+[0-9]{8}+\-+[0-9]{1}$" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="phoneNumber" class="form-control form-input shadow-none" pattern="[0-9]{3}+\-+[0-9]{4}$" placeholder="Número de teléfono (555)555-5555 " value="<?php echo $company->getPhoneNumber() ?>" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="email" class="form-control form-input shadow-none" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email" value="<?php echo $company->getEmail() ?>" required>
                         </div>
                     </div>
                 </div>

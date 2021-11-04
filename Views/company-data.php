@@ -3,33 +3,45 @@ require_once('verify-login.php');
 require_once('nav.php');
 require_once('header.php');
 ?>
-<main class="py-5">
-     <section id="listado" class="mb-5">
-          <div class="row">
-               <div class="col">
-               <h2 class="mb-4"><?php echo $company->getName() ?></h2>
-               <table class="table bg-light-alpha">
-                    <tbody>
-                         <tr>
-                              <th>Sobre nosotros</th>
-                              <td><?php echo $company->getDescription() ?></td>
-                         </tr>
-                         <tr>
-                              <th>Dirección</th>
-                              <td><?php echo $address->getStreetName() ." ". $address->getStreetAddress().", ". $address->getCity() ?></td>
-                         </tr>
-                    </tbody>
-               </table>
-               </div>
-               </div>
-               <div class="row justify-content-center">
-               <div class="col-lg-1"><label>Ubicación</label></div>
-               </div>
-               <div class="row justify-content-center">
-               <div class="col-sm-12" id="mapid"></div>
-          </div>
-          <div>
 
+<main>
+     <section id="listado" class="mb-5">
+          <div class="container">
+               <section class="mt-3">
+                    <div class="row bg-blue p-3 align-items-center">
+                         <div class="col-md-3 ms-4">
+                              <img class="img-profile" src="https://ceslava.s3-accelerate.amazonaws.com/2016/04/rZoltXj1-mistery-man-gravatar-wordpress-avatar-persona-misteriosa-510x510.png" alt="Company Photo">
+                         </div>
+                         <div class="col-md-6">
+                              <h1 class="name"><?php echo $company->getName(); ?></h1>
+                              <h3 class="company-address"><?php echo $address->getStreetName() ." "
+                              . $address->getStreetAddress().", "
+                              . $address->getCity() ?></h3>
+                              <h4 class="company-data">Teléfono: <?php echo $company->getPhoneNumber() ?></h4>
+                              <h4 class="company-data"><?php echo $company->getEmail() ?></h4>
+                         </div>
+                    </div>
+               </section>
+               
+               <section>
+                    <div class="mt-5">
+                         <h2 class="ms-3">Sobre nosotros</h2>
+                         <div class="separator"></div>
+                    </div>
+                    <div class="row p-3 align-items-center">
+                         <div class="col-md-12">
+                         <h3 class="company-description"><?php echo nl2br($company->getDescription()) ?></h3>
+                         </div>
+                    </div>
+                    <div class="mt-5">
+                    <h2 class="ms-3">Ubicación</h2>
+                         <div class="separator"></div>
+                         <div class="row justify-content-center">
+                              <div class="col-sm-12" id="mapid">
+                              </div>
+                         </div>
+                    </div>
+               </section>
           </div>
      </section>
 </main>

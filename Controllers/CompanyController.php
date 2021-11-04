@@ -57,22 +57,24 @@ class CompanyController
         require_once (VIEWS_PATH."company-data.php");
     }
 
-    public function ShowListView($name = null, $city = null, $category = null)
+    public function ShowListView($name = null, $city = null)
     {
         session_start();
-        $companyList = $this->companyDAO->getAll();
+
+        $parameters = array();
+        $parameters ["companyName"] = $name;
+        $parameters ["city"] = $city;
+        
+        $companyList = $this->companyDAO->filterList($parameters);
+
 
         $addressList = $this->addressDAO->GetAll();
 
-        if($name || $city || $category)
-        {
-            $companyList = $this->filterList($companyList, $name, $city, $category);
-        }
-
+        
         require_once (VIEWS_PATH."company-list.php");
     }
 
-    public function Add($name, $cuit, $city, $description, $streetName, $streetAddress)
+    public function Add($name, $cuit, $phoneNumber, $email, $city, $description, $streetName, $streetAddress)
     {
 
         $alert = new Alert ("", "");
@@ -81,6 +83,8 @@ class CompanyController
             $company = new Company();
             $company->setName($name);
             $company->setCUIT($cuit);
+            $company->setPhoneNumber($phoneNumber);
+            $company->setEmail($email);
             $company->setDescription($description);
 
             $address = new Address();
@@ -94,14 +98,18 @@ class CompanyController
 
             $this->addressDAO->Add($address, $idCompany);
 
+            $alert->setType("success");
+            $alert->setMessage("La empresa a sido ingresada con existo");
+
         } catch(Exception $ex){
 
-            $alert->setType("Error");
             if(str_contains($ex->getMessage(),1062))
             {
+                $alert->setType("warning");
                 $alert->setMessage("La empresa ingresada ya existe");
             } else
             {
+                $alert->setType("danger");
                 $alert->setMessage($ex->getMessage());
             }
 
@@ -110,7 +118,7 @@ class CompanyController
         }
     }
 
-    public function Edit ($idCompany, $name, $cuit, $city, $state, $description, $streetName, $streetAddress)
+    public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $state, $description, $streetName, $streetAddress)
     {
         $company = $this->companyDAO->searchId($idCompany);
 
@@ -118,6 +126,8 @@ class CompanyController
 
         $company->setName($name);
         $company->setCUIT($cuit);
+        $company->setPhoneNumber($phoneNumber);
+        $company->setEmail($email);
         $company->setDescription($description);
         $company->setState($state);
 
@@ -132,63 +142,10 @@ class CompanyController
         $this->ShowListView();
     }
 
-    public function Action($Remove = "", $Edit = "", $getData = "")
+    public function Remove($idCompany)
     {
-        if ($Edit != "")
-        {
-            $this->ShowEditView($Edit);
-        } else if($Remove != "")
-        {
-            $this->companyDAO->Remove($Remove);
-            $this->addressDAO->Remove($Remove);
+            $this->companyDAO->Remove($idCompany);
+            $this->addressDAO->Remove($idCompany);
             $this->ShowListView();
-        } else if($getData != "")
-        {
-            $this->ShowDataView($getData);
-        } else
-        {
-            echo "Ha ocurrido un error";
-        }
-    }
-
-    private function filterList($companyList, $name, $city, $category)
-    {
-    if($name)
-        {
-            $filteredList = array();
-            foreach($companyList as $company)
-            {
-                if(str_contains(strtolower($company->getName()), strtolower($name)))
-                {
-                    array_push($filteredList, $company);
-                }
-            }
-            $companyList = $filteredList;
-        }
-        if($city)
-        {
-            $filteredList = array();
-            foreach($companyList as $company)
-            {
-                if(str_contains(strtolower($company->getCity()), strtolower($city)))
-                {
-                    array_push($filteredList, $company);
-                }
-            }
-            $companyList = $filteredList;
-        }
-        if($category)
-        {
-            $filteredList = array();
-            foreach($companyList as $company)
-            {
-                if(str_contains($company->getCategory(), $category))
-                {
-                    array_push($filteredList, $company);
-                }
-            }
-            $companyList = $filteredList;
-        }
-        return $companyList;
     }
 }
