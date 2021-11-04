@@ -5,7 +5,7 @@ use Models\User as User;
 $loggedUser = $_SESSION['loggedUser'];
 ?>
 
-<nav class="navbar sticky-top navbar-expand-lg justify-content-end">
+<nav class="navbar sticky-top navbar-expand-lg justify-content-end bg-white">
      <div class="container-fluid">
           <span class="logo">
                <a class="navbar-brand" href="<?php echo FRONT_ROOT ?>User/ShowHomeView">
@@ -26,6 +26,9 @@ $loggedUser = $_SESSION['loggedUser'];
                     </div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAdminListView">Ver Publicaciones</a>
+                    </div>
+                    <div class="menu-button">
+                         <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAddView">Agregar Publicacion</a>
                     </div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>Student/ShowAddView">Agregar Alumno</a>

@@ -61,7 +61,7 @@ require_once('header.php');
 
                     <div class="col-md-2">
                         <div class="form-group">
-                            <input type="number" name="streetAddress" value="" class="form-control form-input" placeholder="Número" required>
+                            <input type="number" name="streetAddress" value="" class="form-control form-input" placeholder="Número de calle" required>
                         </div>
                     </div>
                 </div>

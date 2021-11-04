@@ -155,18 +155,18 @@ class AddressDAO implements IAddressDAO{
     private function getLatLng($streetName, $streetAddress, $cityName)
     {
         
-    $ch = curl_init();
-    $url = "https://nominatim.openstreetmap.org/search?format=json&street=$streetAddress $streetName&city=$cityName";
-
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, "Test-app");
-
-    $response = curl_exec($ch);
-
-    $decode = json_decode($response, true);
-    
-    return $decode;
+        $ch = curl_init();
+        $url = "https://nominatim.openstreetmap.org/search?format=json&street=$streetAddress $streetName&city=$cityName";
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, "Test-app");
+        
+        $response = curl_exec($ch);
+        
+        $decode = json_decode($response, true);
+        
+        return $decode;
 
     }
 

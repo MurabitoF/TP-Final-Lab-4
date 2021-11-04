@@ -5,7 +5,7 @@ require_once('header.php');
 
 ?>
 
-<main class="py-5">
+<main>
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Listado de empresas</h2>
@@ -30,13 +30,10 @@ require_once('header.php');
                     <thead>
                          <th>Nombre</th>
                          <th>Ciudad</th>
-                         <?php
-                              if ($_SESSION["loggedUser"]->getRole() == "Admin") {
-                              ?>
+
+                         <?php if ($_SESSION["loggedUser"]->getRole() == "Admin") { ?>
                               <th>Acciones</th>
-                              <?php
-                              }
-                              ?>
+                         <?php } ?>
                     </thead>
                     <tbody>
                          <form action="<?php echo FRONT_ROOT ?>Company/Action" method="get" class="bg-light-alpha p-5">
