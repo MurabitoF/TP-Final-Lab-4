@@ -34,12 +34,28 @@ class ApplicantDAO implements IApplicantDAO
     public function GetApplicantsFromJobOffer($idJobOffer)
     {
         try {
-            $query = "SELECT * FROM " . $this->tableName . "WHERE idJobOffer = :idJobOffer;";
+            $applicantList = array();
+            
+            $query = "SELECT * FROM " . $this->tableName . " WHERE idJobOffer = :idJobOffer";
 
             $parameter["idJobOffer"] = $idJobOffer;
 
             $this->connection = Connection::GetInstance();
-            $this->connection->Execute($query, $parameter);
+            $result = $this->connection->Execute($query, $parameter);
+
+            foreach($result as $row){
+                $applicant = new Applicant();
+                $applicant->setIdApplicant($row['idUser_Has_JobOffer']);
+                $applicant->setIdUser($row['idUser']);
+                $applicant->setIdJobOffer($row['idJobOffer']);
+                $applicant->setDescription($row['description']);
+                $applicant->setDate($row['date']);
+                $applicant->setCv($row['cv']);
+
+               $applicantList[$row['idUser']] = $applicant;
+            }
+
+            return $applicantList;
         } catch (Exeption $ex) {
             throw $ex;
         }

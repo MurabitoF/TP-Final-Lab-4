@@ -34,20 +34,9 @@ class JobOfferController
 
     public function ShowPostView($idJobOffer, $alert = NULL)
     {
-        // $jobOffer = $this->jobOfferDAO->GetById($idJobOffer);
-        $jobOffer = new JobOffer();
-        $jobOffer->setIdJobOffer(1);
-        $jobOffer->setTitle("Se busca Programador");
-        $jobOffer->setJobPosition("Front End Developer");
-        $jobOffer->setCompany("Accenture");
-        $jobOffer->setCity("Mar del Plata");
-        $jobOffer->setCareer("University technician in environmental procedures and technologies");
-        $jobOffer->setApplicants(array());
-        $jobOffer->setWorkload("Full Time");
-        $jobOffer->setRequirements("Javascript");
-        $jobOffer->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu tincidunt quam. Suspendisse nisl turpis, tincidunt at sodales sit amet, malesuada et magna. Proin vel tellus ut dui consequat pretium. Quisque sed libero leo. Ut ac bibendum magna. Fusce eu tortor in metus molestie sollicitudin a id sem. Maecenas arcu metus, pharetra vel diam vel, ullamcorper venenatis nunc. Nullam semper nisl tortor, vitae viverra leo venenatis ac.
-
-        Quisque lacinia suscipit neque, ac facilisis turpis condimentum quis. Nullam placerat egestas diam, porta accumsan felis fringilla id. Sed pellentesque hendrerit nisi eu eleifend. Donec sed semper libero. Cras ac nisl eu elit cursus cursus. Duis dignissim in urna non fermentum. Ut rutrum augue arcu, in tristique est efficitur vel.");
+        $jobOffer = $this->jobOfferDAO->SearchId($idJobOffer);
+        $jobOffer->setApplicants($this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer));
+        var_dump($jobOffer->getApplicants());
         session_start();
         require_once(VIEWS_PATH . "jobOffer-post.php");
     }
@@ -113,10 +102,8 @@ class JobOfferController
             $jobOffer->setCity($city);
             $jobOffer->setJobPosition($idJobPosition);
             $jobOffer->setRequirements($requeriments);
-            $postDate2 = date("Y/m/d", strtotime($postDate));
-            $jobOffer->setPostDate($postDate2);
-            $expireDate2 = date("Y/m/d", strtotime($expireDate));
-            $jobOffer->setExpireDate($expireDate2);
+            $jobOffer->setPostDate($postDate);
+            $jobOffer->setExpireDate($expireDate);
             $jobOffer->setWorkload($workload);
             $jobOffer->setDescription($description);
 

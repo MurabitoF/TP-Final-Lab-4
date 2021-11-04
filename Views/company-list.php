@@ -53,8 +53,8 @@ require_once('header.php');
                                                   <?php
                                                   if ($_SESSION["loggedUser"]->getRole() == "Admin") {
                                                   ?>
-                                                       <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></button>
-                                                       <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></button>
+                                                       <button type="submit" class="btn btn-danger" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></button>
+                                                       <button type="submit" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></button>
                                              <?php
                                                   }
                                              }

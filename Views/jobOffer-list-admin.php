@@ -15,34 +15,31 @@ include('nav.php');
                          <th>Empresa</th>
                          <th>Ciudad</th>
                          <th>Posicion</th>
-                         <th>Requerimientos</th>
                          <th>Carga Horaria</th>
                          <th>Fecha de ingreso</th>
-                         <th>Descripcion</th>
+                         <th>Acciones</th>
                     </thead>
                     <tbody>
-                    <form action="" method="POST"> <!--si a futuro quiero eliminar desde aca hago un metodo-->
                          <?php
-                              foreach($jobOfferList as $jobOffer){
-                                        ?>
-                                             <tr>
-                                                  <td><?php echo $jobOffer->getTitle(); ?></td>
-                                                  <td><?php echo $jobOffer->getCareer(); ?></td><!--modificado category por career-->
-                                                  <td><?php echo $jobOffer->getCompany(); ?></td>
-                                                  <td><?php echo $jobOffer->getCity(); ?></td>
-                                                  <td><?php echo $jobOffer->getJobPosition(); ?></td>
-                                                  <td><?php echo $jobOffer->getRequirements(); ?></td>
-                                                  <td><?php echo $jobOffer->getWorkload(); ?></td>
-                                                  <td><?php echo $jobOffer->getIncome(); ?></td>
-                                                  <td><?php echo $jobOffer->getDescription(); ?></td>
-                                                  <td> 
-                                                       <button type="submit" name="btnRemove" class="btn btn-danger" value=""> Eliminar </button>
-                                                  </td><!-- tener en cuenta el boton de eliminar -->
-                                             </tr>
-                                        <?php
-                                   }
+                         foreach ($jobOfferList as $jobOffer) {
                          ?>
-                         </form>
+                              <tr>
+                                   <td><a href="<?php echo FRONT_ROOT."JobOffer/ShowPostView?idJobOffer=".$jobOffer->getIdJobOffer();?>"><?php echo $jobOffer->getTitle(); ?></a></td>
+                                   <td><?php echo $jobOffer->getCareer(); ?></td>
+                                   <!--modificado category por career-->
+                                   <td><?php echo $jobOffer->getCompany(); ?></td>
+                                   <td><?php echo $jobOffer->getCity(); ?></td>
+                                   <td><?php echo $jobOffer->getJobPosition(); ?></td>
+                                   <td><?php echo $jobOffer->getWorkload(); ?></td>
+                                   <td><?php echo $jobOffer->getPostDate(); ?></td>
+                                   <td>
+                                        <a href="<?php echo FRONT_ROOT."JobOffer/Remove?idJobOffer=".$jobOffer->getIdJobOffer(); ?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                        <a href="<?php echo FRONT_ROOT."JobOffer/ShowEditView?idJobOffer=".$jobOffer->getIdJobOffer(); ?>" class="btn btn-danger"><i class="fas fa-pencil-alt"></i></a>
+                                   </td><!-- tener en cuenta el boton de eliminar -->
+                              </tr>
+                         <?php
+                         }
+                         ?>
                     </tbody>
                </table>
           </div>

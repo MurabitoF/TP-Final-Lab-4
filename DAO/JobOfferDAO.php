@@ -65,7 +65,7 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCareer($row["idCareer"]);
                 //$jobOffer->setApplicants($row["applicants"]);
                 $jobOffer->setWorkload($row["workload"]);
-                $jobOffer->setRequirements($row["requeriments"]);
+                $jobOffer->setRequirements($row["requirements"]);
                 $jobOffer->setActive($row["active"]);
                 $jobOffer->setTitle($row["title"]);
                 $jobOffer->setDescription($row["description"]);
@@ -78,11 +78,6 @@ class JobOfferDAO implements IJobOfferDAO
         }catch(Exception $ex){
             throw $ex;
         }
-    }
-
-    public function GetById($id)
-    {
-        
     }
 
     public function Remove($idJobOffer)
@@ -123,16 +118,18 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
-    public function searchId($idJobOffer)
+    public function SearchId($idJobOffer)
     {
         $foundJobOffer = new JobOffer;
         try{
-            $query = "SELECT * FROM " .$this->tableName. " WHERE 'idJobOffer' = ". $idJobOffer;
+            $query = "SELECT * FROM ".$this->tableName." WHERE idJobOffer = :idJobOffer";
+
+            $parameters['idJobOffer'] = $idJobOffer;
 
             $this->connection = Connection::GetInstance();
 
-            $foundJobOffer  = $this->connection->Execute($query);
-            
+            $foundJobOffer  = $this->connection->Execute($query, $parameters);
+
             foreach ($foundJobOffer as $row)
             {
                 $jobOffer = new JobOffer();
@@ -144,9 +141,8 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setExpireDate($row["expireDate"]);
                 $jobOffer->setCity($row["city"]);
                 $jobOffer->setCareer($row["idCareer"]);
-                $jobOffer->setApplicants($row["applicants"]);
                 $jobOffer->setWorkload($row["workload"]);
-                $jobOffer->setRequirements($row["requeriments"]);
+                $jobOffer->setRequirements($row["requirements"]);
                 $jobOffer->setActive($row["active"]);
                 $jobOffer->setTitle($row["title"]);
                 $jobOffer->setDescription($row["description"]);
