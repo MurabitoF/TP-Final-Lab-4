@@ -3,16 +3,16 @@ namespace Models;
 
 class CV{
 
-    private $idCV;
+    private $idApplicant;
     private $name;
 
-    public function __construct($name, $idCV = NULL) {
-        $this->idCV = $idCV;
+    public function __construct($name, $idApplicant = NULL) {
+        $this->idApplicant = $idApplicant;
         $this->name = $name;
     }
 
-	public function getIdCV(){ return $this->idCV; }
-	public function setIdCV($idCV){ $this->idCV = $idCV; }
+	public function getIdAplicant(){ return $this->idApplicant; }
+	public function setIdAplicant($idApplicant){ $this->idApplicant = $idApplicant; }
 
 	public function getName(){ return $this->name; }
 	public function setName($name){ $this->name = $name; }

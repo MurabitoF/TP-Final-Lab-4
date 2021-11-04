@@ -115,17 +115,19 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
-    public function searchId($idJobOffer)
+    public function SearchId($idJobOffer)
     {
         $foundJobOffer = new JobOffer;
         
         try{
-            $query = "SELECT * FROM " .$this->tableName. " WHERE `idJobOffer` = ". $idJobOffer;
+            $query = "SELECT * FROM ".$this->tableName." WHERE idJobOffer = :idJobOffer";
+
+            $parameters['idJobOffer'] = $idJobOffer;
 
             $this->connection = Connection::GetInstance();
 
-            $foundJobOffer  = $this->connection->Execute($query);
-            
+            $foundJobOffer  = $this->connection->Execute($query, $parameters);
+
             foreach ($foundJobOffer as $row)
             {
                 $jobOffer = new JobOffer();
@@ -141,7 +143,6 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCity($row["city"]);
                 $jobOffer->setJobPosition($row["idJobPosition"]);
                 $jobOffer->setCareer($row["idCareer"]);
-
             }
 
             return $jobOffer ;

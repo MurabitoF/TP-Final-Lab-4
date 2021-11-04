@@ -16,12 +16,6 @@ require_once('nav.php');
                                                        $user->getLastName(); ?></h1>
                               <h3 class="student-university-data"><?php echo $user->getCareerid(); ?></h3>
                               <h3 class="student-university-data">Legajo: <?php echo $user->getFileNumber() ?></h3>
-                              <?php if($user->getStudentId() == $_SESSION['loggedUser']->getStudentId() ){ ?>
-                              <form action="#">
-                                   <input type="file" name="cv" id="cv" hidden>
-                                   <button type="submit" class="btn button-white fw-bold mt-2 py-2 px-5 width-100">Subi tu CV</button>
-                              </form>
-                              <?php } ?>
                          </div>
                     </div>
                </section>

@@ -47,8 +47,8 @@ require_once('nav.php');
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <button name="<?php echo $jobOffer->getIdJobOffer() ?>" class="btn shadow-none button-blue width-100">Ver Publicacion</button>
-                        </div> <!-- VER QUE HACER CON EL VER PUBLICACION -->
+                            <a href="<?php echo FRONT_ROOT . "JobOffer/ShowPostView?idJobOffer=" . $jobOffer->getIdJobOffer() ?>" class="btn button-blue width-100">Ver Publicacion</a>
+                        </div>
                     </div>
                 <?php }
                 }
