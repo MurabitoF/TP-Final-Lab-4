@@ -1,7 +1,7 @@
 <?php
 include('header.php');
 include('nav.php');
-
+///MODIFICADO PARA ADMIN Y STUDENT
 ?>
 
 <main class="py-5">
@@ -12,7 +12,6 @@ include('nav.php');
                     <thead>
                          <th>Titulo</th>
                          <th>Carrera</th>
-                         <th>Empresa</th>
                          <th>Ciudad</th>
                          <th>Posicion</th>
                          <th>Carga Horaria</th>

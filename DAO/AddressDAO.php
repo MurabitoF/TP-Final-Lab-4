@@ -56,7 +56,7 @@ class AddressDAO implements IAddressDAO{
         $latLng = $this->getLatLng($address->getStreetName(), $address->getStreetAddress(), $address->getCity());
         try{
 
-            $query = "UPDATE ".$this->tablename." SET city =\"". $address->getCity() ."\",
+            $query = "UPDATE ".$this->tableName." SET city =\"". $address->getCity() ."\",
             streetName =\"". $address->getStreetName() ."\",
             streetAddress =\"". $address->getStreetAddress() ."\",
             latitude =\"". $latLng[0]['lat'] ."\",

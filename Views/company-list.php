@@ -30,12 +30,13 @@ require_once('header.php');
                     <thead>
                          <th>Nombre</th>
                          <th>Ciudad</th>
+
                          <?php if ($_SESSION["loggedUser"]->getRole() == "Admin") { ?>
                               <th>Acciones</th>
                          <?php } ?>
                     </thead>
                     <tbody>
-                         <form action="<?php echo FRONT_ROOT ?>Company/Action" method="post" class="bg-light-alpha p-5">
+                         <form action="<?php echo FRONT_ROOT ?>Company/Action" method="get" class="bg-light-alpha p-5">
                               <?php
                               foreach ($companyList as $company) {
                                    if ($company->getState()) {
@@ -53,8 +54,8 @@ require_once('header.php');
                                                   <?php
                                                   if ($_SESSION["loggedUser"]->getRole() == "Admin") {
                                                   ?>
-                                                       <button type="submit" class="btn btn-danger" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></button>
-                                                       <button type="submit" class="btn btn-dark" value="<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></button>
+                                                       <a class="btn button-black" href="<?php echo FRONT_ROOT ?>Company/ShowEditView?idCompany=<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></a>
+                                                       <a class="btn button-red" href="<?php echo FRONT_ROOT ?>Company/Remove?idCompany=<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></a>
                                              <?php
                                                   }
                                              }

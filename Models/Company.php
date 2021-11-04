@@ -6,6 +6,8 @@ class Company{
     private $idCompany;
     private $name;
     private $CUIT;
+    private $phoneNumber;
+    private $email;
     private $description;
     private $state;
 
@@ -21,13 +23,17 @@ class Company{
     public function setName($name){ $this->name = $name; }
 
     public function getCUIT(){ return $this->CUIT; }
-	  public function setCUIT($CUIT){ $this->CUIT = $CUIT; }
+	public function setCUIT($CUIT){ $this->CUIT = $CUIT; }
  
     public function getState(){ return $this->state; }
     public function setState($state){ $this->state = $state; }
  
     public function getDescription(){ return $this->description; }
     public function setDescription($description){ $this->description = $description; }
-}
 
-?>
+    public function getPhoneNumber(){ return $this->phoneNumber; }
+    public function setPhoneNumber( $phoneNumber){$this->phoneNumber = $phoneNumber; }
+ 
+    public function getEmail(){ return $this->email; }
+    public function setEmail($email){ $this->email = $email; }
+}

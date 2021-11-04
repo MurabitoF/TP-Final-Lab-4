@@ -12,7 +12,7 @@ include('nav.php');
                     <div class="row">
                          <div class="col-md-6">
                               <div class="form-group">
-                                   <input type="text" name="title" class="form-control form-input shadow-none" placeholder="Título de la publicación" required>      
+                                   <input type="text" name="title" class="form-control form-input" placeholder="Título de la publicación" required>      
                               </div>
                          </div>
 
@@ -36,22 +36,22 @@ include('nav.php');
                             <div class="form-group">
                                     <select name="city" class="form-control form-input" required>
                                         <option value="">Ciudad</option>
-                                        <option value="bahia">Bahia Blanca</option>
-                                        <option value="buenosAires"> Buenos Aires</option>
-                                        <option value="comodoro"> Comodoro Rivadavia</option>
-                                        <option value="cordoba"> Cordoba</option>
-                                        <option value="corrientes"> Corrientes</option>
-                                        <option value="formosa"> Formosa</option>
-                                        <option value="laPlata"> La Plata</option>
-                                        <option value="marDelPlata"> Mar del Plata</option>
-                                        <option value="mendoza"> Mendoza</option>
-                                        <option value="neuquen"> Neuquen</option>
-                                        <option value="parana"> Parana</option>
-                                        <option value="posadas"> Posadas</option>
-                                        <option value="resistencia"> Resistencia</option>
-                                        <option value="rosario"> Rosario</option>
-                                        <option value="salta"> Salta</option>
-                                        <option value="tucuman"> San Miguel de Tucuman</option>
+                                        <option value="Bahia Blanca">Bahia Blanca</option>
+                                        <option value="Buenos Aires"> Buenos Aires</option>
+                                        <option value="Comodoro Rivadavia"> Comodoro Rivadavia</option>
+                                        <option value="Cordoba"> Cordoba</option>
+                                        <option value="Corrientes"> Corrientes</option>
+                                        <option value="Formosa"> Formosa</option>
+                                        <option value="La Plata"> La Plata</option>
+                                        <option value="Mar Del Plata"> Mar del Plata</option>
+                                        <option value="Mendoza"> Mendoza</option>
+                                        <option value="Neuquen"> Neuquen</option>
+                                        <option value="Parana"> Parana</option>
+                                        <option value="Posadas"> Posadas</option>
+                                        <option value="Resistencia"> Resistencia</option>
+                                        <option value="Rosario"> Rosario</option>
+                                        <option value="Salta"> Salta</option>
+                                        <option value="Tucuman"> San Miguel de Tucuman</option>
                                     </select>
                             </div>
                          </div>
@@ -80,7 +80,7 @@ include('nav.php');
 
                         <div class="col-md-6">
                               <div class="form-group">
-                                    <textarea type="text" name = "requeriments" value="" class="form-control form-textarea" placeholder="Requerimientos" required></textarea>
+                                    <textarea type="text" name = "requirements" value="" class="form-control form-textarea" placeholder="Requerimientos" required></textarea>
                               </div>
                          </div>
 
@@ -120,3 +120,7 @@ include('nav.php');
           </div>
      </section>
 </main>
+
+<?php
+require_once ("footer.php");
+?>
