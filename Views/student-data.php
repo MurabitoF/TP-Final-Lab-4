@@ -4,7 +4,7 @@ require_once('header.php');
 require_once('nav.php');
 ?>
 <main>
-     <section id="listado" class="mb-5">
+     <section class="mb-5">
           <div class="container">
                <section id="student-header" class="mt-3">
                     <div class="row bg-blue p-3 align-items-center">

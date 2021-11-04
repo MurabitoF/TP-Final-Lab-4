@@ -16,9 +16,8 @@ class userDAO implements IUserDAO
     {
         try
             {
-                $query = "INSERT INTO ".$this->tableName." (idUser, userName, password, role, active) VALUES (:idUser, :userName, :password, :role, :active);";
+                $query = "INSERT INTO ".$this->tableName." (userName, password, role, active) VALUES (:userName, :password, :role, :active);";
                 
-                $parameters["idUser"] = $user->getIdUser();
                 $parameters["userName"] = $user->getUsername();
                 $parameters["password"] = $user->getPassword();
                 $parameters["role"] = $user->getRole();
