@@ -208,7 +208,7 @@ nav .menu:hover {
 
 @media (max-height:640px){
 	.sidenav{
-		height: 65%;
+		height: 75%;
 	}
 }
 

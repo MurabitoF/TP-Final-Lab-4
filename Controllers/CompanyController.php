@@ -33,7 +33,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-add.php");
     }
 
-    public function ShowEditView($idCompany)
+    public function ShowEditView($idCompany, $alert = NULL)
     {
         session_start();
 
@@ -57,7 +57,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-data.php");
     }
 
-    public function ShowListView($name = null, $city = null)
+    public function ShowListView($alert = NULL, $name = null, $city = null)
     {
         session_start();
 
@@ -120,6 +120,7 @@ class CompanyController
 
     public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $state, $description, $streetName, $streetAddress)
     {
+        try{
         $company = $this->companyDAO->searchId($idCompany);
 
         $address = $this->addressDAO->getAddresses($idCompany);
@@ -138,8 +139,16 @@ class CompanyController
         $address->setStreetAddress($streetAddress);
 
         $this->addressDAO->Edit($address);
+
+        $alert = new Alert("success", $name." fue editada con exito.");
+
+        $this->ShowListView($alert);
+
+        }catch(Exception $ex){
+            $alert = new Alert("danger", $ex->getMessage());
+            $this->ShowEditView($idCompany, $alert);
+        }
         
-        $this->ShowListView();
     }
 
     public function Remove($idCompany)
