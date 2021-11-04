@@ -30,8 +30,6 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["idJobPosition"] = intval($jobOffer->getJobPosition());
             $parameters["idCareer"] = intval($jobOffer->getCareer());
 
-            var_dump($parameters);
-
             $this->connection = Connection::GetInstance();
 
             $this->connection->ExecuteNonQuery($query, $parameters);
@@ -65,7 +63,7 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCareer($row["idCareer"]);
                 //$jobOffer->setApplicants($row["applicants"]);
                 $jobOffer->setWorkload($row["workload"]);
-                $jobOffer->setRequirements($row["requeriments"]);
+                $jobOffer->setRequirements($row["requirements"]);
                 $jobOffer->setActive($row["active"]);
                 $jobOffer->setTitle($row["title"]);
                 $jobOffer->setDescription($row["description"]);
@@ -83,7 +81,7 @@ class JobOfferDAO implements IJobOfferDAO
     public function Remove($idJobOffer)
     {
         try{
-            $query = "UPDATE ".$this->tableName." SET state = FALSE WHERE idJobOffer = ".$idJobOffer;
+            $query = "UPDATE ".$this->tableName." SET active = FALSE WHERE idJobOffer = ".$idJobOffer;
 
             $this->connection = Connection::GetInstance();
 
@@ -97,17 +95,16 @@ class JobOfferDAO implements IJobOfferDAO
     public function Edit($jobOffer)
     {
         try{
-            $query = "UPDATE ".$this->tableName." SET idjobPosition =\"". $jobOffer->getJobPosition() ."\",
-            company =\"". $jobOffer->getCompany() ."\",
+            $query = "UPDATE ".$this->tableName." SET title =\"". $jobOffer->getTitle() ."\",
+            description =\"". $jobOffer->getDescription() . "\",
+            workload =\"". $jobOffer->getWorkload() ."\",
+            requirements =\"". $jobOffer->getRequirements() ."\",
             postDate =\"". $jobOffer->getPostDate() ."\",
             expireDate =\"". $jobOffer->getExpireDate() ."\",
+            active =\"". $jobOffer->getActive() ."\",
             city =\"". $jobOffer->getCity() ."\",
-            idCareer =\"". $jobOffer->getCareer() ."\",
-            workload =\"". $jobOffer->getWorkload() ."\",
-            requirements =\"". $jobOffer->getRequeriments() ."\",
-            active =\"". $jobOffer->getActive ."\",
-            title =\"". $jobOffer->getTitle() ."\",
-            description =". $jobOffer->getDescription() ." WHERE idJobOffer = ". $jobOffer->getIdJobOffer();
+            idjobPosition =\"". $jobOffer->getJobPosition() ."\",
+            idCareer =". $jobOffer->getCareer() ." WHERE idJobOffer = ". $jobOffer->getIdJobOffer();
 
             $this->connection = Connection::GetInstance();
 
@@ -121,8 +118,9 @@ class JobOfferDAO implements IJobOfferDAO
     public function searchId($idJobOffer)
     {
         $foundJobOffer = new JobOffer;
+        
         try{
-            $query = "SELECT * FROM " .$this->tableName. " WHERE 'idJobOffer' = ". $idJobOffer;
+            $query = "SELECT * FROM " .$this->tableName. " WHERE `idJobOffer` = ". $idJobOffer;
 
             $this->connection = Connection::GetInstance();
 
@@ -133,22 +131,20 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer = new JobOffer();
                 
                 $jobOffer->setIdJobOffer($row["idJobOffer"]);
-                $jobOffer->setJobPosition($row["idJobPosition"]);
-                $jobOffer->setCompany($row["company"]);
-                $jobOffer->setPostDate($row["postDate"]);
-                $jobOffer->setExpireDate($row["expireDate"]);
-                $jobOffer->setCity($row["city"]);
-                $jobOffer->setCareer($row["idCareer"]);
-                $jobOffer->setApplicants($row["applicants"]);
-                $jobOffer->setWorkload($row["workload"]);
-                $jobOffer->setRequirements($row["requeriments"]);
-                $jobOffer->setActive($row["active"]);
                 $jobOffer->setTitle($row["title"]);
                 $jobOffer->setDescription($row["description"]);
+                $jobOffer->setWorkload($row["workload"]);
+                $jobOffer->setRequirements($row["requirements"]);
+                $jobOffer->setPostDate($row["postDate"]);
+                $jobOffer->setExpireDate($row["expireDate"]);
+                $jobOffer->setActive($row["active"]);
+                $jobOffer->setCity($row["city"]);
+                $jobOffer->setJobPosition($row["idJobPosition"]);
+                $jobOffer->setCareer($row["idCareer"]);
 
             }
 
-            return $jobOffer;
+            return $jobOffer ;
 
         }catch(Exception $ex){
             throw $ex;

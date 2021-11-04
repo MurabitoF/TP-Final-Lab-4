@@ -1,7 +1,7 @@
 <?php
 include('header.php');
 include('nav.php');
-
+///MODIFICADO PARA ADMIN Y STUDENT
 ?>
 
 <main class="py-5">
@@ -12,36 +12,59 @@ include('nav.php');
                     <thead>
                          <th>Titulo</th>
                          <th>Carrera</th>
-                         <th>Empresa</th>
                          <th>Ciudad</th>
                          <th>Posicion</th>
                          <th>Requerimientos</th>
-                         <th>Carga Horaria</th>
                          <th>Fecha de ingreso</th>
+                         <th>Fecha de termino</th>
+                         <th>Carga Horaria</th>
                          <th>Descripcion</th>
+                         <th>Acciones</th>
                     </thead>
                     <tbody>
-                    <form action="" method="POST"> <!--si a futuro quiero eliminar desde aca hago un metodo-->
+                    <form action="<?php echo FRONT_ROOT ?>JobOffer/Action" method="POST"> 
                          <?php
                               foreach($jobOfferList as $jobOffer){
+                                   if($jobOffer->getActive()){
+
                                         ?>
                                              <tr>
                                                   <td><?php echo $jobOffer->getTitle(); ?></td>
-                                                  <td><?php echo $jobOffer->getCareer(); ?></td><!--modificado category por career-->
-                                                  <td><?php echo $jobOffer->getCompany(); ?></td>
+
+                                                  <?php foreach($careerList as $career){ 
+                                                            if($career->getIdCareer() == $jobOffer->getCareer()){
+                                                                 ?> 
+                                                                 <td><?php echo $career->getName(); ?></td>
+                                                            <?php
+                                                            }
+                                                  }
+                                                  ?>
+
                                                   <td><?php echo $jobOffer->getCity(); ?></td>
-                                                  <td><?php echo $jobOffer->getJobPosition(); ?></td>
+
+                                                  <?php foreach($jobPositionList as $jobPosition){ 
+                                                            if($jobPosition->getIdJobPosition() == $jobOffer->getJobPosition()){
+                                                                 ?> 
+                                                                 <td><?php echo $jobPosition->getName(); ?></td>
+                                                            <?php
+                                                            }
+                                                  }
+                                                  ?>
                                                   <td><?php echo $jobOffer->getRequirements(); ?></td>
+                                                  <td><?php echo $jobOffer->getPostDate(); ?></td>
+                                                  <td><?php echo $jobOffer->getExpireDate(); ?></td>
                                                   <td><?php echo $jobOffer->getWorkload(); ?></td>
-                                                  <td><?php echo $jobOffer->getIncome(); ?></td>
                                                   <td><?php echo $jobOffer->getDescription(); ?></td>
-                                                  <td> 
-                                                       <button type="submit" name="btnRemove" class="btn btn-danger" value=""> Eliminar </button>
-                                                  </td><!-- tener en cuenta el boton de eliminar -->
+
+                                                  <td>
+                                                       <button type="submit" name="Remove" class="btn btn-danger" value="<?php echo $jobOffer->getIdJobOffer()?> "><i class="fas fa-trash-alt"></i></button>
+                                                       <button type="submit" name="Edit" class="btn btn-dark" value="<?php echo $jobOffer->getIdJobOffer()?> "><i class="fas fa-pencil-alt"></i></button>
+                                                  </td>
                                              </tr>
                                         <?php
+                                        }
                                    }
-                         ?>
+                              ?>
                          </form>
                     </tbody>
                </table>
