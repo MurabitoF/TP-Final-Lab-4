@@ -15,7 +15,7 @@ include('nav.php');
                          <th>Ciudad</th>
                          <th>Posicion</th>
                          <th>Carga Horaria</th>
-                         <th>Fecha de ingreso</th>
+                         <th>Fecha de Publicacion</th>
                          <th>Acciones</th>
                     </thead>
                     <tbody>
@@ -25,8 +25,6 @@ include('nav.php');
                               <tr>
                                    <td><a href="<?php echo FRONT_ROOT."JobOffer/ShowPostView?idJobOffer=".$jobOffer->getIdJobOffer();?>"><?php echo $jobOffer->getTitle(); ?></a></td>
                                    <td><?php echo $jobOffer->getCareer(); ?></td>
-                                   <!--modificado category por career-->
-                                   <td><?php echo $jobOffer->getCompany(); ?></td>
                                    <td><?php echo $jobOffer->getCity(); ?></td>
                                    <td><?php echo $jobOffer->getJobPosition(); ?></td>
                                    <td><?php echo $jobOffer->getWorkload(); ?></td>
@@ -34,7 +32,7 @@ include('nav.php');
                                    <td>
                                         <a href="<?php echo FRONT_ROOT."JobOffer/Remove?idJobOffer=".$jobOffer->getIdJobOffer(); ?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                         <a href="<?php echo FRONT_ROOT."JobOffer/ShowEditView?idJobOffer=".$jobOffer->getIdJobOffer(); ?>" class="btn btn-danger"><i class="fas fa-pencil-alt"></i></a>
-                                   </td><!-- tener en cuenta el boton de eliminar -->
+                                   </td>
                               </tr>
                          <?php
                          }

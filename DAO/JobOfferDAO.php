@@ -16,8 +16,8 @@ class JobOfferDAO implements IJobOfferDAO
     public function Add(JobOffer $jobOffer)
     {
         try{
-            $query = "INSERT INTO ". $this->tableName . " (title, description, workload, requirements, postDate, expireDate, active, city, idJobPosition, idCareer) 
-            VALUES (:title, :description, :workload, :requirements, :postDate, :expireDate, :active, :city, :idJobPosition, :idCareer);";
+            $query = "INSERT INTO ". $this->tableName . " (title, description, workload, requirements, postDate, expireDate, active, city, idCompany, idJobPosition, idCareer) 
+            VALUES (:title, :description, :workload, :requirements, :postDate, :expireDate, :active, :city, :idCompany, :idJobPosition, :idCareer);";
 
             $parameters["title"] = $jobOffer->getTitle();
             $parameters["description"] = $jobOffer->getDescription();
@@ -27,6 +27,7 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["expireDate"] = $jobOffer->getExpireDate();
             $parameters["active"] = $jobOffer->getActive();
             $parameters["city"] = $jobOffer->getCity();
+            $parameters["idCompany"] = $jobOffer->getCompany();
             $parameters["idJobPosition"] = intval($jobOffer->getJobPosition());
             $parameters["idCareer"] = intval($jobOffer->getCareer());
 
@@ -56,12 +57,11 @@ class JobOfferDAO implements IJobOfferDAO
                 
                 $jobOffer->setIdJobOffer($row["idJobOffer"]);
                 $jobOffer->setJobPosition($row["idJobPosition"]);
-                //$jobOffer->setCompany($row["company"]);
+                $jobOffer->setCompany($row["idCompany"]);
                 $jobOffer->setPostDate($row["postDate"]);
                 $jobOffer->setExpireDate($row["expireDate"]);
                 $jobOffer->setCity($row["city"]);
                 $jobOffer->setCareer($row["idCareer"]);
-                //$jobOffer->setApplicants($row["applicants"]);
                 $jobOffer->setWorkload($row["workload"]);
                 $jobOffer->setRequirements($row["requirements"]);
                 $jobOffer->setActive($row["active"]);
@@ -103,6 +103,7 @@ class JobOfferDAO implements IJobOfferDAO
             expireDate =\"". $jobOffer->getExpireDate() ."\",
             active =\"". $jobOffer->getActive() ."\",
             city =\"". $jobOffer->getCity() ."\",
+            idCompany =\"". $jobOffer->getCompany() ."\",
             idjobPosition =\"". $jobOffer->getJobPosition() ."\",
             idCareer =". $jobOffer->getCareer() ." WHERE idJobOffer = ". $jobOffer->getIdJobOffer();
 
@@ -141,6 +142,7 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setExpireDate($row["expireDate"]);
                 $jobOffer->setActive($row["active"]);
                 $jobOffer->setCity($row["city"]);
+                $jobOffer->setCompany($row["idCompany"]);
                 $jobOffer->setJobPosition($row["idJobPosition"]);
                 $jobOffer->setCareer($row["idCareer"]);
             }

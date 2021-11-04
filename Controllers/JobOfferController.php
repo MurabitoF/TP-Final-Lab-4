@@ -45,7 +45,7 @@ class JobOfferController
     {
         session_start();
 
-        //$companyList = $this->companyDAO->GetAll();
+        $companyList = $this->companyDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();
 
@@ -109,11 +109,12 @@ class JobOfferController
         require_once (VIEWS_PATH."jobOffer-data.php"); ///A FUTURO MOSTRAR TARJETA DE FRANCO
     }
 
-    public function Add($title, $idCareer, $city, $idJobPosition, $requirements, $workload, $postDate, $expireDate, $description)
+    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $postDate, $expireDate, $description)
     {
             $jobOffer = new JobOffer();
 
             $jobOffer->setTitle($title);
+            $jobOffer->setCompany($idCompany);
             $jobOffer->setCareer($idCareer);
             $jobOffer->setCity($city);
             $jobOffer->setJobPosition($idJobPosition);
@@ -128,11 +129,12 @@ class JobOfferController
             $this->ShowAddView();
     }
 
-    public function Edit($idJobOffer, $title, $idCareer, $city, $idJobPosition, $requirements, $postDate, $expireDate, $workload, $description, $active)
+    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $postDate, $expireDate, $workload, $description, $active)
     {
         $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
         $jobOffer->setTitle($title);
+        $jobOffer->setCompany($idCompany);
         $jobOffer->setCareer($idCareer);
         $jobOffer->setCity($city);
         $jobOffer->setJobPosition($idJobPosition);
