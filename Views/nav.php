@@ -31,7 +31,7 @@ $loggedUser = $_SESSION['loggedUser'];
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAddView">Agregar Publicacion</a>
                     </div>
                     <div class="menu-button">
-                         <a href="<?php echo FRONT_ROOT ?>Student/ShowAddView">Agregar Alumno</a>
+                         <a href="<?php echo FRONT_ROOT ?>User/ShowAddView">Agregar Usuario</a>
                     </div>
                <?php } else { ?>
                     <div class="menu-button">

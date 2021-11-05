@@ -8,15 +8,65 @@ require_once('nav.php');
     <section id="jobOffer-list-student">
         <div class="container">
             <h2>Listado de Publicaciones</h2>
-            <!-- Falta filtro -->
+            <form action="<?php echo FRONT_ROOT ?>JobOffer/ShowStudentListView" method="post">
+                    <div class="row align-items-center">
+                         <div class="col-md-3">
+                              <div class="form-group">  
+                                <select name="idCareer" class="form-control form-input">
+                                   <option value="" selected>Carrera</option>
+                                    <?php foreach($careerList as $career){?>
+                                        <option value="<?php echo $career->getIdCareer()?>"><?php echo $career->getName()?></option>
+                                    <?php
+                                }?>
+                                </select>
+                              </div>
+                         </div> 
+
+                         <div class="col-md-3">
+                              <div class="form-group">  
+                                <select name="idJobPosition" class="form-control form-input">
+                                   <option value="" selected>Posición de Trabajo</option>
+                                    <?php foreach($jobPositionList as $jobPosition){?>
+                                        <option value="<?php echo $jobPosition->getIdJobPosition()?>"><?php echo $jobPosition->getName()?></option>
+                                    <?php
+                                }?>
+                                </select>
+                              </div>
+                         </div> 
+
+                         <div class="col-lg-3">
+                              <div class="form-group">
+                                   <input type="text" name="workload" value="" placeholder="Carga horaria" class="form-control form-input">
+                              </div>
+                         </div>
+
+                         <div class="col-lg-3">
+                              <div class="form-group">
+                                   <input type="text" name="city" value="" placeholder="Ciudad" class="form-control form-input">
+                              </div>
+                         </div>
+                         <div class="col-lg-2">
+                              <button type="submit" class="btn button-blue w-100">Buscar</button>
+                         </div>
+                    </div>
+               </form>
+
+
             <?php if (!empty($jobOfferList)) {
                 foreach ($jobOfferList as $jobOffer) { 
                     if($jobOffer->getActive()){?>
                     <div class="row align-items-center justify-content-around jobOffer-card pt-2">
                         <div class="col-md-8 jobOffer-info">
                             <h2><?php echo $jobOffer->getTitle() ?></h2>
-                            <div class="row justify-content-start jobOffer-tags"> <!--VER TEMA DE COMPANY-->
-                                <div class="col-sm-2"><a href="#"><?php echo $jobOffer->getCompany() ?></a></div>
+                            <div class="row justify-content-start jobOffer-tags">
+                            <?php foreach($companyList as $company){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE COMPANY
+                                        if($company->getIdCompany() == $jobOffer->getCompany()){
+                                             $nameCompany = $company->getName();
+                                        }
+                                      }
+                                    ?>
+
+                                <div class="col-sm-2"><?php echo $nameCompany?></a></div>
 
                                 <?php foreach($jobPositionList as $jobPosition){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE JOB POSITION
                                         if($jobPosition->getIdJobPosition() == $jobOffer->getJobPosition()){
@@ -47,8 +97,8 @@ require_once('nav.php');
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <button name="<?php echo $jobOffer->getIdJobOffer() ?>" class="btn shadow-none button-blue width-100">Ver Publicacion</button>
-                        </div> <!-- VER QUE HACER CON EL VER PUBLICACION -->
+                            <a href="<?php echo FRONT_ROOT . "JobOffer/ShowPostView?idJobOffer=" . $jobOffer->getIdJobOffer() ?>" class="btn button-blue width-100">Ver Publicacion</a>
+                        </div>
                     </div>
                 <?php }
                 }

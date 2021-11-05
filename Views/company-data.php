@@ -30,7 +30,7 @@ require_once('header.php');
                     </div>
                     <div class="row p-3 align-items-center">
                          <div class="col-md-12">
-                         <h3 class="company-description"><?php echo nl2br($company->getDescription()) ?></h3>
+                         <p class="company-description"><?php echo nl2br($company->getDescription()) ?></p>
                          </div>
                     </div>
                     <div class="mt-5">

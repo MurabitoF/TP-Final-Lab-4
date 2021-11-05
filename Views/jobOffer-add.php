@@ -16,7 +16,19 @@ include('nav.php');
                               </div>
                          </div>
 
-                         <div class="col-md-6">
+                         <div class="col-md-3">
+                              <div class="form-group">  
+                                <select name="idCompany" class="form-control form-input" required>
+                                   <option value="" selected>Empresa</option>
+                                    <?php foreach($companyList as $company){?>
+                                        <option value="<?php echo $company->getIdCompany()?>"><?php echo $company->getName()?></option>
+                                    <?php
+                                }?>
+                                </select>
+                              </div>
+                         </div> 
+
+                         <div class="col-md-3">
                               <div class="form-group">  
                                 <select name="idJobPosition" class="form-control form-input" required>
                                    <option value="" selected>Posición de Trabajo</option>
@@ -27,7 +39,7 @@ include('nav.php');
                                 </select>
                               </div>
                          </div> 
-                         
+                             
                     </div>
 
 

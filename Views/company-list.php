@@ -5,7 +5,7 @@ require_once('header.php');
 
 ?>
 
-<main>
+<main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Listado de empresas</h2>
@@ -29,7 +29,7 @@ require_once('header.php');
                               </div>
                          </div>
                          <div class="col-lg-2">
-                              <button type="submit" name="" class="btn col-lg-12 btn-dark ml-auto d-block">Buscar</button>
+                              <button type="submit" class="btn button-black w-100">Buscar</button>
                          </div>
                     </div>
                </form>
@@ -49,7 +49,11 @@ require_once('header.php');
                                    if ($company->getState()) {
                               ?>
                                         <tr>
-                                             <td><a href="<?php echo FRONT_ROOT ?>Company/ShowDataView?idCompany=<?php echo $company->getIdCompany() ?>"><?php echo $company->getName() ?></a></td>
+                                             <td>
+                                                  <a class="link-button" href="<?php echo FRONT_ROOT ?>Company/ShowDataView?idCompany=<?php echo $company->getIdCompany() ?>">
+                                                       <?php echo $company->getName() ?>
+                                                  </a>
+                                             </td>
                                              <td>
                                                   <?php foreach ($addressList as $address) {
                                                        if ($address->getIdCompany() == $company->getIdCompany()) {

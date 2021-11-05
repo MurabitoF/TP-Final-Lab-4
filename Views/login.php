@@ -5,7 +5,7 @@ require_once('header.php');
      <div class="conteiner ">
           <?php
           if ($alert) { ?>
-               <div class="alert alert-<?php echo $alert->getType() ?>" role="alert">
+               <div class="alert text-center fw-bold alert-<?php echo $alert->getType() ?>" role="alert">
                     <?php echo $alert->getMessage() ?>
                </div>
           <?php } ?>

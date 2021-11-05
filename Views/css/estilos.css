@@ -21,11 +21,11 @@ nav {
 .footer {
 	position: absolute;
 	width: 100%;
-  	height: 100px;
+	height: 100px;
 	background-color: #252525;
 }
 
-.push{
+.push {
 	height: 100px;
 }
 
@@ -74,16 +74,16 @@ nav {
 	transition: all 0.3s ease-in-out;
 }
 
-.button-white{
+.button-white {
 	background-color: #f2f2f0;
 	color: #1c819e;
 	border: none;
 	border-radius: 0;
 	transition: all 0.3s ease-in-out;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)!important;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
 }
 
-.button-white:hover{
+.button-white:hover {
 	color: #1c819e;
 	background-color: #d6d6d6;
 	transition: all 0.3s ease-in-out;
@@ -119,7 +119,17 @@ nav {
 	transition: all 0.3s ease-in-out;
 }
 
+.link-button{
+	text-decoration: none;
+	font-weight: bold;
+	color: #252525;
+	transition: all .3s ease-in-out;
+}
 
+.link-button:hover{
+	color: #1c819e;
+	transition: all .3s ease-in-out;
+}
 
 /* LogIn y Fomrmularios */
 
@@ -206,8 +216,8 @@ nav .menu:hover {
 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-@media (max-height:640px){
-	.sidenav{
+@media (max-height: 640px) {
+	.sidenav {
 		height: 75%;
 	}
 }
@@ -227,7 +237,7 @@ nav .menu:hover {
 	transition: all 0.3s ease-in-out;
 }
 
-#menu-text{
+#menu-text {
 	position: absolute;
 	top: 15px;
 	left: 25px;
@@ -236,38 +246,38 @@ nav .menu:hover {
 	color: #252525;
 }
 
-.menu-button{
+.menu-button {
 	background-color: #f2f2f0;
 	padding: 1rem;
-	transition: all .3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }
 
-.menu-button a{
+.menu-button a {
 	text-decoration: none;
 	color: #252525;
-	transition: all .3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }
 
-.menu-button:hover{
+.menu-button:hover {
 	transform: translateX(1rem);
 	background-color: #1c819e;
-	transition: all .3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }
 
-.menu-button:hover a{
+.menu-button:hover a {
 	color: #f2f2f0;
 	font-weight: bold;
-	transition: all .3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }
 
-.buttons{
+.buttons {
 	position: absolute;
 	bottom: 0;
 	display: flex;
 	justify-content: space-evenly;
 }
 
-.buttons > div > a{
+.buttons > div > a {
 	padding: 1rem;
 }
 
@@ -385,21 +395,38 @@ nav .menu:hover {
 	}
 }
 
+/* JobOffer post */
+
+.jobOffer-title{
+	color: #1c819e;
+	font-weight: bolder;
+}
+
+.file-input {
+	display: none;
+}
+
+.fa-check-circle{
+	font-size: 1.5rem;
+	color: #73BD28;
+	-webkit-text-stroke:1px #64a524;
+}
+
 /* Perfil alumno */
-.img-profile{
+.img-profile {
 	max-width: 15vw;
 	border-radius: 50%;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 767.98px) {
-	.img-profile{
+	.img-profile {
 		visibility: hidden;
 		display: none;
 	}
 }
 
-.name{
+.name {
 	color: #f2f2f0;
 	font-weight: bold;
 	font-size: 4rem;
@@ -411,13 +438,12 @@ nav .menu:hover {
 	font-size: 1.5rem;
 }
 
-.info-title{
+.info-title {
 	font-size: 1.5rem;
 	font-weight: 300;
 }
 
 /* Perfil empresa */
-
 .company-description{
 	color: #252525;
 	font-weight: 300;
@@ -436,10 +462,9 @@ nav .menu:hover {
 	font-size: 1rem;
 }
 
-
 #mapid {    
 	width: 100%; 
 	height: 450px;
 	z-index: 1;
-	outline: none; 
+	outline: none;
 }
