@@ -56,12 +56,11 @@ class JobOfferDAO implements IJobOfferDAO
                 
                 $jobOffer->setIdJobOffer($row["idJobOffer"]);
                 $jobOffer->setJobPosition($row["idJobPosition"]);
-                //$jobOffer->setCompany($row["company"]);
+                $jobOffer->setCompany($row["idCompany"]);
                 $jobOffer->setPostDate($row["postDate"]);
                 $jobOffer->setExpireDate($row["expireDate"]);
                 $jobOffer->setCity($row["city"]);
                 $jobOffer->setCareer($row["idCareer"]);
-                //$jobOffer->setApplicants($row["applicants"]);
                 $jobOffer->setWorkload($row["workload"]);
                 $jobOffer->setRequirements($row["requirements"]);
                 $jobOffer->setActive($row["active"]);
@@ -143,6 +142,7 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCity($row["city"]);
                 $jobOffer->setJobPosition($row["idJobPosition"]);
                 $jobOffer->setCareer($row["idCareer"]);
+                $jobOffer->setCompany($row["idCompany"]);
             }
 
             return $jobOffer ;

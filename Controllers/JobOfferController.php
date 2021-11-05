@@ -36,7 +36,8 @@ class JobOfferController
     {
         $jobOffer = $this->jobOfferDAO->SearchId($idJobOffer);
         $jobOffer->setApplicants($this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer));
-        var_dump($jobOffer->getApplicants());
+        $company = $this->companyDAO->searchId($jobOffer->getCompany());
+        $jobPosition = $this->jobPositionDAO->GetJobPositionById($jobOffer->getJobPosition());
         session_start();
         require_once(VIEWS_PATH . "jobOffer-post.php");
     }
@@ -45,7 +46,7 @@ class JobOfferController
     {
         session_start();
 
-        //$companyList = $this->companyDAO->GetAll();
+        $companyList = $this->companyDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();
 
@@ -65,7 +66,7 @@ class JobOfferController
     public function ShowStudentListView()
     {
         session_start();
-
+        $jobOfferList = $this->jobOfferDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();
         require_once(VIEWS_PATH . "jobOffer-list-student.php");

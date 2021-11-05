@@ -67,6 +67,7 @@ require_once('header.php');
                                    <div class="col-md-11 form-floating">
                                         <input class="form-control form-input" name="username" id="email" type="text" value="<?php echo $user->getEmail() ?>" readonly>
                                         <label for="email">Email</label>
+                                        <input class="visually-hidden" type="text" value="Student" name="role" readonly>
                                    </div>
                                    <div class="col-md-1 pos-relative">
                                         <button 
