@@ -9,7 +9,7 @@ $loggedUser = $_SESSION['loggedUser'];
      <div class="container-fluid">
           <span class="logo">
                <a class="navbar-brand" href="<?php echo FRONT_ROOT ?>User/ShowHomeView">
-                    <img src="http://localhost/TP-Final-Lab-4/Views/img/logo-utn-recruitment.png" alt="logo-utn">
+                    <img src="../<?php echo VIEWS_PATH?>img\logo-utn-recruitment.png" alt="logo-utn">
                </a>
           </span>
           <span class="btn menu" onclick="openNav()">Menu <i class="fas fa-sort-down"></i></span>

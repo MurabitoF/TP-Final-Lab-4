@@ -13,7 +13,7 @@ require_once('nav.php');
                          <div class="col-md-6">
                               <h1 class="name"><?php echo $user->getFirstName() . ' ' .
                                                        $user->getLastName(); ?></h1>
-                              <h3 class="student-university-data"><?php echo $user->getCareerid(); ?></h3>
+                              <h3 class="student-university-data"><?php echo $user->getCareerid()->getName(); ?></h3>
                               <h3 class="student-university-data">Legajo: <?php echo $user->getFileNumber() ?></h3>
                          </div>
                     </div>
