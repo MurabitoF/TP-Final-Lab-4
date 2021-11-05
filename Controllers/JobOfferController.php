@@ -53,22 +53,41 @@ class JobOfferController
         require_once(VIEWS_PATH . "jobOffer-add.php");
     }
 
-    public function ShowAdminListView()
+    public function ShowAdminListView($idCareer = null, $idJobPosition = null, $workload = null, $city = null)
     {
         $jobOfferList = $this->jobOfferDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();
 
         session_start();
+
+        $parameters = array();
+        $parameters["idCareer"] = $idCareer;
+        $parameters["idJobPosition"] = $idJobPosition;
+        $parameters["workload"] = $workload;
+        $parameters["city"] = $city;
+
+        $jobOfferList = $this->jobOfferDAO->filterList($parameters);
+
         require_once(VIEWS_PATH . "jobOffer-list-admin.php");
     }
 
-    public function ShowStudentListView()
+    public function ShowStudentListView($idCareer = null, $idJobPosition = null, $workload = null, $city = null)
     {
         session_start();
+
         $jobOfferList = $this->jobOfferDAO->GetAll();
+        $companyList = $this->companyDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();
+
+        $parameters = array();
+        $parameters["idCareer"] = $idCareer;
+        $parameters["idJobPosition"] = $idJobPosition;
+        $parameters["workload"] = $workload;
+        $parameters["city"] = $city;
+
+        $jobOfferList = $this->jobOfferDAO->filterList($parameters);
         require_once(VIEWS_PATH . "jobOffer-list-student.php");
     }
 
@@ -96,11 +115,12 @@ class JobOfferController
         require_once (VIEWS_PATH."jobOffer-data.php"); ///A FUTURO MOSTRAR TARJETA DE FRANCO
     }
 
-    public function Add($title, $idCareer, $city, $idJobPosition, $requirements, $workload, $postDate, $expireDate, $description)
+    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $postDate, $expireDate, $description)
     {
             $jobOffer = new JobOffer();
 
             $jobOffer->setTitle($title);
+            $jobOffer->setCompany($idCompany);
             $jobOffer->setCareer($idCareer);
             $jobOffer->setCity($city);
             $jobOffer->setJobPosition($idJobPosition);
@@ -115,11 +135,12 @@ class JobOfferController
             $this->ShowAddView();
     }
 
-    public function Edit($idJobOffer, $title, $idCareer, $city, $idJobPosition, $requirements, $postDate, $expireDate, $workload, $description, $active)
+    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $postDate, $expireDate, $workload, $description, $active)
     {
         $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
         $jobOffer->setTitle($title);
+        $jobOffer->setCompany($idCompany);
         $jobOffer->setCareer($idCareer);
         $jobOffer->setCity($city);
         $jobOffer->setJobPosition($idJobPosition);
@@ -134,21 +155,6 @@ class JobOfferController
         $this->jobOfferDAO->Edit($jobOffer);
         
         $this->ShowAdminListView();
-    }
-
-    public function Action($Remove = "", $Edit = "") 
-    {
-        if ($Edit != "")
-        {
-            $this->ShowEditView($Edit);
-        } else if($Remove != "")
-        {
-            $this->jobOfferDAO->Remove($Remove);
-            $this->ShowAdminListView();
-        }else
-        {
-            echo "Ha ocurrido un error";
-        }
     }
 
     public function AddApplicant($idJobOffer, $idUser, $description, $fileCV)

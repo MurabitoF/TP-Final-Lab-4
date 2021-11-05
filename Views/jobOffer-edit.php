@@ -16,7 +16,29 @@ include('nav.php');
                               </div>
                          </div>
 
-                         <div class="col-md-6">
+                         <div class="col-md-3">
+                              <div class="form-group">  
+                                <select name="idCompany" class="form-control form-input" required>
+                                   
+                                <?php foreach($companyList as $company){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE COMPANY
+                                        if($company->getIdCompany() == $jobOffer->getCompany()){
+                                             $nameCompany = $company->getName();
+                                        }
+                                      }
+                                    ?>
+                                
+                                <option value="<?php echo $jobOffer->getCompany()?>" selected><?php echo $nameCompany ?></option>
+                                    <?php foreach($companyList as $company){
+                                             if($company->getIdCompany() != $jobOffer->getCompany()){?>
+                                                  <option value="<?php echo $company->getIdCompany()?>"><?php echo $company->getName()?></option>
+                                    <?php
+                                             }
+                                }?>
+                                </select>
+                              </div>
+                         </div> 
+
+                         <div class="col-md-3">
                               <div class="form-group">  
                                 <select name="idJobPosition" class="form-control form-input" required>
                                    
