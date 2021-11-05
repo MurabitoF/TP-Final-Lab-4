@@ -1,5 +1,4 @@
 <?php 
-require_once('verify-login.php');
 include('header.php');
 include('nav.php');
 

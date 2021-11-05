@@ -1,14 +1,16 @@
-<?php 
+<?php
 
 namespace Controllers;
 
 use Exception;
+use Controllers\LoggerController as LoggerController;
 use DAO\CompanyDAO as CompanyDAO;
 use DAO\CareerDAO as CareerDAO;
 use DAO\AddressDAO as AddressDAO;
 use Models\Company as Company;
 use Models\Address as Address;
 use Models\Alert as Alert;
+use Models\User as User;
 
 class CompanyController
 {
@@ -27,125 +29,152 @@ class CompanyController
     public function ShowAddView($alert = NULL)
     {
         session_start();
-
-        $careerList = $this->careerDAO->GetAll();
-
-        require_once (VIEWS_PATH."company-add.php");
+        LoggerController::VerifyLogIn();
+        if (in_array('Create Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            $careerList = $this->careerDAO->GetAll();
+            require_once(VIEWS_PATH . "company-add.php");
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
     }
 
     public function ShowEditView($idCompany)
     {
         session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Edit Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            $company = $this->companyDAO->searchId($idCompany);
 
-        $company = $this->companyDAO->searchId($idCompany);
-        
-        $this->companyDAO->Edit($company);
+            $this->companyDAO->Edit($company);
 
-        $address= $this->addressDAO->getAddresses($idCompany);
+            $address = $this->addressDAO->getAddresses($idCompany);
 
-        require_once (VIEWS_PATH."company-edit.php");
+            require_once(VIEWS_PATH . "company-edit.php");
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
     }
 
     public function ShowDataView($idCompany)
     {
         session_start();
+        LoggerController::VerifyLogIn();
 
         $company = $this->companyDAO->searchId($idCompany);
 
-        $address= $this->addressDAO->getAddresses($idCompany);
+        $address = $this->addressDAO->getAddresses($idCompany);
 
-        require_once (VIEWS_PATH."company-data.php");
+        require_once(VIEWS_PATH . "company-data.php");
     }
 
-    public function ShowListView($name = null, $city = null)
+    public function ShowListView($name = null, $city = null, $alert = null)
     {
         session_start();
+        LoggerController::VerifyLogIn();
 
         $parameters = array();
-        $parameters ["companyName"] = $name;
-        $parameters ["city"] = $city;
-        
+        $parameters["companyName"] = $name;
+        $parameters["city"] = $city;
+
         $companyList = $this->companyDAO->filterList($parameters);
 
 
         $addressList = $this->addressDAO->GetAll();
 
-        
-        require_once (VIEWS_PATH."company-list.php");
+
+        require_once(VIEWS_PATH . "company-list.php");
     }
 
     public function Add($name, $cuit, $phoneNumber, $email, $city, $description, $streetName, $streetAddress)
     {
+        session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Create Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            try {
+                $company = new Company();
+                $company->setName($name);
+                $company->setCUIT($cuit);
+                $company->setPhoneNumber($phoneNumber);
+                $company->setEmail($email);
+                $company->setDescription($description);
 
-        $alert = new Alert ("", "");
+                $address = new Address();
+                $address->setCity($city);
+                $address->setStreetName($streetName);
+                $address->setStreetAddress($streetAddress);
 
-        try{
-            $company = new Company();
-            $company->setName($name);
-            $company->setCUIT($cuit);
-            $company->setPhoneNumber($phoneNumber);
-            $company->setEmail($email);
-            $company->setDescription($description);
+                $this->companyDAO->Add($company);
 
-            $address = new Address();
-            $address->setCity($city);
-            $address->setStreetName($streetName);
-            $address->setStreetAddress($streetAddress);
+                $idCompany = $this->companyDAO->getId($name);
 
-            $this->companyDAO->Add($company);
+                $this->addressDAO->Add($address, $idCompany);
 
-            $idCompany = $this->companyDAO->getId($name);
-
-            $this->addressDAO->Add($address, $idCompany);
-
-            $alert->setType("success");
-            $alert->setMessage("La empresa a sido ingresada con existo");
-
-        } catch(Exception $ex){
-
-            if(str_contains($ex->getMessage(),1062))
-            {
-                $alert->setType("warning");
-                $alert->setMessage("La empresa ingresada ya existe");
-            } else
-            {
-                $alert->setType("danger");
-                $alert->setMessage($ex->getMessage());
+                $alert = new Alert("success", "La empresa a sido ingresada con existo");
+            } catch (Exception $ex) {
+                if (str_contains($ex->getMessage(), 1062)) {
+                    $alert = new Alert("warning", "La empresa ingresada ya existe");
+                } else {
+                    $alert = new Alert("danger", $ex->getMessage());
+                }
+            } finally {
+                $this->ShowAddView($alert);
             }
-
-        }finally{
-            $this->ShowAddView($alert);
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
 
-    public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $state, $description, $streetName, $streetAddress)
+    public function Edit($idCompany, $name, $cuit, $phoneNumber, $email, $city, $state, $description, $streetName, $streetAddress)
     {
-        $company = $this->companyDAO->searchId($idCompany);
+        session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Edit Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            try {
+                $company = $this->companyDAO->searchId($idCompany);
 
-        $address = $this->addressDAO->getAddresses($idCompany);
+                $address = $this->addressDAO->getAddresses($idCompany);
 
-        $company->setName($name);
-        $company->setCUIT($cuit);
-        $company->setPhoneNumber($phoneNumber);
-        $company->setEmail($email);
-        $company->setDescription($description);
-        $company->setState($state);
+                $company->setName($name);
+                $company->setCUIT($cuit);
+                $company->setPhoneNumber($phoneNumber);
+                $company->setEmail($email);
+                $company->setDescription($description);
+                $company->setState($state);
 
-        $this->companyDAO->Edit($company);
+                $this->companyDAO->Edit($company);
 
-        $address->setCity($city);
-        $address->setStreetName($streetName);
-        $address->setStreetAddress($streetAddress);
+                $address->setCity($city);
+                $address->setStreetName($streetName);
+                $address->setStreetAddress($streetAddress);
 
-        $this->addressDAO->Edit($address);
-        
-        $this->ShowListView();
+                $this->addressDAO->Edit($address);
+
+                $alert = new Alert('success', 'La empresa fue editada correctamente');
+            } catch (Exception $ex) {
+                $alert = new Alert('danger', $ex->getMessage());
+            } finally {
+                $this->ShowListView($alert);
+            }
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
     }
 
     public function Remove($idCompany)
     {
+        session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Delete Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $this->companyDAO->Remove($idCompany);
             $this->addressDAO->Remove($idCompany);
             $this->ShowListView();
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
     }
 }

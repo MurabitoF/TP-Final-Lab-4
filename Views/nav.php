@@ -42,7 +42,7 @@ $loggedUser = $_SESSION['loggedUser'];
                     </div>
                <?php } ?>
                <div class="menu-button">
-                    <a href="<?php echo FRONT_ROOT ?>User/LogOut">Log Out</a>
+                    <a href="<?php echo FRONT_ROOT ?>Logger/LogOut">Log Out</a>
                </div>
                <div class="buttons">
                     <div>

@@ -54,11 +54,10 @@ include('nav.php');
                <table class="table bg-light-alpha">
                     <thead>
                          <th>Titulo</th>
-                         <th>Carrera</th>
                          <th>Compania</th>
+                         <th>Carrera</th>
                          <th>Ciudad</th>
                          <th>Posicion</th>
-                         <th>Carga Horaria</th>
                          <th>Fecha de Publicacion</th>
                          <th>Acciones</th>
                     </thead>
@@ -73,7 +72,14 @@ include('nav.php');
                                         </a>
                                    </td>
               
-                                   
+                                   <?php foreach($companyList as $company){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE CAREER
+                                        if($company->getIdCompany() == $jobOffer->getCompany()){
+                                             $nameCompany = $company->getName();
+                                        }
+                                      }
+                                   ?>
+                                   <td><?php echo $nameCompany ?></td>
+
                                    <?php foreach($careerList as $career){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE CAREER
                                         if($career->getIdCareer() == $jobOffer->getCareer()){
                                              $nameCareer = $career->getName();
@@ -81,6 +87,7 @@ include('nav.php');
                                       }
                                     ?>                    
                                    <td><?php echo $nameCareer; ?></td>
+                                   
                                    <td><?php echo $jobOffer->getCity(); ?></td>
 
                                    <?php foreach($jobPositionList as $jobPosition){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE JOB POSITION
@@ -92,7 +99,6 @@ include('nav.php');
 
 
                                    <td><?php echo $nameJobPosition; ?></td>
-                                   <td><?php echo $jobOffer->getWorkload(); ?></td>
                                    <td><?php echo $jobOffer->getPostDate(); ?></td>
                                    <td>
                                         <a href="<?php echo FRONT_ROOT . "JobOffer/Remove?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-red"><i class="fas fa-trash-alt"></i></a>

@@ -27,6 +27,7 @@ class StudentDAO implements IStudentDAO
 
     public function GetByUserName($username)
     {
+        var_dump($username);
         $this->RetrieveData();
 
         foreach ($this->studentList as $arrayValue) {

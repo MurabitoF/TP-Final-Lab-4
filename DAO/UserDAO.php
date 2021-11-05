@@ -7,7 +7,7 @@ use DAO\IUserDAO as IUserDAO;
 use Models\User as User;
 use DAO\Connection as Connection;
 
-class userDAO implements IUserDAO
+class UserDAO implements IUserDAO
 {
     private $connection;
     private $tableName = "User";

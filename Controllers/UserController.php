@@ -3,15 +3,16 @@
 namespace Controllers;
 
 use \Exception as Exception;
-use DAO\StudentDAO as StudentDAO;
-use Models\Student as Student;
-use DAO\UserDAO as UserDAO;
-use Models\User as User;
-use DAO\CareerDAO as CareerDAO;
-use Models\Career as Career;
 use DAO\ApplicantDAO as ApplicantDAO;
+use DAO\CareerDAO as CareerDAO;
 use DAO\JobOfferDAO as JobOfferDAO;
+use DAO\StudentDAO as StudentDAO;
+use DAO\UserDAO as UserDAO;
+use Controllers\LoggerController as LoggerController;
+use Models\Career as Career;
+use Models\Student as Student;
 use Models\JobOffer as JobOffer;
+use Models\User as User;
 use Models\Alert as Alert;
 
 class UserController
@@ -36,27 +37,23 @@ class UserController
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
         }
+        LoggerController::VerifyLogIn();
         if ($_SESSION['loggedUser']->getRole() == "Student") {
             $lastApplications = $this->applicantDAO->GetJobOffersFromApplicant($_SESSION['loggedUser']->getIdUser());
         }
         require_once(VIEWS_PATH . "home.php");
     }
 
-    public function ShowLogInView($alert = NULL)
-    {
-        if (session_status() != PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        if (isset($_SESSION['loggedUser'])) {
-            $this->ShowHomeView();
-        } else {
-            require_once(VIEWS_PATH . "login.php");
-        }
-    }
-
     public function ShowAddView($alert = NULL)
     {
-        require_once(VIEWS_PATH . 'user-add.php');
+        session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Create User', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            require_once(VIEWS_PATH . 'user-add.php');
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
     }
 
     public function ShowRegisterView($user = NULL, $message = "")
@@ -66,75 +63,33 @@ class UserController
 
     public function Add($username, $verifiedPassword, $role)
     {
-        try {
-            $encryptedPass = password_hash($verifiedPassword, PASSWORD_DEFAULT);
-            $newUser = new User();
-            $newUser->setUsername($username);
-            $newUser->setPassword($encryptedPass);
-            $newUser->setRole($role);
-            $newUser->setActive(true);
-
-            $this->userDAO->Add($newUser);
-
-            $alert = new Alert('success', 'Se ha registrado correctamente');
-        } catch (Exception $ex) {
-            $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
-        } finally {
-            $this->ShowLogInView($alert);
-        }
-    }
-
-
-    public function LogIn($username, $password)
-    {
         session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Create User', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            try {
+                $encryptedPass = password_hash($verifiedPassword, PASSWORD_DEFAULT);
+                $newUser = new User();
+                $newUser->setUsername($username);
+                $newUser->setPassword($encryptedPass);
+                $newUser->setRole($role);
+                $newUser->setActive(true);
 
-        $user = $this->userDAO->GetByUserName($username);
+                $this->userDAO->Add($newUser);
 
-        if ($user) {
-            if ($user->getActive()) {
-                if (password_verify($password, $user->getPassword())) {
-                    if ($user->getRole() === "Student") {
-                        $studentUser = $this->studentDAO->GetByUserName($username);
-                        $studentUser->setIdUser($user->getIdUser());
-                        $studentUser->setUsername($user->getUsername());
-                        $studentUser->setPassword($user->getPassword());
-                        $studentUser->setRole($user->getRole());
-                        $studentUser->setActive($user->getActive());
-                        $career = $this->careerDAO->GetbyId($studentUser->getCareerId());
-                        $studentUser->setCareerId($career->getName());
-
-
-                        $_SESSION['loggedUser'] = $studentUser;
-                        $_SESSION['lastActivity'] = time();
-                    } else {
-                        $_SESSION['loggedUser'] = $user;
-                        $_SESSION['lastActivity'] = time();
-                    }
-                    $this->ShowHomeView();
+                $alert = new Alert('success', 'Se ha registrado correctamente');
+            } catch (Exception $ex) {
+                $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
+            } finally {
+                if (session_status() != PHP_SESSION_ACTIVE) {
+                    header("Location: " . FRONT_ROOT . "Logger/ShowLogInView");
                 } else {
-                    $alert = new Alert('danger', 'Contraseña Incorrecta');
-                    $this->ShowLogInView($alert);
+                    $this->ShowAddView($alert);
                 }
-            } else {
-                $alert = new Alert('danger', 'Usuario Incorrecto');
-                $this->ShowLogInView($alert);
             }
         } else {
-            $alert = new Alert('danger', 'Usuario Incorrecto');
-            $this->ShowLogInView($alert);
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
-    }
-
-    public function LogOut()
-    {
-        if (session_status() != PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        session_unset();
-        session_destroy();
-
-        $this->ShowLogInView();
     }
 
     public function VerifyEmail($email)
