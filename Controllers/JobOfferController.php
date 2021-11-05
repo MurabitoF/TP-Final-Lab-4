@@ -52,17 +52,26 @@ class JobOfferController
         require_once(VIEWS_PATH . "jobOffer-add.php");
     }
 
-    public function ShowAdminListView()
+    public function ShowAdminListView($idCareer = null, $idJobPosition = null, $workload = null, $city = null)
     {
         $jobOfferList = $this->jobOfferDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();
 
         session_start();
+
+        $parameters = array();
+        $parameters["idCareer"] = $idCareer;
+        $parameters["idJobPosition"] = $idJobPosition;
+        $parameters["workload"] = $workload;
+        $parameters["city"] = $city;
+
+        $jobOfferList = $this->jobOfferDAO->filterList($parameters);
+
         require_once(VIEWS_PATH . "jobOffer-list-admin.php");
     }
 
-    public function ShowStudentListView()
+    public function ShowStudentListView($idCareer = null, $idJobPosition = null, $workload = null, $city = null)
     {
         $jobOfferList = $this->jobOfferDAO->GetAll();
         $jobOffer = new JobOffer();
@@ -80,8 +89,17 @@ class JobOfferController
         array_push($jobOfferList, $jobOffer);
         session_start();
 
+        $companyList = $this->companyDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();
+
+        $parameters = array();
+        $parameters["idCareer"] = $idCareer;
+        $parameters["idJobPosition"] = $idJobPosition;
+        $parameters["workload"] = $workload;
+        $parameters["city"] = $city;
+
+        $jobOfferList = $this->jobOfferDAO->filterList($parameters);
         require_once(VIEWS_PATH . "jobOffer-list-student.php");
     }
 
@@ -149,21 +167,6 @@ class JobOfferController
         $this->jobOfferDAO->Edit($jobOffer);
         
         $this->ShowAdminListView();
-    }
-
-    public function Action($Remove = "", $Edit = "") 
-    {
-        if ($Edit != "")
-        {
-            $this->ShowEditView($Edit);
-        } else if($Remove != "")
-        {
-            $this->jobOfferDAO->Remove($Remove);
-            $this->ShowAdminListView();
-        }else
-        {
-            echo "Ha ocurrido un error";
-        }
     }
 
     public function AddApplicant($idJobOffer, $idUser, $description, $fileCV)

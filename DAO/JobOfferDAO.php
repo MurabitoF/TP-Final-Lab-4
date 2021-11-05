@@ -154,4 +154,57 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
+    public function filterList($parameters)
+    {
+        try {
+            $jobOfferList = array();
+
+            $query = "SELECT * FROM $this->tableName";
+
+            $filteredList = array_filter($parameters); // removes empty values from $_POST
+
+  
+            if ($filteredList) { // not empty
+                $query .= " WHERE";
+
+                foreach ($filteredList as $key => $value) {
+                    $query .= " $key  LIKE '%$value%'";  // $filteredList keyname = $filteredList['keyname'] value
+                    if (count($filteredList) > 1 && (count($filteredList) > $key)) { // more than one search filter, and not the last
+                        $query .= " AND";
+                    }
+                }
+            }
+            $query .= ";";
+
+            $this->connection = Connection::GetInstance();
+
+            $foundJobOffer  = $this->connection->Execute($query);
+
+            foreach ($foundJobOffer as $row) {
+                $jobOffer = new JobOffer();
+
+                $jobOffer->setIdJobOffer($row["idJobOffer"]);
+                $jobOffer->setTitle($row["title"]);
+                $jobOffer->setDescription($row["description"]);
+                $jobOffer->setWorkload($row["workload"]);
+                $jobOffer->setRequirements($row["requirements"]);
+                $jobOffer->setPostDate($row["postDate"]);
+                $jobOffer->setExpireDate($row["expireDate"]);
+                $jobOffer->setActive($row["active"]);
+                $jobOffer->setCity($row["city"]);
+                $jobOffer->setCompany($row["idCompany"]);
+                $jobOffer->setJobPosition($row["idJobPosition"]);
+                $jobOffer->setCareer($row["idCareer"]);
+
+                array_push($jobOfferList, $jobOffer);
+            }
+
+            return $jobOfferList;
+
+        } catch (Exception $ex) 
+        {
+            throw $ex;
+        }
+    }
+
 }
