@@ -61,6 +61,28 @@ class ApplicantDAO implements IApplicantDAO
         }
     }
 
+    public function GetJobOffersFromApplicant($idUser)
+    {
+        try {
+            $jobOfferList = array();
+            
+            $query = "SELECT * FROM " . $this->tableName . " WHERE idUser = :idUser";
+
+            $parameter["idUser"] = $idUser;
+
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query, $parameter);
+
+            foreach($result as $row){
+                array_push($jobOfferList, $row['idJobOffer']);
+            }
+
+            return $jobOfferList;
+        } catch (Exeption $ex) {
+            throw $ex;
+        }
+    }
+
     public function CheckIfApplicant($idUser)
     {
         try{

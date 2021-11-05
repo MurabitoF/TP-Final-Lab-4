@@ -145,6 +145,7 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCompany($row["idCompany"]);
                 $jobOffer->setJobPosition($row["idJobPosition"]);
                 $jobOffer->setCareer($row["idCareer"]);
+                $jobOffer->setCompany($row["idCompany"]);
             }
 
             return $jobOffer ;

@@ -9,14 +9,16 @@ require_once('nav.php');
         <section id="jobOffer-post">
             <h1 class="jobOffer-title"><?php echo $jobOffer->getTitle() ?></h1>
             <div class="separator"></div>
-            <section id="closed-tag">
-                <div class="alert alert-danger text-center fw-bold" role="alert">
-                    Publicacion cerrada!
-                </div>
-            </section>
+            <?php if ($jobOffer->getExpireDate() < date('Y-m-d')) { ?>
+                <section id="closed-tag">
+                    <div class="alert alert-danger text-center fw-bold" role="alert">
+                        Publicacion cerrada!
+                    </div>
+                </section>
+            <?php } ?>
             <div class="row jobOffer-tags text-center my-3">
-                <div class="col-md-4"><a href="<?php echo FRONT_ROOT . "Company/ShowDataView?idCompany = $jobOffer->getIdCompany()" ?>"><?php echo $jobOffer->getCompany() ?></a></div>
-                <div class="col-md-4"><?php echo $jobOffer->getJobPosition() ?></div>
+                <div class="col-md-4"><a href="<?php echo FRONT_ROOT . "Company/ShowDataView?idCompany=" . $company->getIdCompany(); ?>"><?php echo $company->getName() ?></a></div>
+                <div class="col-md-4"><?php echo $jobPosition->getName() ?></div>
                 <div class="col-md-4"><?php echo $jobOffer->getCity() ?></div>
             </div>
             <div class="row">
@@ -36,49 +38,52 @@ require_once('nav.php');
             </div>
             <div class="row justify-content-between mt-3 jobOffer-tags mt-3">
                 <div class="col-md-3">
-                    Fecha de posteo
+                    <?php echo $jobOffer->getPostDate() ?>
                 </div>
                 <div class="col-md-3">
-                    Fecha de cierre
+                    <?php echo $jobOffer->getExpireDate() ?>
                 </div>
             </div>
         </section>
         <div class="separator"></div>
         <section id="applicant=form">
-            <?php if ($_SESSION['loggedUser']->getRole() == "Student" && !array_key_exists($_SESSION['loggedUser']->getIdUser(), $jobOffer->getApplicants())) { ?>
-                <h2>Postulate</h2>
-                <?php if ($alert) { ?>
-                    <div class="alert alert-<?php echo $alert->getType() ?> text-center fw-bold" role="alert">
-                        <?php echo $alert->getMessage() ?>
-                    </div>
-                <?php } ?>
-                <form action="<?php echo FRONT_ROOT ?>JobOffer/AddApplicant" enctype="multipart/form-data" method="POST">
-                    <div class="visually-hidden">
-                        <input type="text" name="idJobOffer" value="<?php echo $jobOffer->getIdJobOffer() ?>" readonly>
-                        <input type="text" name="idUser" value="<?php echo $_SESSION['loggedUser']->getIdUser() ?>" readonly>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-12">
-                            <textarea name="description" class="form-control form-textarea" placeholder="Una breve descripcion tuya"></textarea>
+            <?php if ($jobOffer->getExpireDate() > date('Y-m-d')) {
+                if ($_SESSION['loggedUser']->getRole() == "Student" && !array_key_exists($_SESSION['loggedUser']->getIdUser(), $jobOffer->getApplicants())) { ?>
+                    <h2>Postulate</h2>
+                    <?php if ($alert) { ?>
+                        <div class="alert alert-<?php echo $alert->getType() ?> text-center fw-bold" role="alert">
+                            <?php echo $alert->getMessage() ?>
                         </div>
-                    </div>
-                    <div class="form row align-items-center my-5">
-                        <div class="col-6 col-md-3">
-                            <input type="file" name="fileCV" id="input-cv" class="form-control file-input" onchange="checkFile()" required>
-                            <label class="btn button-blue w-100" for="input-cv">Subi tu CV <i class="fas fa-upload ms-3"></i></label>
+                    <?php } ?>
+                    <form action="<?php echo FRONT_ROOT ?>JobOffer/AddApplicant" enctype="multipart/form-data" method="POST">
+                        <div class="visually-hidden">
+                            <input type="text" name="idJobOffer" value="<?php echo $jobOffer->getIdJobOffer() ?>" readonly>
+                            <input type="text" name="idUser" value="<?php echo $_SESSION['loggedUser']->getIdUser() ?>" readonly>
                         </div>
-                        <div class="col-1">
-                            <i id="cv-upload-display" class="fas fa-check-circle visually-hidden"></i>
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <textarea name="description" class="form-control form-textarea" placeholder="Una breve descripcion tuya"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row justify-content-end">
-                        <div class="col-md-4">
+                        <div class="form row align-items-center my-5">
+                            <div class="col-6 col-md-3">
+                                <input type="file" name="fileCV" id="input-cv" class="form-control file-input" onchange="checkFile()" required>
+                                <label class="btn button-blue w-100" for="input-cv">Subi tu CV <i class="fas fa-upload ms-3"></i></label>
+                            </div>
+                            <div class="col-1">
+                                <i id="cv-upload-display" class="fas fa-check-circle visually-hidden"></i>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-end">
+                            <div class="col-md-4">
 
-                            <button id="jobOffer-submit" type="submit" class="btn button-blue w-100" disabled>Postularme</button>
+                                <button id="jobOffer-submit" type="submit" class="btn button-blue w-100" disabled>Postularme</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            <?php } ?>
+                    </form>
+            <?php }
+            }
+            ?>
         </section>
     </div>
 </main>

@@ -36,7 +36,8 @@ class JobOfferController
     {
         $jobOffer = $this->jobOfferDAO->SearchId($idJobOffer);
         $jobOffer->setApplicants($this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer));
-        var_dump($jobOffer->getApplicants());
+        $company = $this->companyDAO->searchId($jobOffer->getCompany());
+        $jobPosition = $this->jobPositionDAO->GetJobPositionById($jobOffer->getJobPosition());
         session_start();
         require_once(VIEWS_PATH . "jobOffer-post.php");
     }
@@ -73,22 +74,9 @@ class JobOfferController
 
     public function ShowStudentListView($idCareer = null, $idJobPosition = null, $workload = null, $city = null)
     {
-        $jobOfferList = $this->jobOfferDAO->GetAll();
-        $jobOffer = new JobOffer();
-        $jobOffer->setIdJobOffer(1);
-        $jobOffer->setTitle("Se busca Programador");
-        $jobOffer->setJobPosition("Front End Developer");
-        $jobOffer->setCompany("Accenture");
-        $jobOffer->setCity("Mar del Plata");
-        $jobOffer->setCareer("University technician in environmental procedures and technologies");
-        $jobOffer->setApplicants(array());
-        $jobOffer->setWorkload("Full Time");
-        $jobOffer->setRequirements("Javascript");
-        $jobOffer->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu tincidunt quam. Suspendisse nisl turpis, tincidunt at sodales sit amet, malesuada et magna. Proin vel tellus ut dui consequat pretium. Quisque sed libero leo. Ut ac bibendum magna. Fusce eu tortor in metus molestie sollicitudin a id sem. Maecenas arcu metus, pharetra vel diam vel, ullamcorper venenatis nunc. Nullam semper nisl tortor, vitae viverra leo venenatis ac.
-        Quisque lacinia suscipit neque, ac facilisis turpis condimentum quis. Nullam placerat egestas diam, porta accumsan felis fringilla id. Sed pellentesque hendrerit nisi eu eleifend. Donec sed semper libero. Cras ac nisl eu elit cursus cursus. Duis dignissim in urna non fermentum. Ut rutrum augue arcu, in tristique est efficitur vel.");
-        array_push($jobOfferList, $jobOffer);
         session_start();
 
+        $jobOfferList = $this->jobOfferDAO->GetAll();
         $companyList = $this->companyDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();

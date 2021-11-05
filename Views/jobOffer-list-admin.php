@@ -55,6 +55,7 @@ include('nav.php');
                     <thead>
                          <th>Titulo</th>
                          <th>Carrera</th>
+                         <th>Compania</th>
                          <th>Ciudad</th>
                          <th>Posicion</th>
                          <th>Carga Horaria</th>
@@ -66,15 +67,19 @@ include('nav.php');
                          foreach ($jobOfferList as $jobOffer) {
                          ?>
                               <tr>
-                                   <td><a href="<?php echo FRONT_ROOT."JobOffer/ShowPostView?idJobOffer=".$jobOffer->getIdJobOffer();?>"><?php echo $jobOffer->getTitle(); ?></a></td>
+                                   <td>
+                                        <a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowPostView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>">
+                                             <?php echo $jobOffer->getTitle(); ?>
+                                        </a>
+                                   </td>
+              
                                    
                                    <?php foreach($careerList as $career){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE CAREER
                                         if($career->getIdCareer() == $jobOffer->getCareer()){
                                              $nameCareer = $career->getName();
                                         }
                                       }
-                                    ?>
-                                   
+                                    ?>                    
                                    <td><?php echo $nameCareer; ?></td>
                                    <td><?php echo $jobOffer->getCity(); ?></td>
 
@@ -90,8 +95,9 @@ include('nav.php');
                                    <td><?php echo $jobOffer->getWorkload(); ?></td>
                                    <td><?php echo $jobOffer->getPostDate(); ?></td>
                                    <td>
-                                        <a href="<?php echo FRONT_ROOT."JobOffer/Remove?idJobOffer=".$jobOffer->getIdJobOffer(); ?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                                        <a href="<?php echo FRONT_ROOT."JobOffer/ShowEditView?idJobOffer=".$jobOffer->getIdJobOffer(); ?>" class="btn btn-danger"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="<?php echo FRONT_ROOT . "JobOffer/Remove?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-red"><i class="fas fa-trash-alt"></i></a>
+                                        <a href="<?php echo FRONT_ROOT . "JobOffer/ShowEditView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-black"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" class="btn button-blue"><i class="fas fa-pencil-alt"></i></a>
                                    </td>
                               </tr>
                          <?php
