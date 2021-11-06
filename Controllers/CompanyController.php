@@ -80,7 +80,6 @@ class CompanyController
 
         $companyList = $this->companyDAO->filterList($parameters);
 
-
         $addressList = $this->addressDAO->GetAll();
 
 

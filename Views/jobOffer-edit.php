@@ -7,7 +7,7 @@ include('nav.php');
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4 text-center">Editar Publicación</h2> 
-               <form action="<?php echo FRONT_ROOT ?>JobOffer/Edit" method="post" class="bg-light-alpha p-5">
+               <form action="<?php echo FRONT_ROOT ?>JobOffer/Edit" enctype="multipart/form-data" method="post" class="bg-light-alpha p-5">
                     <div class="row">
                          <div class="col-md-6">
                               <div class="form-group">
@@ -19,7 +19,7 @@ include('nav.php');
                               <div class="form-group">  
                                 <select name="idCompany" class="form-control form-input" required>
                                    
-                                <?php foreach($companyList as $company){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE COMPANY
+                                <?php foreach($companyList as $company){
                                         if($company->getIdCompany() == $jobOffer->getCompany()){
                                              $nameCompany = $company->getName();
                                         }
@@ -41,7 +41,7 @@ include('nav.php');
                               <div class="form-group">  
                                 <select name="idJobPosition" class="form-control form-input" required>
                                    
-                                <?php foreach($jobPositionList as $jobPosition){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE JOB POSITION
+                                <?php foreach($jobPositionList as $jobPosition){ 
                                         if($jobPosition->getIdJobPosition() == $jobOffer->getJobPosition()){
                                              $nameJobPosition = $jobPosition->getName();
                                         }
@@ -49,7 +49,7 @@ include('nav.php');
                                     ?>
 
                                    <option value="<?php echo $jobOffer->getJobPosition()?>" selected><?php echo $nameJobPosition ?></option>
-                                    <?php foreach($jobPositionList as $jobPosition){///FILTRO PARA NO MOSTRAR 2 VECES LA OPCION QUE ESTABA ELEGIDA
+                                    <?php foreach($jobPositionList as $jobPosition){
                                              if($jobPosition->getIdJobPosition() != $jobOffer->getJobPosition()){?>
                                                   <option value="<?php echo $jobPosition->getIdJobPosition()?>"><?php echo $jobPosition->getName()?></option>
                                     <?php
@@ -91,7 +91,7 @@ include('nav.php');
                               <div class="form-group">  
                                 <select name="idCareer" class="form-control form-input" required>
 
-                                <?php foreach($careerList as $career){ ///FOREACH FEO PARA MOSTRAR NOMBRE DE CAREER
+                                <?php foreach($careerList as $career){
                                         if($career->getIdCareer() == $jobOffer->getCareer()){
                                              $nameCareer = $career->getName();
                                         }
@@ -99,7 +99,7 @@ include('nav.php');
                                     ?>
 
                                    <option value="<?php echo $jobOffer->getCareer()?>" selected><?php echo $nameCareer?></option>
-                                    <?php foreach($careerList as $career){ ///FILTRO PARA NO MOSTRAR 2 VECES LA OPCION QUE ESTABA ELEGIDA
+                                    <?php foreach($careerList as $career){
                                          if($career->getIdCareer() != $jobOffer->getCareer()){?>
                                              <option value="<?php echo $career->getIdCareer()?>"><?php echo $career->getName()?></option>
                                     <?php
@@ -132,16 +132,7 @@ include('nav.php');
                          </div>
 
                     </div>
-
                     <div class="row">
-
-                        <div class="col-md-4">
-                              <div class="form-group">
-                                   <label for="">Fecha de Ingreso</label>
-                                   <input type="date" name="postDate" class="form-control" value="<?php echo $jobOffer->getPostDate()?>" required>
-                              </div>
-                         </div>
-
                          <div class="col-md-4">
                               <div class="form-group">
                                    <label for="">Fecha de Expiración</label>
@@ -152,14 +143,7 @@ include('nav.php');
                     </div>
 
                     <div class="row">
-                         <div class="col-md-4">
-                              <div class="form-group">
-                                   <select name="active" value="<?php echo $jobOffer->getActive() ?>" class="form-control form-input">
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
-                                   </select>
-                              </div>
-                         </div>
+                         <input type="file" name="flyer" id="">
                     </div>
 
                     <div class="row mt-3 justify-content-end">

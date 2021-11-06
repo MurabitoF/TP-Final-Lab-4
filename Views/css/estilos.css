@@ -119,6 +119,21 @@ nav {
 	transition: all 0.3s ease-in-out;
 }
 
+.button-yellow{
+	background-color: #E8A530;
+	color: #252525;
+	border: none;
+	border-radius: 0;
+	box-shadow: none !important;
+	transition: all 0.3s ease-in-out;
+}
+
+.button-yellow:hover{
+	color: #252525;
+	background-color: #b17e27;
+	transition: all 0.3s ease-in-out;
+}
+
 .link-button{
 	text-decoration: none;
 	font-weight: bold;
@@ -395,6 +410,15 @@ nav .menu:hover {
 	}
 }
 
+.action-buttons{
+	--bs-gutter-x: 0;
+}
+
+/* JobOffer Add */
+.preview-flyer{
+	max-height: 5;
+}
+
 /* JobOffer post */
 
 .jobOffer-title{
@@ -410,6 +434,10 @@ nav .menu:hover {
 	font-size: 1.5rem;
 	color: #73BD28;
 	-webkit-text-stroke:1px #64a524;
+}
+
+.jobOffer-date{
+	color: #6d6d6d;
 }
 
 /* Perfil alumno */

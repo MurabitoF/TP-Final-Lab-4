@@ -15,6 +15,8 @@
         private $description;
         private $postDate;
         private $expireDate;
+        private $status;
+        private $imgFlyer;
 
 
         public function __construct() {
@@ -59,4 +61,10 @@
 
         public function getExpireDate(){return $this->expireDate;}
         public function setExpireDate($expireDate){ $this->expireDate = $expireDate;}
+
+	    public function getStatus(){ return $this->status; }
+	    public function setStatus($status){ $this->status = $status; }
+        
+	    public function getImgFlyer(){ return $this->imgFlyer; }
+	    public function setImgFlyer($imgFlyer){ $this->imgFlyer = $imgFlyer; }
     }

@@ -15,9 +15,9 @@ class JobOfferDAO implements IJobOfferDAO
 
     public function Add(JobOffer $jobOffer)
     {
-        try{
-            $query = "INSERT INTO ". $this->tableName . " (title, description, workload, requirements, postDate, expireDate, active, city, idCompany, idJobPosition, idCareer) 
-            VALUES (:title, :description, :workload, :requirements, :postDate, :expireDate, :active, :city, :idCompany, :idJobPosition, :idCareer);";
+        try {
+            $query = "INSERT INTO " . $this->tableName . " (title, description, workload, requirements, postDate, expireDate, active, city, idCompany, idJobPosition, idCareer, status, imgFlyer) 
+            VALUES (:title, :description, :workload, :requirements, :postDate, :expireDate, :active, :city, :idCompany, :idJobPosition, :idCareer, :status, :imgFlyer);";
 
             $parameters["title"] = $jobOffer->getTitle();
             $parameters["description"] = $jobOffer->getDescription();
@@ -30,31 +30,31 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["idCompany"] = $jobOffer->getCompany();
             $parameters["idJobPosition"] = intval($jobOffer->getJobPosition());
             $parameters["idCareer"] = intval($jobOffer->getCareer());
+            $parameters["status"] = $jobOffer->getStatus();
+            $parameters["imgFlyer"] = $jobOffer->getImgFlyer();
 
             $this->connection = Connection::GetInstance();
 
             $this->connection->ExecuteNonQuery($query, $parameters);
-            
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
 
     public function GetAll()
     {
-        try{
+        try {
             $jobOfferList = array();
-    
-            $query = "SELECT * FROM ".$this->tableName;
-    
+
+            $query = "SELECT * FROM " . $this->tableName;
+
             $this->connection = Connection::GetInstance();
-    
+
             $resultSet = $this->connection->Execute($query);
-    
-            foreach($resultSet as $row)
-            {
+
+            foreach ($resultSet as $row) {
                 $jobOffer = new JobOffer();
-                
+
                 $jobOffer->setIdJobOffer($row["idJobOffer"]);
                 $jobOffer->setJobPosition($row["idJobPosition"]);
                 $jobOffer->setCompany($row["idCompany"]);
@@ -67,51 +67,51 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setActive($row["active"]);
                 $jobOffer->setTitle($row["title"]);
                 $jobOffer->setDescription($row["description"]);
-    
+                if (isset($row['imgFlyer'])) {
+                    $jobOffer->setImgFlyer($row['imgFlyer']);
+                }
+
                 array_push($jobOfferList, $jobOffer);
             }
-    
-            return $jobOfferList;
 
-        }catch(Exception $ex){
+            return $jobOfferList;
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
 
     public function Remove($idJobOffer)
     {
-        try{
-            $query = "UPDATE ".$this->tableName." SET active = FALSE WHERE idJobOffer = ".$idJobOffer;
+        try {
+            $query = "UPDATE " . $this->tableName . " SET active = FALSE WHERE idJobOffer = " . $idJobOffer;
 
             $this->connection = Connection::GetInstance();
 
             $this->connection->ExecuteNonQuery($query);
-
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
 
     public function Edit($jobOffer)
     {
-        try{
-            $query = "UPDATE ".$this->tableName." SET title =\"". $jobOffer->getTitle() ."\",
-            description =\"". $jobOffer->getDescription() . "\",
-            workload =\"". $jobOffer->getWorkload() ."\",
-            requirements =\"". $jobOffer->getRequirements() ."\",
-            postDate =\"". $jobOffer->getPostDate() ."\",
-            expireDate =\"". $jobOffer->getExpireDate() ."\",
-            active =\"". $jobOffer->getActive() ."\",
-            city =\"". $jobOffer->getCity() ."\",
-            idCompany =\"". $jobOffer->getCompany() ."\",
-            idjobPosition =\"". $jobOffer->getJobPosition() ."\",
-            idCareer =". $jobOffer->getCareer() ." WHERE idJobOffer = ". $jobOffer->getIdJobOffer();
+        try {
+            $query = "UPDATE " . $this->tableName . " SET title =\"" . $jobOffer->getTitle() . "\",
+            description =\"" . $jobOffer->getDescription() . "\",
+            workload =\"" . $jobOffer->getWorkload() . "\",
+            requirements =\"" . $jobOffer->getRequirements() . "\",
+            postDate =\"" . $jobOffer->getPostDate() . "\",
+            expireDate =\"" . $jobOffer->getExpireDate() . "\",
+            active =\"" . $jobOffer->getActive() . "\",
+            city =\"" . $jobOffer->getCity() . "\",
+            idCompany =\"" . $jobOffer->getCompany() . "\",
+            idjobPosition =\"" . $jobOffer->getJobPosition() . "\",
+            idCareer =" . $jobOffer->getCareer() . " WHERE idJobOffer = " . $jobOffer->getIdJobOffer();
 
             $this->connection = Connection::GetInstance();
 
             $this->connection->ExecuteNonQuery($query);
-
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
@@ -119,9 +119,9 @@ class JobOfferDAO implements IJobOfferDAO
     public function SearchId($idJobOffer)
     {
         $foundJobOffer = new JobOffer;
-        
-        try{
-            $query = "SELECT * FROM ".$this->tableName." WHERE idJobOffer = :idJobOffer";
+
+        try {
+            $query = "SELECT * FROM " . $this->tableName . " WHERE idJobOffer = :idJobOffer";
 
             $parameters['idJobOffer'] = $idJobOffer;
 
@@ -129,10 +129,9 @@ class JobOfferDAO implements IJobOfferDAO
 
             $foundJobOffer  = $this->connection->Execute($query, $parameters);
 
-            foreach ($foundJobOffer as $row)
-            {
+            foreach ($foundJobOffer as $row) {
                 $jobOffer = new JobOffer();
-                
+
                 $jobOffer->setIdJobOffer($row["idJobOffer"]);
                 $jobOffer->setTitle($row["title"]);
                 $jobOffer->setDescription($row["description"]);
@@ -146,11 +145,14 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setJobPosition($row["idJobPosition"]);
                 $jobOffer->setCareer($row["idCareer"]);
                 $jobOffer->setCompany($row["idCompany"]);
+                $jobOffer->setStatus($row["status"]);
+                if (isset($row['imgFlyer'])) {
+                    $jobOffer->setImgFlyer($row['imgFlyer']);
+                }
             }
 
-            return $jobOffer ;
-
-        }catch(Exception $ex){
+            return $jobOffer;
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
@@ -162,15 +164,15 @@ class JobOfferDAO implements IJobOfferDAO
 
             $query = "SELECT * FROM $this->tableName";
 
-            $filteredList = array_filter($parameters); // removes empty values from $_POST
+            $filteredList = array_filter($parameters);
 
-  
-            if ($filteredList) { // not empty
+
+            if ($filteredList) { 
                 $query .= " WHERE";
 
                 foreach ($filteredList as $key => $value) {
-                    $query .= " $key  LIKE '%$value%'";  // $filteredList keyname = $filteredList['keyname'] value
-                    if (count($filteredList) > 1 && (count($filteredList) > $key)) { // more than one search filter, and not the last
+                    $query .= " $key  LIKE '%$value%'"; 
+                    if (count($filteredList) > 1 && (count($filteredList) > $key)) {
                         $query .= " AND";
                     }
                 }
@@ -196,16 +198,17 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCompany($row["idCompany"]);
                 $jobOffer->setJobPosition($row["idJobPosition"]);
                 $jobOffer->setCareer($row["idCareer"]);
+                $jobOffer->setStatus($row["status"]);
+                if (isset($row['imgFlyer'])) {
+                    $jobOffer->setImgFlyer($row['imgFlyer']);
+                }
 
                 array_push($jobOfferList, $jobOffer);
             }
 
             return $jobOfferList;
-
-        } catch (Exception $ex) 
-        {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
-
 }

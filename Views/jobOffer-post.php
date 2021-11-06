@@ -25,6 +25,12 @@ require_once('nav.php');
                     <?php echo $jobOffer->getDescription() ?>
                 </div>
             </div>
+            <?php if($jobOffer->getImgFlyer()) ?>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <img src="../<?php echo UPLOADS_PATH . 'img/flyer/' . $jobOffer->getImgFlyer()?>" alt="flyer" class="">
+                </div>
+            </div>
             <div class="row my-5">
                 <div class="col-md-6">
                     <h3>Requerimientos</h3>
@@ -36,11 +42,25 @@ require_once('nav.php');
                 </div>
             </div>
             <div class="row justify-content-between mt-3 jobOffer-tags mt-3">
-                <div class="col-md-3">
-                    <?php echo $jobOffer->getPostDate() ?>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="jobOffer-date">Fecha de Publicacion</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <span><?php echo $jobOffer->getPostDate() ?></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <?php echo $jobOffer->getExpireDate() ?>
+                <div class="col-md-5 align-self-end">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="jobOffer-date">Fecha de Cierre</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <span><?php echo $jobOffer->getExpireDate() ?></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

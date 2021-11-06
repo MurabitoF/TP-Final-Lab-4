@@ -3,14 +3,15 @@
 namespace Controllers;
 
 use \Exception as Exception;
-use DAO\JobOfferDAO as JobOfferDAO;
-use DAO\CurriculumDAO as CurriculumDAO;
 use DAO\ApplicantDAO as ApplicantDAO;
+use DAO\CareerDAO as CareerDao;
+use DAO\CurriculumDAO as CurriculumDAO;
+use DAO\CompanyDAO as CompanyDAO;
+use DAO\ImageDAO as ImageDAO;
+use DAO\JobPositionDAO as JobPositionDAO;
+use DAO\JobOfferDAO as JobOfferDAO;
 use Models\Alert as Alert;
 use Models\JobOffer as JobOffer;
-use DAO\CompanyDAO as CompanyDAO;
-use DAO\JobPositionDAO as JobPositionDAO;
-use DAO\CareerDAO as CareerDao;
 use Models\Applicant as Applicant;
 use Models\CV as CV;
 
@@ -22,15 +23,17 @@ class JobOfferController
     private $careerDAO;
     private $applicantDAO;
     private $curriculumDAO;
+    private $imageDAO;
 
     public function __construct()
     {
-        $this->jobOfferDAO = new JobOfferDAO();
-        $this->companyDAO = new CompanyDAO();
-        $this->jobPositionDAO = new JobPositionDAO();
-        $this->careerDAO = new CareerDao();
+        $this->jobOfferDAO = new JobOfferDAO;
+        $this->companyDAO = new CompanyDAO;
+        $this->jobPositionDAO = new JobPositionDAO;
+        $this->careerDAO = new CareerDao;
         $this->applicantDAO = new ApplicantDAO;
         $this->curriculumDAO = new CurriculumDAO;
+        $this->imageDAO = new ImageDAO;
     }
 
     public function ShowPostView($idJobOffer, $alert = NULL)
@@ -39,11 +42,13 @@ class JobOfferController
         $jobOffer->setApplicants($this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer));
         $company = $this->companyDAO->searchId($jobOffer->getCompany());
         $jobPosition = $this->jobPositionDAO->GetJobPositionById($jobOffer->getJobPosition());
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         require_once(VIEWS_PATH . "jobOffer-post.php");
     }
 
-    public function ShowAddView()
+    public function ShowAddView($alert = NULL)
     {
         session_start();
         LoggerController::VerifyLogIn();
@@ -63,7 +68,7 @@ class JobOfferController
     {
         session_start();
         LoggerController::VerifyLogIn();
-        if (in_array('List JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+        if (in_array('List JobOffers', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $companyList = $this->companyDAO->GetAll();
             $jobOfferList = $this->jobOfferDAO->GetAll();
             $jobPositionList = $this->jobPositionDAO->GetAll();
@@ -110,7 +115,7 @@ class JobOfferController
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
-            $this->jobOfferDAO->Edit($jobOffer);
+            // $this->jobOfferDAO->Edit($jobOffer);
 
             $companyList = $this->companyDAO->GetAll();
             $jobPositionList = $this->jobPositionDAO->GetAll();
@@ -132,34 +137,45 @@ class JobOfferController
         require_once(VIEWS_PATH . "jobOffer-data.php");
     }
 
-    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $postDate, $expireDate, $description)
+    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer = NULL)
     {
         session_start();
         LoggerController::VerifyLogIn();
         if (in_array('Create JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
-            $jobOffer = new JobOffer();
+            try {
+                $jobOffer = new JobOffer();
 
-            $jobOffer->setTitle($title);
-            $jobOffer->setCompany($idCompany);
-            $jobOffer->setCareer($idCareer);
-            $jobOffer->setCity($city);
-            $jobOffer->setJobPosition($idJobPosition);
-            $jobOffer->setRequirements($requirements);
-            $jobOffer->setPostDate($postDate);
-            $jobOffer->setExpireDate($expireDate);
-            $jobOffer->setWorkload($workload);
-            $jobOffer->setDescription($description);
+                $jobOffer->setTitle($title);
+                $jobOffer->setCompany($idCompany);
+                $jobOffer->setCareer($idCareer);
+                $jobOffer->setCity($city);
+                $jobOffer->setJobPosition($idJobPosition);
+                $jobOffer->setRequirements($requirements);
+                $jobOffer->setPostDate(date("Y-m-d"));
+                $jobOffer->setExpireDate($expireDate);
+                $jobOffer->setWorkload($workload);
+                $jobOffer->setDescription($description);
+                $jobOffer->setStatus("Open");
+                if ($flyer) {
+                    $image = $this->imageDAO->UploadImage($flyer, 'flyer');
+                    $jobOffer->setImgFlyer($image);
+                }
 
-            $this->jobOfferDAO->Add($jobOffer);
-
-            $this->ShowAddView();
+                $this->jobOfferDAO->Add($jobOffer);
+                
+                $alert = new Alert('success', 'La publicacion se creo con exito');
+            } catch (Exception $ex) {
+                $alert = new Alert('danger', $ex->getMessage());
+            } finally {
+                $this->ShowAddView($alert);
+            }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
 
-    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $postDate, $expireDate, $workload, $description, $active)
+    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $expireDate, $workload, $description, $active, $flyer = NULL)
     {
         session_start();
         LoggerController::VerifyLogIn();
@@ -174,10 +190,13 @@ class JobOfferController
             $jobOffer->setCareer($idCareer);
             $jobOffer->setWorkload($workload);
             $jobOffer->setRequirements($requirements);
-            $jobOffer->setPostDate($postDate);
             $jobOffer->setExpireDate($expireDate);
             $jobOffer->setDescription($description);
             $jobOffer->setActive($active);
+            if ($flyer) {
+                $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
+                $jobOffer->setImgFlyer($image);
+            }
 
             $this->jobOfferDAO->Edit($jobOffer);
 

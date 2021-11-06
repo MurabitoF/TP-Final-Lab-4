@@ -38,6 +38,7 @@ class UserController
             session_start();
         }
         LoggerController::VerifyLogIn();
+        $lastApplications = array();
         if ($_SESSION['loggedUser']->getRole() == "Student") {
             $lastApplications = $this->applicantDAO->GetJobOffersFromApplicant($_SESSION['loggedUser']->getIdUser());
         }
