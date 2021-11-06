@@ -33,6 +33,8 @@ class AddressDAO implements IAddressDAO{
                 $address->setStreetName($row["streetName"]);
                 $address->setStreetAddress($row["streetAddress"]);
                 $address->setCity($row["city"]);
+                $address->setPostalCode($row["postalCode"]);
+                $address->setStateName($row["stateName"]);
                 $address->setLatitude($row["latitude"]);
                 $address->setLongitude($row["longitude"]);
                 $address->setActive($row["active"]);
@@ -53,11 +55,14 @@ class AddressDAO implements IAddressDAO{
 
     public function Edit($address)
     {
-        $latLng = $this->getLatLng($address->getStreetName(), $address->getStreetAddress(), $address->getCity());
+        $latLng = $this->getLatLng($address->getStreetName(), $address->getStreetAddress(), $address->getCity(), $address->getPostalCode(), $address->getStateName());
+
         try{
 
             $query = "UPDATE ".$this->tableName." SET city =\"". $address->getCity() ."\",
+            postalCode =\"". $address->getPostalCode() ."\",
             streetName =\"". $address->getStreetName() ."\",
+            stateName =\"". $address->getStateName() ."\",
             streetAddress =\"". $address->getStreetAddress() ."\",
             latitude =\"". $latLng[0]['lat'] ."\",
             longitude =\"". $latLng[0]['lon'] ."\" WHERE idAddress = ". $address->getIdAddress();
@@ -76,15 +81,17 @@ class AddressDAO implements IAddressDAO{
     public function Add(Address $address, $idCompany)
     {
 
-        $latLng = $this->getLatLng($address->getStreetName(), $address->getStreetAddress(), $address->getCity());
-
+        $latLng = $this->getLatLng($address->getStreetName(), $address->getStreetAddress(), $address->getCity(), $address->getPostalCode(), $address->getStateName());
+        
         try{
 
-            $query = "INSERT INTO " .$this->tableName." (streetName, streetAddress, city, active, latitude, longitude, idCompany) VALUES (:streetName, :streetAddress, :city, :active, :latitude, :longitude, :idCompany);";
+            $query = "INSERT INTO " .$this->tableName." (streetName, streetAddress, city, postalCode, stateName, latitude, longitude, active, idCompany) VALUES (:streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :active, :idCompany);";
 
             $parameters["streetName"] = $address->getStreetName();
             $parameters["streetAddress"] = $address->getStreetAddress();
             $parameters["city"] = $address->getCity();
+            $parameters["postalCode"] = $address->getPostalCode();
+            $parameters["stateName"] = $address->getStateName();
             $parameters["latitude"] = $latLng[0]['lat'];
             $parameters["longitude"] = $latLng[0]['lon'];
             $parameters["active"] = true;
@@ -137,6 +144,8 @@ class AddressDAO implements IAddressDAO{
                 $address->setStreetName($row["streetName"]);
                 $address->setStreetAddress($row["streetAddress"]);
                 $address->setCity($row["city"]);
+                $address->setPostalCode($row["postalCode"]);
+                $address->setStateName($row["stateName"]);
                 $address->setLatitude($row["latitude"]);
                 $address->setLongitude($row["longitude"]);
                 $address->setActive($row["active"]);
@@ -152,15 +161,14 @@ class AddressDAO implements IAddressDAO{
         }
     }
 
-    private function getLatLng($streetName, $streetAddress, $cityName)
+    private function getLatLng($streetName, $streetAddress, $cityName, $postalCode, $stateName)
     {
         
         $ch = curl_init();
-        $url = "https://nominatim.openstreetmap.org/search?format=json&street=$streetAddress $streetName&city=$cityName";
-        
+        $url = "https://nominatim.openstreetmap.org/search?format=json&street=$streetName $streetAddress&city=$cityName&state=$stateName&postalCode=$postalCode";
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, "Test-app");
+        curl_setopt($ch, CURLOPT_USERAGENT, "UTNRecruitment");
         
         $response = curl_exec($ch);
         

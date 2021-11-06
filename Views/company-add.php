@@ -49,10 +49,23 @@ require_once('header.php');
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
+                            <input type="text" name="stateName" class="form-control form-input" placeholder="Provincia" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
                             <input type="text" name="city" class="form-control form-input" placeholder="Ciudad" required>
                         </div>
                     </div>
 
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="number" name="postalCode" class="form-control form-input" placeholder="Código Postal" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <input type="text" name="streetName" value="" class="form-control form-input" placeholder="Calle" required>
@@ -61,7 +74,7 @@ require_once('header.php');
 
                     <div class="col-md-2">
                         <div class="form-group">
-                            <input type="number" name="streetAddress" value="" class="form-control form-input" placeholder="Número de calle" required>
+                            <input type="number" name="streetAddress" value="" class="form-control form-input" placeholder="Número" required>
                         </div>
                     </div>
                 </div>

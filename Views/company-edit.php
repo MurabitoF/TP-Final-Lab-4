@@ -42,17 +42,28 @@ require_once('header.php');
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <textarea name="description" class="form-control form-textarea" placeholder="Sobre la empresa" value="<?php echo $company->getDescription() ?>" required> <?php echo $company->getDescription() ?></textarea>
+                            <textarea name="description" class="form-control form-textarea" placeholder="Sobre la empresa" value="<?php echo $company->getDescription() ?>" required><?php echo $company->getDescription() ?></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
+                            <input type="text" name="stateName" class="form-control form-input" placeholder="Provincia" value="<?php echo $address->getStateName() ?>" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
                             <input type="text" name="city" class="form-control form-input" placeholder="Ciudad" value="<?php echo $address->getCity() ?>" required>
                         </div>
                     </div>                    
-                    
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="number" name="postalCode" class="form-control form-input" value="<?php echo $address->getPostalCode() ?>" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <input type="text" name="streetName" class="form-control form-input" value="<?php echo $address->getStreetName() ?>" required>
@@ -62,16 +73,6 @@ require_once('header.php');
                     <div class="col-md-2">
                         <div class="form-group">
                             <input type="number" name="streetAddress" class="form-control form-input" value="<?php echo $address->getStreetAddress() ?>" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <select name="state" value="<?php echo $company->getState() ?>" class="form-control">
-                                <option value="true">Activo</option>
-                                <option value="false">Inactivo</option>
-                            </select>
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,13 @@ include('nav.php');
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Listado de Publicaciones</h2>
+               <?php
+               if ($alert) {
+               ?>
+                    <div class="alert alert-<?php echo $alert->getType() ?> text-center fwbold" role="alert"><?php echo $alert->getMessage() ?></div>
+               <?php
+               }
+               ?>
                <form action="<?php echo FRONT_ROOT ?>JobOffer/ShowAdminListView" method="post">
                     <div class="row align-items-center">
                          <div class="col-md-3">
