@@ -97,4 +97,32 @@ class userDAO implements IUserDAO
             }
     }
 
+    public function getEmail($userList)
+    {
+        try
+        {
+            $emailList='';
+
+            foreach($userList as $user){
+                
+            $query = 'SELECT userName FROM ' .$this->tableName .' WHERE idUser = :idUser;';
+            $parameters['idUser'] = $user->getIdUser();
+
+            $this->connection = Connection::GetInstance();
+
+            $email = $this->connection->Execute($query, $parameters);
+            
+            $emailList .= $email[0]["userName"].', ';
+
+            }
+            return $emailList;
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+
+
+
 }

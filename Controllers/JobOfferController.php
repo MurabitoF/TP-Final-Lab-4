@@ -1,4 +1,5 @@
 <?php
+
 namespace Controllers;
 
 use \Exception as Exception;
@@ -10,9 +11,9 @@ use Models\JobOffer as JobOffer;
 use DAO\CompanyDAO as CompanyDAO;
 use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\CareerDAO as CareerDao;
+use DAO\userDAO as UserDAO;
 use Models\Applicant as Applicant;
 use Models\CV as CV;
-
 class JobOfferController
 {
     private $jobOfferDAO;
@@ -21,6 +22,7 @@ class JobOfferController
     private $careerDAO;
     private $applicantDAO;
     private $curriculumDAO;
+    private $userDAO;
 
     public function __construct()
     {
@@ -30,6 +32,7 @@ class JobOfferController
         $this->careerDAO = new CareerDao();
         $this->applicantDAO = new ApplicantDAO;
         $this->curriculumDAO = new CurriculumDAO;
+        $this->userDAO = new UserDAO;
     }
 
     public function ShowPostView($idJobOffer, $alert = NULL)
@@ -135,6 +138,12 @@ class JobOfferController
             $this->ShowAddView();
     }
 
+    public function Remove($idJobOffer)
+    {
+        $this->jobOfferDAO->Remove($idJobOffer);
+        $this->ShowAdminListView();
+    }
+
     public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $postDate, $expireDate, $workload, $description, $active)
     {
         $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
@@ -181,6 +190,18 @@ class JobOfferController
         } finally {
             $this->ShowPostView($idJobOffer, $alert);
         }
+    }
+
+    public function SendEmail($idJobOffer)
+    {
+        $userList = $this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer);
+        $emailList = $this->userDAO->getEmail($userList);
+        $jobOfferName = $this->jobOfferDAO->SearchId($idJobOffer);
+        $titulo = "Ciere de oferta laboral";
+        $message = "\"".$jobOfferName->getTitle()." \" ya no acepta más postulantes.";
+        $header="Bcc:eserskyd@outlook.com" . "\r\n";
+        $returnpath = mail($emailList, $titulo, $message, $header);
+        $this->ShowAdminListView();
     }
 }
 

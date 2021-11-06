@@ -97,7 +97,8 @@ include('nav.php');
                                    <td>
                                         <a href="<?php echo FRONT_ROOT . "JobOffer/Remove?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-red"><i class="fas fa-trash-alt"></i></a>
                                         <a href="<?php echo FRONT_ROOT . "JobOffer/ShowEditView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-black"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" class="btn button-blue"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" class="btn button-blue"><i class="fas fa-user-graduate"></i></a>
+                                        <a href="<?php echo FRONT_ROOT . "JobOffer/SendEmail?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-red"><i class="fas fa-times"></i></a>
                                    </td>
                               </tr>
                          <?php
