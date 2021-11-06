@@ -143,11 +143,9 @@ class CompanyController
                 $company->setPhoneNumber($phoneNumber);
                 $company->setEmail($email);
                 $company->setDescription($description);
-                $company->setState($state);
 
                 $this->companyDAO->Edit($company);
 
-<
                 $address->setCity($city);
                 $address->setPostalCode($postalCode);
                 $address->setStateName($stateName);
@@ -157,10 +155,10 @@ class CompanyController
                 $this->addressDAO->Edit($address);
 
                 $alert = new Alert('success', 'La empresa fue editada correctamente');
+                $this->ShowListView($alert);
             } catch (Exception $ex) {
                 $alert = new Alert('danger', $ex->getMessage());
-            } finally {
-                $this->ShowListView($alert);
+                $this->ShowEditView($alert);
             }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
@@ -183,7 +181,8 @@ class CompanyController
               $alert = new Alert("danger", "Error: ".$ex->getMessage());
           }finally{
               $this->ShowListView();
-        } else {
+          } 
+        }else{
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
 

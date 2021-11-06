@@ -4,7 +4,7 @@ namespace Controllers;
 
 use \Exception as Exception;
 use DAO\ApplicantDAO as ApplicantDAO;
-use DAO\CareerDAO as CareerDao;
+use DAO\CareerDAO as CareerDAO;
 use DAO\CurriculumDAO as CurriculumDAO;
 use DAO\CompanyDAO as CompanyDAO;
 use DAO\ImageDAO as ImageDAO;
@@ -12,7 +12,6 @@ use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\JobOfferDAO as JobOfferDAO;
 use Models\Alert as Alert;
 use Models\JobOffer as JobOffer;
-use DAO\CareerDAO as CareerDao;
 use DAO\userDAO as UserDAO;
 use Models\Applicant as Applicant;
 use Models\CV as CV;
@@ -112,14 +111,12 @@ class JobOfferController
         require_once(VIEWS_PATH . "jobOffer-list-student.php");
     }
 
-    public function ShowEditView($idJobOffer, $alert=null)
+    public function ShowEditView($idJobOffer, $alert = null)
     {
         session_start();
         LoggerController::VerifyLogIn();
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
-
-            // $this->jobOfferDAO->Edit($jobOffer);
 
             $companyList = $this->companyDAO->GetAll();
             $jobPositionList = $this->jobPositionDAO->GetAll();
@@ -166,7 +163,7 @@ class JobOfferController
                 }
 
                 $this->jobOfferDAO->Add($jobOffer);
-                
+
                 $alert = new Alert('success', 'La publicacion se creo con exito');
             } catch (Exception $ex) {
                 $alert = new Alert('danger', $ex->getMessage());
@@ -185,28 +182,32 @@ class JobOfferController
         LoggerController::VerifyLogIn();
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
-        try{
-            $jobOffer = new JobOffer();
+            try {
+                $jobOffer = new JobOffer();
 
-            $jobOffer->setTitle($title);
-            $jobOffer->setCompany($idCompany);
-            $jobOffer->setCareer($idCareer);
-            $jobOffer->setCity($city);
-            $jobOffer->setJobPosition($idJobPosition);
-            $jobOffer->setCareer($idCareer);
-            $jobOffer->setWorkload($workload);
-            $jobOffer->setRequirements($requirements);
-            $jobOffer->setExpireDate($expireDate);
-            $jobOffer->setDescription($description);
-            $jobOffer->setActive($active);
-            if ($flyer) {
-                $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
-                $jobOffer->setImgFlyer($image);
+                $jobOffer->setTitle($title);
+                $jobOffer->setCompany($idCompany);
+                $jobOffer->setCareer($idCareer);
+                $jobOffer->setCity($city);
+                $jobOffer->setJobPosition($idJobPosition);
+                $jobOffer->setCareer($idCareer);
+                $jobOffer->setWorkload($workload);
+                $jobOffer->setRequirements($requirements);
+                $jobOffer->setExpireDate($expireDate);
+                $jobOffer->setDescription($description);
+                $jobOffer->setActive($active);
+                if ($flyer) {
+                    $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
+                    $jobOffer->setImgFlyer($image);
+                }
+
+                $this->jobOfferDAO->Edit($jobOffer);
+
+                $alert = new Alert("success", "Se edito la publicación con exito.");
+                $this->ShowAdminListView($alert);
+            } catch (Exception $ex) {
+                $alert = new Alert("danger", "Hubo un error al editar la publicación");
             }
-
-            $this->jobOfferDAO->Edit($jobOffer);
-
-            $this->ShowAdminListView();
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
@@ -215,15 +216,14 @@ class JobOfferController
 
     public function Remove($idJobOffer)
     {
-        try{
+        try {
             $this->jobOfferDAO->Remove($idJobOffer);
-            $alert = new Alert ("success", "La postulación a sido dada de baja con existo");
-        }catch(Exception $ex){
+            $alert = new Alert("success", "La postulación a sido dada de baja con existo");
+        } catch (Exception $ex) {
             $alert = new Alert("danger", "Hubo un error al dar de baja la postulación");
-        }finally{
+        } finally {
             $this->ShowAdminListView($alert);
         }
-        
     }
 
     public function AddApplicant($idJobOffer, $idUser, $description, $fileCV)
@@ -261,51 +261,46 @@ class JobOfferController
 
     public function SendEmail($idJobOffer)
     {
-        try{
+        try {
             $userList = $this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer);
             $emailList = $this->userDAO->getEmail($userList);
             $jobOfferName = $this->jobOfferDAO->SearchId($idJobOffer);
-            
+
             $titulo = "Ciere de oferta laboral";
-            $message = "\"".$jobOfferName->getTitle()." \" ya no acepta más postulantes.";
-            $header="Bcc:eserskyd@outlook.com" . "\r\n";
+            $message = "\"" . $jobOfferName->getTitle() . " \" ya no acepta más postulantes.";
+            $header = "Bcc:eserskyd@outlook.com" . "\r\n";
 
             mail($emailList, $titulo, $message, $header);
 
             $alert = new Alert("success", "La notificación fue envíada con exito");
-            
-        }catch(Exception $ex)
-        {
-            $alert = new Alert("danger", "Error: ".$ex->getMessage());
-        }finally{
+        } catch (Exception $ex) {
+            $alert = new Alert("danger", "Error: " . $ex->getMessage());
+        } finally {
             $this->ShowAdminListView($alert);
         }
-        
     }
 
     public function NotifyApplicant($idUser, $idJobOffer)
     {
-        try{
+        try {
             $emailUser = $this->userDAO->getEmail($idUser);
             $jobOfferName = $this->jobOfferDAO->SearchId($idJobOffer);
 
             $titulo = "Eliminación de su postulación.";
 
-            $message = "Usted a sido rechazado de la oferta\"".$jobOfferName->getTitle()." \". 
+            $message = "Usted a sido rechazado de la oferta\"" . $jobOfferName->getTitle() . " \". 
             Esto puede ser debido a que no cumple con los requisitos de la misma o por otro motivo. 
             Si cree que esto es un error contactese con el coordinador de su carrera o la oficina de alumnos.";
             $message = wordwrap($message, 70);
 
-            $header="Bcc:eserskyd@outlook.com" . "\r\n";
+            $header = "Bcc:eserskyd@outlook.com" . "\r\n";
 
             mail($emailUser, $titulo, $message, $header);
 
             $alert = new Alert("success", "El postulante fue notificado con exito.");
-
-        }catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             $alert = new Alert("danger", "Hubo un error al notificar al postulante");
-        }finally{
+        } finally {
             $this->ShowAdminListView($alert);
         }
     }
