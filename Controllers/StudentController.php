@@ -2,9 +2,9 @@
 
 namespace Controllers;
 
+use Controllers\LoggerController as LoggerController;
 use DAO\StudentDAO as StudentDAO;
 use Models\Student as Student;
-
 class StudentController
 {
     private $studentDAO;
@@ -14,20 +14,10 @@ class StudentController
         $this->studentDAO = new StudentDAO();
     }
 
-    public function ShowHomeView()
-    {
-        require_once(VIEWS_PATH . "home.php");
-    }
-
-    public function ShowAddView()
-    {
-        session_start();
-        require_once(VIEWS_PATH . "student-add.php");
-    }
-
     public function ShowDataView($idUser)
     {
         session_start();
+        LoggerController::VerifyLogIn();
         if($_SESSION['loggedUser']->getStudentId() == $idUser)
         {
             $user = $_SESSION["loggedUser"];
@@ -35,18 +25,6 @@ class StudentController
             $user = $this->studentDAO->GetById($idUser);
         }
         require_once(VIEWS_PATH . "student-data.php");
-    }
-
-    public function Add($studentId, $firstName, $lastName)
-    {
-        $student = new Student();
-        $student->setStudentId($studentId);
-        $student->setfirstName($firstName);
-        $student->setLastName($lastName);
-
-        $this->studentDAO->Add($student);
-
-        $this->ShowAddView();
     }
 
 }

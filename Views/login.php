@@ -9,9 +9,9 @@ require_once('header.php');
                     <?php echo $alert->getMessage() ?>
                </div>
           <?php } ?>
-          <form action="<?php echo FRONT_ROOT ?>User/LogIn" method="POST" class="login-form p-5">
+          <form action="<?php echo FRONT_ROOT ?>Logger/LogIn" method="POST" class="login-form p-5">
                <div class="logo">
-                    <img src="http://localhost/TP-Final-Lab-4/Views/img/logo-utn-recruitment.png" width="30vw" alt="logo utn">
+                    <img src="../<?php echo VIEWS_PATH?>img/logo-utn-recruitment.png" width="30vw" alt="logo utn">
                </div>
                <div class="form-group">
                     <input type="text" name="username" class="form-input form-control" placeholder="Ingresar email" required>

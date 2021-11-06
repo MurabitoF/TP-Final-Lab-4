@@ -1,5 +1,4 @@
 <?php
-require_once('verify-login.php');
 require_once('header.php');
 require_once('nav.php');
 ?>
@@ -18,17 +17,23 @@ require_once('nav.php');
                     <h2>Ultimas postulaciones</h2>
                     <div class="separator"></div>
                     <div class="row">
-                         <div class="col-md-4">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <h5 class="card-title"><a class="link-button" href="">Titulo</a></h5>
-                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                         <?php if ($lastApplications) {
+                              foreach ($lastApplications as $application) { ?>
+                                   <div class="col-md-4">
+                                        <div class="card">
+                                             <div class="card-body">
+                                                  <h5 class="card-title"><a class="link-button" href="">Titulo</a></h5>
+                                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                             </div>
+                                             <div class="card-header text-center fw-bold">
+                                                  Estado con color
+                                             </div>
+                                        </div>
                                    </div>
-                                   <div class="card-header text-center fw-bold">
-                                        Estado con color
-                                   </div>
-                              </div>
-                         </div>
+                              <?php }
+                         } else { ?>
+                              <h4>No tenes ninguna postulacion</h4>
+                         <?php } ?>
                     </div>
                     <div class="row justify-content-end">
                          <div class="col-md-6 text-md-end">

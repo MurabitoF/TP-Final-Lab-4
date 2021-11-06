@@ -3,17 +3,20 @@
 namespace Controllers;
 
 use \Exception as Exception;
-use DAO\JobOfferDAO as JobOfferDAO;
-use DAO\CurriculumDAO as CurriculumDAO;
 use DAO\ApplicantDAO as ApplicantDAO;
+use DAO\CareerDAO as CareerDao;
+use DAO\CurriculumDAO as CurriculumDAO;
+use DAO\CompanyDAO as CompanyDAO;
+use DAO\ImageDAO as ImageDAO;
+use DAO\JobPositionDAO as JobPositionDAO;
+use DAO\JobOfferDAO as JobOfferDAO;
 use Models\Alert as Alert;
 use Models\JobOffer as JobOffer;
-use DAO\CompanyDAO as CompanyDAO;
-use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\CareerDAO as CareerDao;
 use DAO\userDAO as UserDAO;
 use Models\Applicant as Applicant;
 use Models\CV as CV;
+
 class JobOfferController
 {
     private $jobOfferDAO;
@@ -22,16 +25,18 @@ class JobOfferController
     private $careerDAO;
     private $applicantDAO;
     private $curriculumDAO;
+    private $imageDAO;
     private $userDAO;
 
     public function __construct()
     {
-        $this->jobOfferDAO = new JobOfferDAO();
-        $this->companyDAO = new CompanyDAO();
-        $this->jobPositionDAO = new JobPositionDAO();
-        $this->careerDAO = new CareerDao();
+        $this->jobOfferDAO = new JobOfferDAO;
+        $this->companyDAO = new CompanyDAO;
+        $this->jobPositionDAO = new JobPositionDAO;
+        $this->careerDAO = new CareerDao;
         $this->applicantDAO = new ApplicantDAO;
         $this->curriculumDAO = new CurriculumDAO;
+        $this->imageDAO = new ImageDAO;
         $this->userDAO = new UserDAO;
     }
 
@@ -41,38 +46,51 @@ class JobOfferController
         $jobOffer->setApplicants($this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer));
         $company = $this->companyDAO->searchId($jobOffer->getCompany());
         $jobPosition = $this->jobPositionDAO->GetJobPositionById($jobOffer->getJobPosition());
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         require_once(VIEWS_PATH . "jobOffer-post.php");
     }
 
-    public function ShowAddView($alert = null)
+    public function ShowAddView($alert = NULL)
     {
         session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Create JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            $companyList = $this->companyDAO->GetAll();
+            $jobPositionList = $this->jobPositionDAO->GetAll();
+            $careerList = $this->careerDAO->GetAll();
 
-        $companyList = $this->companyDAO->GetAll();
-        $jobPositionList = $this->jobPositionDAO->GetAll();
-        $careerList = $this->careerDAO->GetAll();
-
-        require_once(VIEWS_PATH . "jobOffer-add.php");
+            require_once(VIEWS_PATH . "jobOffer-add.php");
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
     }
 
     public function ShowAdminListView($alert = null, $idCareer = null, $idJobPosition = null, $workload = null, $city = null)
     {
-        $jobOfferList = $this->jobOfferDAO->GetAll();
-        $jobPositionList = $this->jobPositionDAO->GetAll();
-        $careerList = $this->careerDAO->GetAll();
-
         session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('List JobOffers', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            $companyList = $this->companyDAO->GetAll();
+            $jobOfferList = $this->jobOfferDAO->GetAll();
+            $jobPositionList = $this->jobPositionDAO->GetAll();
+            $careerList = $this->careerDAO->GetAll();
 
-        $parameters = array();
-        $parameters["idCareer"] = $idCareer;
-        $parameters["idJobPosition"] = $idJobPosition;
-        $parameters["workload"] = $workload;
-        $parameters["city"] = $city;
+            $parameters = array();
+            $parameters["idCareer"] = $idCareer;
+            $parameters["idJobPosition"] = $idJobPosition;
+            $parameters["workload"] = $workload;
+            $parameters["city"] = $city;
 
-        $jobOfferList = $this->jobOfferDAO->filterList($parameters);
+            $jobOfferList = $this->jobOfferDAO->filterList($parameters);
 
-        require_once(VIEWS_PATH . "jobOffer-list-admin.php");
+            require_once(VIEWS_PATH . "jobOffer-list-admin.php");
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
     }
 
     public function ShowStudentListView($idCareer = null, $idJobPosition = null, $workload = null, $city = null)
@@ -97,29 +115,76 @@ class JobOfferController
     public function ShowEditView($idJobOffer, $alert=null)
     {
         session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
-        $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
-  
-        $this->jobOfferDAO->Edit($jobOffer);
+            // $this->jobOfferDAO->Edit($jobOffer);
 
-        $companyList = $this->companyDAO->GetAll();
-        $jobPositionList = $this->jobPositionDAO->GetAll();
-        $careerList = $this->careerDAO->GetAll();
+            $companyList = $this->companyDAO->GetAll();
+            $jobPositionList = $this->jobPositionDAO->GetAll();
+            $careerList = $this->careerDAO->GetAll();
 
-        require_once (VIEWS_PATH."jobOffer-edit.php");
+            require_once(VIEWS_PATH . "jobOffer-edit.php");
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
     }
 
     public function ShowDataView($idJobOffer)
     {
         session_start();
-
+        LoggerController::VerifyLogIn();
         $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
-        require_once (VIEWS_PATH."jobOffer-data.php"); ///A FUTURO MOSTRAR TARJETA DE FRANCO
+        require_once(VIEWS_PATH . "jobOffer-data.php");
     }
 
-    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $postDate, $expireDate, $description)
+    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer = NULL)
     {
+        session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Create JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            try {
+                $jobOffer = new JobOffer();
+
+                $jobOffer->setTitle($title);
+                $jobOffer->setCompany($idCompany);
+                $jobOffer->setCareer($idCareer);
+                $jobOffer->setCity($city);
+                $jobOffer->setJobPosition($idJobPosition);
+                $jobOffer->setRequirements($requirements);
+                $jobOffer->setPostDate(date("Y-m-d"));
+                $jobOffer->setExpireDate($expireDate);
+                $jobOffer->setWorkload($workload);
+                $jobOffer->setDescription($description);
+                $jobOffer->setStatus("Open");
+                if ($flyer) {
+                    $image = $this->imageDAO->UploadImage($flyer, 'flyer');
+                    $jobOffer->setImgFlyer($image);
+                }
+
+                $this->jobOfferDAO->Add($jobOffer);
+                
+                $alert = new Alert('success', 'La publicacion se creo con exito');
+            } catch (Exception $ex) {
+                $alert = new Alert('danger', $ex->getMessage());
+            } finally {
+                $this->ShowAddView($alert);
+            }
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
+    }
+
+    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $expireDate, $workload, $description, $active, $flyer = NULL)
+    {
+        session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
         try{
             $jobOffer = new JobOffer();
 
@@ -128,19 +193,23 @@ class JobOfferController
             $jobOffer->setCareer($idCareer);
             $jobOffer->setCity($city);
             $jobOffer->setJobPosition($idJobPosition);
-            $jobOffer->setRequirements($requirements);
-            $jobOffer->setPostDate($postDate);
-            $jobOffer->setExpireDate($expireDate);
+            $jobOffer->setCareer($idCareer);
             $jobOffer->setWorkload($workload);
+            $jobOffer->setRequirements($requirements);
+            $jobOffer->setExpireDate($expireDate);
             $jobOffer->setDescription($description);
+            $jobOffer->setActive($active);
+            if ($flyer) {
+                $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
+                $jobOffer->setImgFlyer($image);
+            }
 
-            $this->jobOfferDAO->Add($jobOffer);
+            $this->jobOfferDAO->Edit($jobOffer);
 
-            $alert = new Alert ("success", "La postulación a sido cargada con existo");
-        }catch(Exception $ex){
-            $alert = new Alert("danger", "Error: ". $ex->getMessage());
-        }finally{
-            $this->ShowAddView($alert);
+            $this->ShowAdminListView();
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
 
@@ -157,59 +226,36 @@ class JobOfferController
         
     }
 
-    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $postDate, $expireDate, $workload, $description, $active)
-    {
-        try{
-        $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
-
-        $jobOffer->setTitle($title);
-        $jobOffer->setCompany($idCompany);
-        $jobOffer->setCareer($idCareer);
-        $jobOffer->setCity($city);
-        $jobOffer->setJobPosition($idJobPosition);
-        $jobOffer->setCareer($idCareer);
-        $jobOffer->setWorkload($workload);
-        $jobOffer->setRequirements($requirements);
-        $jobOffer->setPostDate($postDate);
-        $jobOffer->setExpireDate($expireDate);
-        $jobOffer->setDescription($description);
-        $jobOffer->setActive($active);
-
-        $this->jobOfferDAO->Edit($jobOffer);
-        
-        $alert = new Alert("success", "La postulación fue editada correctamente");
-        
-        $this->ShowAdminListView($alert);
-
-        }catch(Exception $ex){
-        $alert = new Alert("danger", "Error: ".$ex->getMessage());
-        $this->ShowEditView($idJobOffer, $alert);
-        }        
-    }
-
     public function AddApplicant($idJobOffer, $idUser, $description, $fileCV)
     {
-        try {
-            $cv = $this->curriculumDAO->UploadCV($fileCV, $idJobOffer);
+        session_start();
+        LoggerController::VerifyLogIn();
+        if (in_array('Add Applicant', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            try {
+                $cv = $this->curriculumDAO->UploadCV($fileCV, $idJobOffer);
 
-            if ($cv) {
-                $applicant = new Applicant;
-                $applicant->setCv($cv);
-                $applicant->setIdJobOffer($idJobOffer);
-                $applicant->setIdUser($idUser);
-                $applicant->setDescription($description);
-                $applicant->setDate(date("Y/m/d"));
+                if ($cv) {
+                    $applicant = new Applicant;
+                    $applicant->setCv($cv);
+                    $applicant->setIdJobOffer($idJobOffer);
+                    $applicant->setIdUser($idUser);
+                    $applicant->setDescription($description);
+                    $applicant->setDate(date("Y/m/d"));
 
-                $this->applicantDAO->Add($applicant);
+                    $this->applicantDAO->Add($applicant);
 
-                $alert = new Alert("success", "Te postulaste correctamente");
-            } else {
-                $alert = new Alert("danger", "Hubo un error al subir el CV");
+                    $alert = new Alert("success", "Te postulaste correctamente");
+                } else {
+                    $alert = new Alert("danger", "Hubo un error al subir el CV");
+                }
+            } catch (Exception $ex) {
+                $alert = new Alert("danger", $ex->getMessage());
+            } finally {
+                $this->ShowPostView($idJobOffer, $alert);
             }
-        } catch (Exception $ex) {
-            $alert = new Alert("danger", $ex->getMessage());
-        } finally {
-            $this->ShowPostView($idJobOffer, $alert);
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
 
@@ -264,4 +310,3 @@ class JobOfferController
         }
     }
 }
-

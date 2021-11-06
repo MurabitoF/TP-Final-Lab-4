@@ -1,5 +1,4 @@
 <?php 
-require_once('verify-login.php');
 include('header.php');
 include('nav.php');
 
@@ -7,15 +6,11 @@ include('nav.php');
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
-               <h2 class="mb-4 text-center">Agregar Publicación</h2> 
-               <?php
-               if ($alert) {
-               ?>
-                    <div class="alert alert-<?php echo $alert->getType() ?> text-center fwbold" role="alert"><?php echo $alert->getMessage() ?></div>
-               <?php
-               }
-               ?>
-               <form action="<?php echo FRONT_ROOT ?>JobOffer/Add" method="post" class="bg-light-alpha p-5">
+               <h2 class="mb-4 text-center">Agregar Publicación</h2>
+               <?php if($alert){ ?>
+                    <div class="alert alert-<?php echo $alert->getType()?> text-center fwbold" role="alert"><?php echo $alert->getMessage()?></div>
+               <?php } ?>
+               <form action="<?php echo FRONT_ROOT ?>JobOffer/Add" enctype="multipart/form-data" method="post" class="bg-light-alpha p-5">
                     <div class="row">
                          <div class="col-md-6">
                               <div class="form-group">
@@ -25,7 +20,7 @@ include('nav.php');
 
                          <div class="col-md-3">
                               <div class="form-group">  
-                                <select name="idCompany" class="form-control form-input" required>
+                                <select name="idCompany" class="form-select form-input" required>
                                    <option value="" selected>Empresa</option>
                                     <?php foreach($companyList as $company){?>
                                         <option value="<?php echo $company->getIdCompany()?>"><?php echo $company->getName()?></option>
@@ -37,7 +32,7 @@ include('nav.php');
 
                          <div class="col-md-3">
                               <div class="form-group">  
-                                <select name="idJobPosition" class="form-control form-input" required>
+                                <select name="idJobPosition" class="form-select form-input" required>
                                    <option value="" selected>Posición de Trabajo</option>
                                     <?php foreach($jobPositionList as $jobPosition){?>
                                         <option value="<?php echo $jobPosition->getIdJobPosition()?>"><?php echo $jobPosition->getName()?></option>
@@ -53,7 +48,7 @@ include('nav.php');
                     <div class="row">
                          <div class="col-md-4">
                             <div class="form-group">
-                                    <select name="city" class="form-control form-input" required>
+                                    <select name="city" class="form-select form-input" required>
                                         <option value="">Ciudad</option>
                                         <option value="Bahia Blanca">Bahia Blanca</option>
                                         <option value="Buenos Aires"> Buenos Aires</option>
@@ -77,7 +72,7 @@ include('nav.php');
 
                          <div class="col-md-4">
                               <div class="form-group">  
-                                <select name="idCareer" class="form-control form-input" required>
+                                <select name="idCareer" class="form-select form-input" required>
                                    <option value="" selected>Carrera</option>
                                     <?php foreach($careerList as $career){?>
                                         <option value="<?php echo $career->getIdCareer()?>"><?php echo $career->getName()?></option>
@@ -111,19 +106,21 @@ include('nav.php');
 
                     </div>
 
-                    <div class="row">
-
-                        <div class="col-md-4">
-                              <div class="form-group">
-                                   <label for="">Fecha de Ingreso</label>
-                                   <input type="date" name="postDate" value="" class="form-control" required>
-                              </div>
+                    <div class="row my-3">
+                         <div class="col-md-6">
+                              <input type="file" name="flyer" id="imgFlyer" class="visually-hidden">
+                              <label class="btn button-blue" for="imgFlyer">Subi una imagen <i class="fas fa-upload ms-3"></i></label>
                          </div>
+                         <div class="col-md-6">
+                              <img alt="preview flyer" id="previewFlyer" class="visually-hidden preview-flyer">
+                         </div>
+                    </div>
 
+                    <div class="row">
                          <div class="col-md-4">
                               <div class="form-group">
-                                   <label for="">Fecha de Expiración</label>
-                                   <input type="date" name="expireDate" value="" class="form-control" required>
+                                   <label for="">Fecha de Cierre</label>
+                                   <input type="date" name="expireDate" value="" class="form-control form-input" required>
                               </div>
                          </div>
                         
@@ -139,6 +136,21 @@ include('nav.php');
           </div>
      </section>
 </main>
+
+<script>
+     let imgFile = document.getElementById("imgFlyer");
+     let preview = document.getElementById("previewFlyer");
+     imgFile.onchange = evt => {
+          const [file] = imgFile.files;
+          if(file){
+               preview.src = URL.createObjectURL(file);
+               preview.classList.remove("visually-hidden");
+          }else{
+               preview.src = "";
+               preview.classList.add("visually-hidden");
+          }
+     }
+</script>
 
 <?php
 require_once ("footer.php");
