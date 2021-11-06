@@ -39,7 +39,7 @@ class CompanyController
         }
     }
 
-    public function ShowEditView($idCompany)
+    public function ShowEditView($idCompany, $alert = NULL)
     {
         session_start();
         LoggerController::VerifyLogIn();
@@ -69,6 +69,7 @@ class CompanyController
         require_once(VIEWS_PATH . "company-data.php");
     }
 
+
     public function ShowListView($name = null, $city = null, $alert = null)
     {
         session_start();
@@ -86,7 +87,7 @@ class CompanyController
         require_once(VIEWS_PATH . "company-list.php");
     }
 
-    public function Add($name, $cuit, $phoneNumber, $email, $city, $description, $streetName, $streetAddress)
+    public function Add($name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
         session_start();
         LoggerController::VerifyLogIn();
@@ -126,7 +127,8 @@ class CompanyController
         }
     }
 
-    public function Edit($idCompany, $name, $cuit, $phoneNumber, $email, $city, $state, $description, $streetName, $streetAddress)
+
+    public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
         session_start();
         LoggerController::VerifyLogIn();
@@ -145,7 +147,10 @@ class CompanyController
 
                 $this->companyDAO->Edit($company);
 
+<
                 $address->setCity($city);
+                $address->setPostalCode($postalCode);
+                $address->setStateName($stateName);
                 $address->setStreetName($streetName);
                 $address->setStreetAddress($streetAddress);
 
@@ -168,12 +173,20 @@ class CompanyController
         session_start();
         LoggerController::VerifyLogIn();
         if (in_array('Delete Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
-            $this->companyDAO->Remove($idCompany);
-            $this->addressDAO->Remove($idCompany);
-            $this->ShowListView();
+          try{
+
+              $this->companyDAO->Remove($idCompany);
+              $this->addressDAO->Remove($idCompany);
+
+              $alert = new Alert("success", "La empresa fue dada de baja con exito.");
+          }catch(Exception $ex){
+              $alert = new Alert("danger", "Error: ".$ex->getMessage());
+          }finally{
+              $this->ShowListView();
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+
         }
     }
 }

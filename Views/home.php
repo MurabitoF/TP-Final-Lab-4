@@ -12,6 +12,7 @@ require_once('nav.php');
                     <div class="separator"></div>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus nobis officiis aliquid aliquam voluptatem deleniti asperiores consequatur, molestias assumenda quo. Necessitatibus assumenda dolor laudantium nesciunt magni quis illum minima sequi?</p>
                </section>
+               <?php if($_SESSION['loggedUser']->getRole() == "Student"){?>
                <section id="last-applications" class="">
                     <h2>Ultimas postulaciones</h2>
                     <div class="separator"></div>
@@ -40,6 +41,7 @@ require_once('nav.php');
                          </div>
                     </div>
                </section>
+               <?php } ?>
           </div>
      </section>
 </main>

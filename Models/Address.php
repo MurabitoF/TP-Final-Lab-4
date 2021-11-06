@@ -5,6 +5,8 @@
 
         private $idAddress;
         private $city;
+        private $postalCode;
+        private $stateName;
         private $streetName;
         private $streetAddress;
         private $latitude;
@@ -104,6 +106,30 @@
         public function setStreetAddress($streetAddress)
         {
                 $this->streetAddress = $streetAddress;
+
+                return $this;
+        }
+
+        public function getPostalCode()
+        {
+                return $this->postalCode;
+        }
+
+        public function setPostalCode($postalCode)
+        {
+                $this->postalCode = $postalCode;
+
+                return $this;
+        }
+
+        public function getStateName()
+        {
+                return $this->stateName;
+        }
+
+        public function setStateName($stateName)
+        {
+                $this->stateName = $stateName;
 
                 return $this;
         }
