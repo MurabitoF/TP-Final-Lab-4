@@ -416,7 +416,7 @@ nav .menu:hover {
 
 /* JobOffer Add */
 .preview-flyer{
-	max-height: 5;
+	max-height: 100vh;
 }
 
 /* JobOffer post */
