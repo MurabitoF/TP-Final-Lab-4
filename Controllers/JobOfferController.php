@@ -10,11 +10,11 @@ use DAO\CompanyDAO as CompanyDAO;
 use DAO\ImageDAO as ImageDAO;
 use DAO\JobPositionDAO as JobPositionDAO;
 use DAO\JobOfferDAO as JobOfferDAO;
-use Models\Alert as Alert;
-use Models\JobOffer as JobOffer;
 use DAO\userDAO as UserDAO;
-use Models\Applicant as Applicant;
+use Models\Alert as Alert;
 use Models\CV as CV;
+use Models\Applicant as Applicant;
+use Models\JobOffer as JobOffer;
 
 class JobOfferController
 {
@@ -182,7 +182,7 @@ class JobOfferController
         LoggerController::VerifyLogIn();
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
-            try {
+            try{
                 $jobOffer = new JobOffer();
 
                 $jobOffer->setTitle($title);
@@ -203,10 +203,12 @@ class JobOfferController
 
                 $this->jobOfferDAO->Edit($jobOffer);
 
-                $alert = new Alert("success", "Se edito la publicación con exito.");
-                $this->ShowAdminListView($alert);
+                $alert = new Alert('success', 'La publicacion fue editada con exito');
+
             } catch (Exception $ex) {
-                $alert = new Alert("danger", "Hubo un error al editar la publicación");
+                $alert = new Alert('danger', $ex->getMessage());
+            } finally {
+                $this->ShowAdminListView($alert);
             }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";

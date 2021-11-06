@@ -158,7 +158,7 @@ class CompanyController
                 $this->ShowListView($alert);
             } catch (Exception $ex) {
                 $alert = new Alert('danger', $ex->getMessage());
-                $this->ShowEditView($alert);
+                $this->ShowEditView($idCompany, $alert);
             }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
@@ -181,8 +181,8 @@ class CompanyController
               $alert = new Alert("danger", "Error: ".$ex->getMessage());
           }finally{
               $this->ShowListView();
-          } 
-        }else{
+          }
+        } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
 
