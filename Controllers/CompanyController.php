@@ -33,7 +33,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-add.php");
     }
 
-    public function ShowEditView($idCompany)
+    public function ShowEditView($idCompany, $alert = NULL)
     {
         session_start();
 
@@ -57,7 +57,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-data.php");
     }
 
-    public function ShowListView($name = null, $city = null)
+    public function ShowListView($alert = NULL, $name = null, $city = null)
     {
         session_start();
 
@@ -74,7 +74,7 @@ class CompanyController
         require_once (VIEWS_PATH."company-list.php");
     }
 
-    public function Add($name, $cuit, $phoneNumber, $email, $city, $description, $streetName, $streetAddress)
+    public function Add($name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
 
         $alert = new Alert ("", "");
@@ -89,6 +89,8 @@ class CompanyController
 
             $address = new Address();
             $address->setCity($city);
+            $address->setPostalCode($postalCode);
+            $address->setStateName($stateName);
             $address->setStreetName($streetName);
             $address->setStreetAddress($streetAddress);
 
@@ -118,8 +120,9 @@ class CompanyController
         }
     }
 
-    public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $state, $description, $streetName, $streetAddress)
+    public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
+        try{
         $company = $this->companyDAO->searchId($idCompany);
 
         $address = $this->addressDAO->getAddresses($idCompany);
@@ -129,23 +132,39 @@ class CompanyController
         $company->setPhoneNumber($phoneNumber);
         $company->setEmail($email);
         $company->setDescription($description);
-        $company->setState($state);
 
         $this->companyDAO->Edit($company);
 
         $address->setCity($city);
+        $address->setPostalCode($postalCode);
+        $address->setStateName($stateName);
         $address->setStreetName($streetName);
         $address->setStreetAddress($streetAddress);
 
         $this->addressDAO->Edit($address);
+
+        $alert = new Alert("success", $name." fue editada con exito.");
+
+        $this->ShowListView($alert);
+
+        }catch(Exception $ex){
+            $alert = new Alert("danger", $ex->getMessage());
+            $this->ShowEditView($idCompany, $alert);
+        }
         
-        $this->ShowListView();
     }
 
     public function Remove($idCompany)
     {
+        try{
             $this->companyDAO->Remove($idCompany);
             $this->addressDAO->Remove($idCompany);
+
+            $alert = new Alert("success", "La empresa fue dada de baja con exito.");
+        }catch(Exception $ex){
+            $alert = new Alert("danger", "Error: ".$ex->getMessage());
+        }finally{
             $this->ShowListView();
+        }
     }
 }

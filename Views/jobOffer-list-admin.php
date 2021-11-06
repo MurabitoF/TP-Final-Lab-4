@@ -7,6 +7,13 @@ include('nav.php');
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Listado de Publicaciones</h2>
+               <?php
+               if ($alert) {
+               ?>
+                    <div class="alert alert-<?php echo $alert->getType() ?> text-center fwbold" role="alert"><?php echo $alert->getMessage() ?></div>
+               <?php
+               }
+               ?>
                <form action="<?php echo FRONT_ROOT ?>JobOffer/ShowAdminListView" method="post">
                     <div class="row align-items-center">
                          <div class="col-md-3">
@@ -97,7 +104,8 @@ include('nav.php');
                                    <td>
                                         <a href="<?php echo FRONT_ROOT . "JobOffer/Remove?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-red"><i class="fas fa-trash-alt"></i></a>
                                         <a href="<?php echo FRONT_ROOT . "JobOffer/ShowEditView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-black"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" class="btn button-blue"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" class="btn button-blue"><i class="fas fa-user-graduate"></i></a>
+                                        <a href="<?php echo FRONT_ROOT . "JobOffer/SendEmail?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-red"><i class="fas fa-times"></i></a>
                                    </td>
                               </tr>
                          <?php

@@ -2,7 +2,7 @@
 
 namespace DAO;
 
-use \Exception as Exeption;
+use \Exception as Exception;
 use DAO\Connection as Connection;
 use DAO\IApplicantDAO as IApplicantDAO;
 use Models\Applicant as Applicant;
@@ -26,7 +26,7 @@ class ApplicantDAO implements IApplicantDAO
             $this->connection = Connection::GetInstance();
 
             $this->connection->ExecuteNonQuery($query, $parameters);
-        } catch (Exeption $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
@@ -54,9 +54,8 @@ class ApplicantDAO implements IApplicantDAO
 
                $applicantList[$row['idUser']] = $applicant;
             }
-
             return $applicantList;
-        } catch (Exeption $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
@@ -78,7 +77,7 @@ class ApplicantDAO implements IApplicantDAO
             }
 
             return $jobOfferList;
-        } catch (Exeption $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
@@ -98,7 +97,21 @@ class ApplicantDAO implements IApplicantDAO
                 return false;
             }
 
-        } catch (Exeption $ex) {
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    public function Remove($idUser, $idUser_Has_JobOffer)
+    {
+        try{
+            $query = "DELETE FROM ".$this->tableName." WHERE idUser = ".$idUser."AND idUser_Has_JobOffer =" .$idUser_Has_JobOffer;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query);
+
+        }catch(Exception $ex){
             throw $ex;
         }
     }
