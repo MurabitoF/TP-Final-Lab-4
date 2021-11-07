@@ -41,19 +41,22 @@ class JobOfferController
 
     public function ShowPostView($idJobOffer, $alert = NULL)
     {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
         $jobOffer = $this->jobOfferDAO->SearchId($idJobOffer);
         $jobOffer->setApplicants($this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer));
         $company = $this->companyDAO->searchId($jobOffer->getCompany());
         $jobPosition = $this->jobPositionDAO->GetJobPositionById($jobOffer->getJobPosition());
-        if (session_status() != PHP_SESSION_ACTIVE) {
-            session_start();
-        }
         require_once(VIEWS_PATH . "jobOffer-post.php");
     }
 
     public function ShowAddView($alert = NULL)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Create JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $companyList = $this->companyDAO->GetAll();
@@ -69,7 +72,9 @@ class JobOfferController
 
     public function ShowAdminListView($alert = null, $idCareer = null, $idJobPosition = null, $workload = null, $city = null)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('List JobOffers', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $companyList = $this->companyDAO->GetAll();
@@ -94,8 +99,10 @@ class JobOfferController
 
     public function ShowStudentListView($idCareer = null, $idJobPosition = null, $workload = null, $city = null)
     {
-        session_start();
-
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
         $jobOfferList = $this->jobOfferDAO->GetAll();
         $companyList = $this->companyDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
@@ -113,7 +120,9 @@ class JobOfferController
 
     public function ShowEditView($idJobOffer)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
@@ -131,7 +140,9 @@ class JobOfferController
 
     public function ShowDataView($idJobOffer)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
@@ -140,7 +151,9 @@ class JobOfferController
 
     public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer = NULL)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Create JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             try {
@@ -182,7 +195,9 @@ class JobOfferController
 
     public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $expireDate, $workload, $description, $active, $flyer = NULL)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
@@ -221,19 +236,30 @@ class JobOfferController
 
     public function Remove($idJobOffer)
     {
-        try {
-            $this->jobOfferDAO->Remove($idJobOffer);
-            $alert = new Alert("success", "La publicacion a sido dada de baja con existo");
-        } catch (Exception $ex) {
-            $alert = new Alert("danger", "Hubo un error al dar de baja la publicacion");
-        } finally {
-            $this->ShowAdminListView($alert);
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
+        if (in_array('Delete JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            try {
+                $this->jobOfferDAO->Remove($idJobOffer);
+                $alert = new Alert("success", "La publicacion a sido dada de baja con existo");
+            } catch (Exception $ex) {
+                $alert = new Alert("danger", "Hubo un error al dar de baja la publicacion");
+            } finally {
+                $this->ShowAdminListView($alert);
+            }
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
 
     public function AddApplicant($idJobOffer, $idUser, $description, $fileCV)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Add Applicant', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             try {

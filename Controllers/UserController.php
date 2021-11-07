@@ -47,7 +47,9 @@ class UserController
 
     public function ShowAddView($alert = NULL)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Create User', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             require_once(VIEWS_PATH . 'user-add.php');
@@ -64,7 +66,9 @@ class UserController
 
     public function Add($username, $verifiedPassword, $role)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Create User', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             try {

@@ -22,7 +22,7 @@ require_once('nav.php');
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <?php echo $jobOffer->getDescription() ?>
+                    <?php echo  nl2br($jobOffer->getDescription()) ?>
                 </div>
             </div>
             <?php if($jobOffer->getImgFlyer()) ?>
@@ -34,7 +34,7 @@ require_once('nav.php');
             <div class="row my-5">
                 <div class="col-md-6">
                     <h3>Requerimientos</h3>
-                    <?php echo $jobOffer->getRequirements() ?>
+                    <?php echo  nl2br($jobOffer->getRequirements()) ?>
                 </div>
                 <div class="col-md-6  text-md-end">
                     <h3>Jornada Laboral</h3>
