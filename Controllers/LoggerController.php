@@ -128,7 +128,6 @@ class LoggerController
 
     public function loadStudentData(User $user)
     {
-        var_dump($user->getUsername());
         $studentUser = $this->studentDAO->GetByUserName($user->getUsername());
         $studentUser->setIdUser($user->getIdUser());
         $studentUser->setUsername($user->getUsername());
@@ -143,6 +142,17 @@ class LoggerController
 
     private function loadCompanyData(User $user)
     {
-        // $companyUser = $this->companyDAO->SearchId();
+        $companyUser = $this->companyDAO->getCompanyByEmail($user->getUsername());
+        if($companyUser) {
+            $companyUser->setIdUser($user->getIdUser());
+            $companyUser->setUsername($user->getUsername());
+            $companyUser->setPassword($user->getPassword());
+            $companyUser->setRole($user->getRole());
+            $companyUser->setActive($user->getActive());
+            
+            return $companyUser;
+        } else {
+            
+        }
     }
 }

@@ -151,6 +151,37 @@ class CompanyDAO implements ICompanyDAO
         }
     }
 
+    public function getCompanyByEmail($email)
+    {
+        try {
+            $query = "SELECT * FROM " . $this->tableName . " WHERE email = :email";
+
+            $parameter['email'] = $email;
+
+            $this->connection = Connection::GetInstance();
+
+            $foundCompany  = $this->connection->Execute($query, $parameter);
+
+            if($foundCompany){
+                $company = new Company();
+
+                $company->setIdCompany($foundCompany[0]["idCompany"]);
+                $company->setName($foundCompany[0]["companyName"]);
+                $company->setCUIT($foundCompany[0]["cuit"]);
+                $company->setPhoneNumber($foundCompany[0]["phoneNumber"]);
+                $company->setEmail($foundCompany[0]["email"]);
+                $company->setDescription($foundCompany[0]["description"]);
+                $company->setState($foundCompany[0]["active"]);
+                
+                return $company;
+            } else {
+                return NULL;
+            }            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
     public function filterList($parameters)
     {
         try {

@@ -1,7 +1,7 @@
 <?php 
 namespace Models;
-
-class Company{
+use Models\User as User;
+class Company extends User{
 
     private $idCompany;
     private $name;
