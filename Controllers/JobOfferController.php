@@ -272,12 +272,23 @@ class JobOfferController
             $message = "\"" . $jobOfferName->getTitle() . " \" ya no acepta más postulantes.";
             $header = "Bcc:eserskyd@outlook.com" . "\r\n";
 
-            mail($emailList, $titulo, $message, $header);
+            mail("eserskyd@outlook.com", $titulo, $message, $header);
 
             $alert = new Alert("success", "La notificación fue envíada con exito");
         } catch (Exception $ex) {
             $alert = new Alert("danger", "Error: " . $ex->getMessage());
         } finally {
+            $this->ShowAdminListView($alert);
+        }
+    }
+
+    public function CloseJobOffer($idJobOffer)
+    {
+        try{
+            $this->jobOfferDAO->CloseJobOffer($idJobOffer);
+            $this->SendEmail($idJobOffer);
+        }catch(Exception $ex){
+            $alert = new Alert("danger", "Error: " . $ex->getMessage());
             $this->ShowAdminListView($alert);
         }
     }
@@ -299,9 +310,21 @@ class JobOfferController
 
             mail($emailUser, $titulo, $message, $header);
 
-            $alert = new Alert("success", "El postulante fue notificado con exito.");
+            $alert = new Alert("success", "El postulante a sido dado de baja y fue notificado con exito.");
         } catch (Exception $ex) {
             $alert = new Alert("danger", "Hubo un error al notificar al postulante");
+        } finally {
+            $this->ShowAdminListView($alert);
+        }
+    }
+
+    public function RemoveApplicant($idUser, $idUser_Has_JobOffer, $idJobOffer)
+    {
+        try {
+            $this->ApplicantDAO->Remove($idUser, $idUser_Has_JobOffer);
+            $this->NotifyApplicant($idUser, $idJobOffer);
+        } catch (Exception $ex) {
+            $alert = new Alert("danger", "Hubo un error al dar de baja la postulación");
         } finally {
             $this->ShowAdminListView($alert);
         }

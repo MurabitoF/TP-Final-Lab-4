@@ -80,6 +80,21 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
+    public function CloseJobOffer($idJobOffer)
+    {
+        try {
+            $query = "CALL JobOffer_Close(:idJobOffer)";
+
+            $parameters["idJobOffer"] = $idJobOffer;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
     public function Remove($idJobOffer)
     {
         try {
