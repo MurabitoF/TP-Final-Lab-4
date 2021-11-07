@@ -17,19 +17,54 @@ class CurriculumDAO implements ICurriculumDAO
             $tempFileName = $cv["tmp_name"];
             $fileType = $cv["type"];
 
-            $filePath = UPLOADS_PATH .'cv/'. $idJobOffer .'/'. basename($fileName);
+            // $filePath = UPLOADS_PATH .'cv/'. $idJobOffer .'/'. basename($fileName);
+            $newFilePath = UPLOADS_PATH .'cv/' . $idJobOffer .'/'. uniqid("cv_") . ".$fileType";
 
-            $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+            $fileType = strtolower(pathinfo($newFilePath, PATHINFO_EXTENSION));
+
 
             if (in_array($fileType, $this->validFileTypes)) {
                 if(!is_dir(UPLOADS_PATH . $idJobOffer )){
                     mkdir(UPLOADS_PATH . $idJobOffer, 0777, true);
                 }
-                if (move_uploaded_file($tempFileName, $filePath)) {
-                    return $fileName;
+                if (move_uploaded_file($tempFileName, $newFilePath)) {
+                    return basename($newFilePath);
                 }
             } else {
                 return NULL;
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    public function DeleteCV($cv, $idJobOffer)
+    {
+        try {
+            $filePath = UPLOADS_PATH . 'cv/' . $idJobOffer . '/' . $cv;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    public function EditCV($oldCv, $newCv, $idJobOffer)
+    {
+        try {
+            if($this->DeleteCV($oldCv, $idJobOffer)){
+                $cv = $this->UploadCV($newCv, $idJobOffer);
+                if($cv){
+                    return $cv;
+                } else {
+                    throw new Exception("Ocurrio un error al subir el nuevo curriculum");
+                }
+            } else {
+                throw new Exception("Ocurrio un error al borrar el curriculum");
             }
         } catch (Exception $ex) {
             throw $ex;

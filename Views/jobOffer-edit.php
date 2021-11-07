@@ -133,6 +133,17 @@ include('nav.php');
                          </div>
 
                     </div>
+
+                    <div class="row my-3">
+                         <div class="col-md-6">
+                              <input type="file" name="flyer" id="imgFlyer" class="visually-hidden">
+                              <label class="btn button-blue" for="imgFlyer">Subi una imagen <i class="fas fa-upload ms-3"></i></label>
+                         </div>
+                         <div class="col-md-6">
+                              <img alt="preview flyer" id="previewFlyer" class="visually-hidden preview-flyer">
+                         </div>
+                    </div>
+
                     <div class="row">
                          <div class="col-md-4">
                               <div class="form-group">
@@ -141,10 +152,6 @@ include('nav.php');
                               </div>
                          </div>
                         
-                    </div>
-
-                    <div class="row">
-                         <input type="file" name="flyer" id="">
                     </div>
 
                     <div class="row mt-3 justify-content-end">
@@ -157,3 +164,18 @@ include('nav.php');
           </div>
      </section>
 </main>
+<!-- src="../<?php #echo VIEWS_PATH?>./js/main.js" -->
+<script >
+     let imgFile = document.getElementById("imgFlyer");
+     let preview = document.getElementById("previewFlyer");
+     imgFile.onchange = evt => {
+          const [file] = imgFile.files;
+          if(file){
+               preview.src = URL.createObjectURL(file);
+               preview.classList.remove("visually-hidden");
+          }else{
+               preview.src = "";
+               preview.classList.add("visually-hidden");
+          }
+     }
+</script>

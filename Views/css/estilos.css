@@ -217,7 +217,7 @@ nav .menu:hover {
 }
 
 .sidenav {
-	height: 50%; /* 100% Full-height */
+	height: 65%;
 	width: 0; /* 0 width - change this with JavaScript */
 	position: fixed; /* Stay in place */
 	z-index: 10; /* Stay on top */
@@ -416,7 +416,7 @@ nav .menu:hover {
 
 /* JobOffer Add */
 .preview-flyer{
-	max-height: 100vh;
+	max-height: 30rem;
 }
 
 /* JobOffer post */
