@@ -22,11 +22,21 @@ require_once('nav.php');
                                    <div class="col-md-4">
                                         <div class="card">
                                              <div class="card-body">
-                                                  <h5 class="card-title"><a class="link-button" href="">Titulo</a></h5>
-                                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                                  <h5 class="card-title">
+                                                       <a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowPostView?idJobOffer=" . $application->getIdJobOffer()?>">
+                                                            <?php echo ucwords($application->getTitle()) ?>
+                                                       </a>
+                                                  </h5>
+                                                  <div class="separator-black"></div>
+                                                  <h6>Ciudad</h6>
+                                                  <span><?php echo $application->getCity() ?></span>
+                                                  <h6>Carga Horaria</h6>
+                                                  <span><?php echo $application->getWorkload() ?></span>
+                                                  <h6>Fecha de Cierre</h6>
+                                                  <span><?php echo $application->getExpireDate() ?></span>
                                              </div>
-                                             <div class="card-header text-center fw-bold">
-                                                  Estado con color
+                                             <div class="card-header text-center fw-bold <?php echo ($application->getStatus() == "Open") ? "bg-open" : "bg-closed" ?>">
+                                                  <?php echo ($application->getStatus() == "Open") ? "Abierta" : "Cerrada" ?>
                                              </div>
                                         </div>
                                    </div>

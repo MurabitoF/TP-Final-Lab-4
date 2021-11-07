@@ -40,7 +40,7 @@ class UserController
         LoggerController::VerifyLogIn();
         $lastApplications = array();
         if ($_SESSION['loggedUser']->getRole() == "Student") {
-            $lastApplications = $this->applicantDAO->GetJobOffersFromApplicant($_SESSION['loggedUser']->getIdUser());
+            $lastApplications = $this->GetLastApplications($_SESSION["loggedUser"]->getIdUser());
         }
         require_once(VIEWS_PATH . "home.php");
     }
@@ -125,5 +125,15 @@ class UserController
             $message = "Ya se encuentra registrado en el sistema";
             $this->ShowRegisterView(NULL, $message);
         }
+    }
+
+    private function GetLastApplications($idUser){
+        $jobOfferList = $this->applicantDAO->GetLastJobOffersFromApplicant($_SESSION['loggedUser']->getIdUser());
+        $lastApplications = array();
+        foreach($jobOfferList as $idJobOffer){
+            $jobOffer = $this->jobOfferDAO->SearchId($idJobOffer);
+            array_push($lastApplications, $jobOffer);
+        }
+        return $lastApplications;
     }
 }

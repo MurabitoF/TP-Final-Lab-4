@@ -54,8 +54,23 @@ nav {
 	background-color: #1c819e;
 }
 
+.bg-open{
+	background-color: #73BD28;
+	color: #252525;
+}
+
+.bg-closed{
+	background-color: #C91D1D;
+	color: #f2f2f0;
+}
+
 .separator {
 	border: 1px solid #1c819e;
+	margin-bottom: 15px;
+}
+
+.separator-black {
+	border: 1px solid #252525;
 	margin-bottom: 15px;
 }
 
