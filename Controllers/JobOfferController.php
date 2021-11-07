@@ -105,7 +105,7 @@ class JobOfferController
 
         require_once (VIEWS_PATH."jobOffer-edit.php");
     }
-
+/*
     public function ShowDataView($idJobOffer)
     {
         session_start();
@@ -113,6 +113,33 @@ class JobOfferController
         $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
         require_once (VIEWS_PATH."jobOffer-data.php"); ///A FUTURO MOSTRAR TARJETA DE FRANCO
+    }*/
+
+  /*  public function ShowApplicantsHistory($idUser){
+        session_start();
+        
+        $jobOfferList = $this->applicantDAO->GetJobOffersFromApplicant($idUser);
+
+        require_once(VIEWS_PATH . "jobOffer-list-student.php");
+    }*/
+
+  /*  public function ShowList($idUser){
+        $jobOfferList = $this->applicantDAO->GetJobOffersFromApplicant($idUser);
+        $jobPositionList = $this->jobPositionDAO->GetAll();
+        $careerList = $this->careerDAO->GetAll();
+
+        session_start();
+
+        require_once(VIEWS_PATH . "jobOffer-list.php");
+    }*/
+
+    ///LISTADO DE POSTULANTES
+    public function ShowApplicantListView($idJobOffer){
+        $applicantList = $this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer);
+
+        session_start();
+
+        require_once(VIEWS_PATH . "applicants-list.php");
     }
 
     public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $postDate, $expireDate, $description)

@@ -7,7 +7,7 @@ require_once('nav.php');
 <main>
      <section id="listado" class="mb-5 pt-5">
           <div class="container">
-
+          
                <section id="first-steps" class="">
                     <h2>Como usar el sistema</h2>
                     <div class="separator"></div>
@@ -30,8 +30,8 @@ require_once('nav.php');
                          </div>
                     </div>
                     <div class="row justify-content-end">
-                         <div class="col-md-6 text-md-end">
-                              <a href="">Ver historial de postulaciones</a>
+                         <div class="col-md-6 text-md-end">  
+                         <a href="<?php echo FRONT_ROOT . "JobOffer/ShowList?idUser=" . $user->getIdUser(); ?>"> Ver historial de postulaciones </a>
                          </div>
                     </div>
                </section>
