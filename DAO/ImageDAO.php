@@ -19,7 +19,7 @@ class ImageDAO implements IImageDAO
 
             if ($pathId == "flyer") {
                 $preFix = "fl_"; //Flyer
-            } elseif ($pathId == "student") {
+            } elseif ($pathId == "profile_picture") {
                 $preFix = "sp_"; // Student Picture
             } else {
                 $preFix = "lg_"; // Company Logo
