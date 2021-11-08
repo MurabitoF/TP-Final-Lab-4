@@ -15,12 +15,11 @@ class UserDAO implements IUserDAO
     public function Add(User $user)
     {
         try {
-            $query = "INSERT INTO " . $this->tableName . " (userName, password, role, active) VALUES (:userName, :password, :role, :active);";
+            $query = "CALL save_User (:userName, :password, :role);";
 
             $parameters["userName"] = $user->getUsername();
             $parameters["password"] = $user->getPassword();
             $parameters["role"] = $user->getRole();
-            $parameters["active"] = $user->getActive();
 
             $this->connection = Connection::GetInstance();
 

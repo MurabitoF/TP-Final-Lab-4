@@ -16,8 +16,7 @@ class JobOfferDAO implements IJobOfferDAO
     public function Add(JobOffer $jobOffer)
     {
         try {
-            $query = "INSERT INTO " . $this->tableName . " (title, description, workload, requirements, postDate, expireDate, active, city, idCompany, idJobPosition, idCareer, status, imgFlyer) 
-            VALUES (:title, :description, :workload, :requirements, :postDate, :expireDate, :active, :city, :idCompany, :idJobPosition, :idCareer, :status, :imgFlyer);";
+            $query = "CALL save_JobOffer (:title, :description, :workload, :requirements, :postDate, :expireDate, :city, :idCompany, :idJobPosition, :idCareer, :status, :imgFlyer);";
 
             $parameters["title"] = $jobOffer->getTitle();
             $parameters["description"] = $jobOffer->getDescription();
@@ -25,7 +24,6 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["requirements"] = $jobOffer->getRequirements();
             $parameters["postDate"] = $jobOffer->getPostDate();
             $parameters["expireDate"] = $jobOffer->getExpireDate();
-            $parameters["active"] = $jobOffer->getActive();
             $parameters["city"] = $jobOffer->getCity();
             $parameters["idCompany"] = $jobOffer->getCompany();
             $parameters["idJobPosition"] = intval($jobOffer->getJobPosition());
@@ -80,6 +78,21 @@ class JobOfferDAO implements IJobOfferDAO
         }
     }
 
+    public function CloseJobOffer($idJobOffer)
+    {
+        try {
+            $query = "CALL JobOffer_Close(:idJobOffer)";
+
+            $parameters["idJobOffer"] = $idJobOffer;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
     public function Remove($idJobOffer)
     {
         try {
@@ -96,21 +109,25 @@ class JobOfferDAO implements IJobOfferDAO
     public function Edit($jobOffer)
     {
         try {
-            $query = "UPDATE " . $this->tableName . " SET title =\"" . $jobOffer->getTitle() . "\",
-            description =\"" . $jobOffer->getDescription() . "\",
-            workload =\"" . $jobOffer->getWorkload() . "\",
-            requirements =\"" . $jobOffer->getRequirements() . "\",
-            postDate =\"" . $jobOffer->getPostDate() . "\",
-            expireDate =\"" . $jobOffer->getExpireDate() . "\",
-            active =\"" . $jobOffer->getActive() . "\",
-            city =\"" . $jobOffer->getCity() . "\",
-            idCompany =\"" . $jobOffer->getCompany() . "\",
-            idjobPosition =\"" . $jobOffer->getJobPosition() . "\",
-            idCareer =" . $jobOffer->getCareer() . " WHERE idJobOffer = " . $jobOffer->getIdJobOffer();
+            $query = "CALL update_JobOffer (:idJobOffer, :title, :description, :workload, :requirements, :postDate, :expireDate, :city, :idCompany, :idJobPosition, :idCareer, :status, :imgFlyer);";
+
+            $parameters["idJobOffer"] = $jobOffer->getIdJobOffer();
+            $parameters["title"] = $jobOffer->getTitle();
+            $parameters["description"] = $jobOffer->getDescription();
+            $parameters["workload"] = $jobOffer->getWorkload();
+            $parameters["requirements"] = $jobOffer->getRequirements();
+            $parameters["postDate"] = $jobOffer->getPostDate();
+            $parameters["expireDate"] = $jobOffer->getExpireDate();
+            $parameters["city"] = $jobOffer->getCity();
+            $parameters["idCompany"] = $jobOffer->getCompany();
+            $parameters["idJobPosition"] = intval($jobOffer->getJobPosition());
+            $parameters["idCareer"] = intval($jobOffer->getCareer());
+            $parameters["status"] = $jobOffer->getStatus();
+            $parameters["imgFlyer"] = $jobOffer->getImgFlyer();
 
             $this->connection = Connection::GetInstance();
 
-            $this->connection->ExecuteNonQuery($query);
+            $this->connection->ExecuteNonQuery($query, $parameters);
         } catch (Exception $ex) {
             throw $ex;
         }

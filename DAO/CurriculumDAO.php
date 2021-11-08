@@ -23,8 +23,8 @@ class CurriculumDAO implements ICurriculumDAO
             $newFilePath = UPLOADS_PATH . 'cv/' . $idJobOffer .'/'. uniqid("cv_") . ".$fileType";
 
             if (in_array($fileType, $this->validFileTypes)) {
-                if(!is_dir(UPLOADS_PATH . 'cv/'. $idJobOffer )){
-                    mkdir(UPLOADS_PATH . 'cv/'. $idJobOffer, 0777, true);
+                if(!is_dir(UPLOADS_PATH . 'cv/' . $idJobOffer )){
+                    mkdir(UPLOADS_PATH . 'cv/' . $idJobOffer, 0777, true);
                 }
                 if (move_uploaded_file($tempFileName, $newFilePath)) {
                     return basename($newFilePath);

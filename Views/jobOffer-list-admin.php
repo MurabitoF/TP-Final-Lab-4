@@ -108,9 +108,48 @@ include('nav.php');
                                    <td><?php echo $nameJobPosition; ?></td>
                                    <td><?php echo $jobOffer->getPostDate(); ?></td>
                                    <td>
-                                        <a href="<?php echo FRONT_ROOT . "JobOffer/Remove?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-red"><i class="fas fa-trash-alt"></i></a>
-                                        <a href="<?php echo FRONT_ROOT . "JobOffer/ShowEditView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-black"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="<?php echo FRONT_ROOT . "JobOffer/ShowApplicantListView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-blue">Ver Postulantes</a>
+                                        <div class="dropend ">
+                                             <button type="button" class="btn button-blue w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                             </button>
+                                             <div class="dropdown-menu p-0">
+                                                  <div class="row action-buttons">
+                                                       <div class="col-6">
+                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/ShowEditView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" 
+                                                            class="btn button-black w-100" 
+                                                            data-bs-toggle="tooltip" 
+                                                            title="Editar Publicacion">
+                                                                 <i class="fas fa-pencil-alt"></i>
+                                                            </a>
+                                                       </div>
+                                                       <div class="col-6">
+                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" 
+                                                            class="btn button-blue w-100" 
+                                                            data-bs-toggle="tooltip" 
+                                                            title="Ver Postulantes">
+                                                                 <i class="fas fa-user-graduate"></i>
+                                                            </a>
+                                                       </div>
+                                                  </div>
+                                                  <div class="row action-buttons">
+                                                       <div class="col-6">
+                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/CloseJobOffer?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" 
+                                                            class="btn button-yellow w-100" 
+                                                            data-bs-toggle="tooltip" 
+                                                            title="Cerrar Publicacion">
+                                                                 <i class="fas fa-times"></i>
+                                                            </a>
+                                                       </div>
+                                                       <div class="col-6">
+                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/Remove?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" 
+                                                            class="btn button-red w-100" 
+                                                            data-bs-toggle="tooltip" 
+                                                            title="Borrar Publicacion">
+                                                                 <i class="fas fa-trash-alt"></i>
+                                                            </a>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
                                    </td>
                               </tr>
                          <?php
