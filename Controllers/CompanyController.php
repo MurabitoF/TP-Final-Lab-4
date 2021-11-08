@@ -41,6 +41,11 @@ class CompanyController
         }
     }
 
+    public function ShowRegisterComany($user)
+    {
+        
+    }
+
     public function ShowEditView($idCompany, $alert = NULL)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
@@ -114,6 +119,8 @@ class CompanyController
                 $address->setCity($city);
                 $address->setStreetName($streetName);
                 $address->setStreetAddress($streetAddress);
+                $address->setPostalCode($postalCode);
+                $address->setStateName($stateName);
 
                 $this->companyDAO->Add($company);
 
@@ -136,6 +143,7 @@ class CompanyController
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
+
 
 
     public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
