@@ -15,7 +15,7 @@ class ApplicantDAO implements IApplicantDAO
     public function Add(Applicant $applicant)
     {
         try {
-            $query = "INSERT INTO " . $this->tableName . "(date, cv, description, idJobOffer, idUser) VALUES (:date, :cv, :description, :idJobOffer, :idUser);";
+            $query = "CALL save_Applicant (:date, :cv, :description, :idJobOffer, :idUser);";
 
             $parameters['date'] = $applicant->getDate();
             $parameters['cv'] = $applicant->getCv();
