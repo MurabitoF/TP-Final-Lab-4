@@ -43,7 +43,7 @@ class StudentDAO implements IStudentDAO
         $this->RetrieveData();
 
         foreach ($this->studentList as $arrayValue) {
-            if ($arrayValue->getEmail() == $id) {
+            if ($arrayValue->getIdStudent() == $id) { ///MODIFICADA
                 return $arrayValue;
             }
         }

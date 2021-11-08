@@ -6,7 +6,7 @@ require_once('nav.php');
 <main>
      <section id="listado" class="mb-5 pt-5">
           <div class="container">
-
+          
                <section id="first-steps" class="">
                     <h2>Como usar el sistema</h2>
                     <div class="separator"></div>
@@ -21,9 +21,12 @@ require_once('nav.php');
                               foreach ($lastApplications as $application) { ?>
                                    <div class="col-md-4">
                                         <div class="card">
-                                             <div class="card-body">
-                                                  <h5 class="card-title"><a class="link-button" href="">Titulo</a></h5>
-                                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                             <div class="card-body">                   
+                                                  <?php $jobOffer = $this->jobOfferDAO->SearchId($application);?>
+                                                  <h5 class="card-title"><a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowPostView?idJobOffer=" . $jobOffer->getIdJobOffer() ?>">
+                                                  <?php echo $jobOffer->getTitle(); ?>
+                                                  </a></h5>
+                                                  <p class="card-text"><?php echo $jobOffer->getDescription();?></p>
                                              </div>
                                              <div class="card-header text-center fw-bold">
                                                   Estado con color
@@ -36,8 +39,9 @@ require_once('nav.php');
                          <?php } ?>
                     </div>
                     <div class="row justify-content-end">
-                         <div class="col-md-6 text-md-end">
-                              <a href="">Ver historial de postulaciones</a>
+                         <div class="col-md-6 text-md-end">  
+                         <a href="<?php echo FRONT_ROOT . "JobOffer/ShowHistoryApplicantsList?idUser=" . $_SESSION['loggedUser']->getIdUser() ?>"> Ver historial de postulaciones </a>
+
                          </div>
                     </div>
                </section>
