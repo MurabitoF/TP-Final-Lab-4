@@ -23,6 +23,7 @@ class LoggerController
             'Delete Company',
             'Delete JobOffer',
             'Delete User',
+            'Download CV',
             'Edit Company',
             'Edit JobOffer',
             'List Applicants',
@@ -33,6 +34,7 @@ class LoggerController
             'Create Company',
             'Create JobOffer',
             'Delete JobOffer',
+            'Download CV',
             'Edit JobOffer',
             'Edit Company',
             'List Applicants',
@@ -40,6 +42,7 @@ class LoggerController
         ],
         'Student' => [
             'Add Applicant',
+            'Create User',
             'View Records',
         ]
     ];

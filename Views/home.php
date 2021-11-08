@@ -19,8 +19,8 @@ require_once('nav.php');
                     <div class="row">
                          <?php if ($lastApplications) {
                               foreach ($lastApplications as $application) { ?>
-                                   <div class="col-md-4">
-                                        <div class="card">
+                                   <div class="col-xl-4">
+                                        <div class="card card-shadow">
                                              <div class="card-body">
                                                   <h5 class="card-title">
                                                        <a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowPostView?idJobOffer=" . $application->getIdJobOffer()?>">
@@ -47,7 +47,7 @@ require_once('nav.php');
                     </div>
                     <div class="row justify-content-end">
                          <div class="col-md-6 text-md-end">
-                              <a href="">Ver historial de postulaciones</a>
+                              <a class="link-button" href="">Ver historial de postulaciones<i class="ms-3 fas fa-angle-right"></i></a>
                          </div>
                     </div>
                </section>

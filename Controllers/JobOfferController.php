@@ -335,4 +335,31 @@ class JobOfferController
             $this->ShowAdminListView($alert);
         }
     }
+
+    public function DownloadCVsFromJobOffer($idJobOffer)
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
+        if (in_array('Download CV', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+
+            $this->curriculumDAO->CreateBundleCV($idJobOffer);
+
+            $filename = UPLOADS_PATH . "cv/CV_$idJobOffer.zip";
+            
+            if (file_exists($filename)) {
+                header("Content-Type: application/zip");
+                header("Content-Transfer-Encoding: Binary");
+                header("Content-Length: ".filesize($filename));
+                header("Content-Disposition: attachment; filename=\"".basename($filename)."\"");
+                ob_end_clean();
+                readfile($filename);
+                unlink($filename);
+            }
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
+    }
 }

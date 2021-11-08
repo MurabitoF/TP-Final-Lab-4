@@ -161,6 +161,12 @@ nav {
 	transition: all .3s ease-in-out;
 }
 
+.card-shadow{
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	border: none;
+	border-radius: 0;
+}
+
 /* LogIn y Fomrmularios */
 
 .login-form {

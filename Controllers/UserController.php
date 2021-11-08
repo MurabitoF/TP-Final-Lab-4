@@ -90,15 +90,30 @@ class UserController
             } catch (Exception $ex) {
                 $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
             } finally {
-                if (session_status() != PHP_SESSION_ACTIVE) {
-                    header("Location: " . FRONT_ROOT . "Logger/ShowLogInView");
-                } else {
-                    $this->ShowAddView($alert);
-                }
+                $this->ShowAddView($alert);
             }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
+    }
+
+    public function AddStudent($username, $verifiedPassword, $role)
+    {
+        try {
+            $encryptedPass = password_hash($verifiedPassword, PASSWORD_DEFAULT);
+            $newUser = new User();
+            $newUser->setUsername($username);
+            $newUser->setPassword($encryptedPass);
+            $newUser->setRole('Student');
+            $newUser->setActive(true);
+
+            $this->userDAO->Add($newUser);
+
+        } catch (Exception $ex) {
+            $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
+        } finally {
+            header("Location: " . FRONT_ROOT . "Logger/ShowLogInView");
         }
     }
 
@@ -127,10 +142,11 @@ class UserController
         }
     }
 
-    private function GetLastApplications($idUser){
+    private function GetLastApplications($idUser)
+    {
         $jobOfferList = $this->applicantDAO->GetLastJobOffersFromApplicant($_SESSION['loggedUser']->getIdUser());
         $lastApplications = array();
-        foreach($jobOfferList as $idJobOffer){
+        foreach ($jobOfferList as $idJobOffer) {
             $jobOffer = $this->jobOfferDAO->SearchId($idJobOffer);
             array_push($lastApplications, $jobOffer);
         }
