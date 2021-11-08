@@ -28,7 +28,10 @@ class CompanyDAO implements ICompanyDAO
 
             $this->connection = Connection::GetInstance();
 
-            $this->connection->ExecuteNonQuery($query, $parameters);
+            $idCompany = $this->connection->ExecuteNonQuery($query, $parameters);
+
+            return $idCompany;
+
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -87,16 +90,19 @@ class CompanyDAO implements ICompanyDAO
     {
         try {
 
-            $query = "UPDATE " . $this->tableName . " SET companyName =\"" . $company->getName() . "\",
-            cuit =\"" . $company->getCUIT() . "\",
-            phoneNumber =\"" . $company->getPhoneNumber() . "\",
-            email =\"" . $company->getEmail() . "\",
-            description =\"" . $company->getDescription() . 
-            "\" WHERE idCompany = " . $company->getIdCompany();
+            $query = "CALL update_Company(:idCompany, :companyName, :cuit, :phoneNumber, :email, :description, :active);";
+
+            $parameters["idCompany"] = $company->getIdCompany();
+            $parameters["companyName"] = $company->getName();
+            $parameters["cuit"] = $company->getCUIT();
+            $parameters["phoneNumber"] = $company->getPhoneNumber();
+            $parameters["email"] = $company->getEmail();
+            $parameters["description"] = $company->getDescription();
+            $parameters["active"] = $company->getState();
 
             $this->connection = Connection::GetInstance();
 
-            $this->connection->ExecuteNonQuery($query);
+            $this->connection->ExecuteNonQuery($query, $parameters);
         } catch (Exception $ex) {
             throw $ex;
         }

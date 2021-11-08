@@ -6,6 +6,7 @@ use \Exception as Exception;
 use DAO\Connection as Connection;
 use DAO\IApplicantDAO as IApplicantDAO;
 use Models\Applicant as Applicant;
+use Models\JobOffer as JobOffer;
 
 class ApplicantDAO implements IApplicantDAO
 {
@@ -15,7 +16,7 @@ class ApplicantDAO implements IApplicantDAO
     public function Add(Applicant $applicant)
     {
         try {
-            $query = "INSERT INTO " . $this->tableName . "(date, cv, description, idJobOffer, idUser) VALUES (:date, :cv, :description, :idJobOffer, :idUser);";
+            $query = "CALL save_Applicant (:date, :cv, :description, :idJobOffer, :idUser);";
 
             $parameters['date'] = $applicant->getDate();
             $parameters['cv'] = $applicant->getCv();
@@ -31,7 +32,7 @@ class ApplicantDAO implements IApplicantDAO
         }
     }
 
-    public function GetApplicantsFromJobOffer($idJobOffer)
+    public function GetApplicantsFromJobOffer($idJobOffer) ///DEVUELVE LA LISTA DE POSTULANTES DE LA jobOffer
     {
         try {
             $applicantList = array();
@@ -60,7 +61,7 @@ class ApplicantDAO implements IApplicantDAO
         }
     }
 
-    public function GetJobOffersFromApplicant($idUser)
+    public function GetJobOffersFromApplicant($idUser) ///DEVUELVE UNA LISTA DE idJobOffer en las que se postulo el alumno
     {
         try {
             $jobOfferList = array();

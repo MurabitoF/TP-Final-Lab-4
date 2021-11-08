@@ -132,7 +132,7 @@ include('nav.php');
                                                   </div>
                                                   <div class="row action-buttons">
                                                        <div class="col-6">
-                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" 
+                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/CloseJobOffer?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" 
                                                             class="btn button-yellow w-100" 
                                                             data-bs-toggle="tooltip" 
                                                             title="Cerrar Publicacion">
@@ -150,7 +150,6 @@ include('nav.php');
                                                   </div>
                                              </div>
                                         </div>
-
                                    </td>
                               </tr>
                          <?php

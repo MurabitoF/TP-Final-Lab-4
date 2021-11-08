@@ -4,7 +4,7 @@ namespace Controllers;
 
 use \Exception as Exception;
 use DAO\ApplicantDAO as ApplicantDAO;
-use DAO\CareerDAO as CareerDao;
+use DAO\CareerDAO as CareerDAO;
 use DAO\CurriculumDAO as CurriculumDAO;
 use DAO\CompanyDAO as CompanyDAO;
 use DAO\ImageDAO as ImageDAO;
@@ -15,6 +15,8 @@ use Models\Alert as Alert;
 use Models\CV as CV;
 use Models\Applicant as Applicant;
 use Models\JobOffer as JobOffer;
+use DAO\StudentDAO as StudentDAO;
+use Models\Student as Student;
 
 class JobOfferController
 {
@@ -26,6 +28,7 @@ class JobOfferController
     private $curriculumDAO;
     private $imageDAO;
     private $userDAO;
+    private $studentDAO;
 
     public function __construct()
     {
@@ -37,6 +40,7 @@ class JobOfferController
         $this->curriculumDAO = new CurriculumDAO;
         $this->imageDAO = new ImageDAO;
         $this->userDAO = new UserDAO;
+        $this->studentDAO = new StudentDAO;
     }
 
     public function ShowPostView($idJobOffer, $alert = NULL)
@@ -118,7 +122,7 @@ class JobOfferController
         require_once(VIEWS_PATH . "jobOffer-list-student.php");
     }
 
-    public function ShowEditView($idJobOffer)
+    public function ShowEditView($idJobOffer, $alert = null)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -138,15 +142,25 @@ class JobOfferController
         }
     }
 
-    public function ShowDataView($idJobOffer)
-    {
-        if (session_status() != PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        LoggerController::VerifyLogIn();
-        $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
+    ///LISTADO DE POSTULANTES
+    public function ShowApplicantListView($idJobOffer){
+        $applicantList = $this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer);
+        $studentList = $this->studentDAO->GetAll();
 
-        require_once(VIEWS_PATH . "jobOffer-data.php");
+        session_start();
+
+        require_once(VIEWS_PATH . "applicants-list.php");
+    }
+
+    public function ShowHistoryApplicantsList($idUser){
+        $lastApplications = $this->applicantDAO->GetJobOffersFromApplicant($idUser);
+        $companyList = $this->companyDAO->GetAll();
+        $careerList = $this->careerDAO->GetAll();
+        $jobPositionList = $this->jobPositionDAO->GetAll();
+
+        session_start();
+
+        require_once(VIEWS_PATH . "jobOffer-list.php");
     }
 
     public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer = NULL)
@@ -181,6 +195,7 @@ class JobOfferController
                     }
                 }
                 $this->jobOfferDAO->Add($jobOffer);
+
                 $alert = new Alert('success', 'La publicacion se creo con exito');
             } catch (Exception $ex) {
                 $alert = new Alert('danger', $ex->getMessage());
@@ -301,12 +316,23 @@ class JobOfferController
             $message = "\"" . $jobOfferName->getTitle() . " \" ya no acepta más postulantes.";
             $header = "Bcc:eserskyd@outlook.com" . "\r\n";
 
-            mail($emailList, $titulo, $message, $header);
+            mail("eserskyd@outlook.com", $titulo, $message, $header);
 
             $alert = new Alert("success", "La notificación fue envíada con exito");
         } catch (Exception $ex) {
             $alert = new Alert("danger", "Error: " . $ex->getMessage());
         } finally {
+            $this->ShowAdminListView($alert);
+        }
+    }
+
+    public function CloseJobOffer($idJobOffer)
+    {
+        try{
+            $this->jobOfferDAO->CloseJobOffer($idJobOffer);
+            $this->SendEmail($idJobOffer);
+        }catch(Exception $ex){
+            $alert = new Alert("danger", "Error: " . $ex->getMessage());
             $this->ShowAdminListView($alert);
         }
     }
@@ -328,9 +354,21 @@ class JobOfferController
 
             mail($emailUser, $titulo, $message, $header);
 
-            $alert = new Alert("success", "El postulante fue notificado con exito.");
+            $alert = new Alert("success", "El postulante a sido dado de baja y fue notificado con exito.");
         } catch (Exception $ex) {
             $alert = new Alert("danger", "Hubo un error al notificar al postulante");
+        } finally {
+            $this->ShowAdminListView($alert);
+        }
+    }
+
+    public function RemoveApplicant($idUser, $idUser_Has_JobOffer, $idJobOffer)
+    {
+        try {
+            $this->ApplicantDAO->Remove($idUser, $idUser_Has_JobOffer);
+            $this->NotifyApplicant($idUser, $idJobOffer);
+        } catch (Exception $ex) {
+            $alert = new Alert("danger", "Hubo un error al dar de baja la postulación");
         } finally {
             $this->ShowAdminListView($alert);
         }
