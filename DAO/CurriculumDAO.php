@@ -21,6 +21,7 @@ class CurriculumDAO implements ICurriculumDAO
             $filePath = UPLOADS_PATH . 'cv/' . $idJobOffer . '/' . basename($fileName);
 
             $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
             $newFilePath = UPLOADS_PATH . 'cv/' . $idJobOffer . '/' . uniqid("cv_") . ".$fileType";
 
             echo $newFilePath;

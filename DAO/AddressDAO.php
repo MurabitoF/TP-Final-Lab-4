@@ -59,17 +59,22 @@ class AddressDAO implements IAddressDAO{
 
         try{
 
-            $query = "UPDATE ".$this->tableName." SET city =\"". $address->getCity() ."\",
-            postalCode =\"". $address->getPostalCode() ."\",
-            streetName =\"". $address->getStreetName() ."\",
-            stateName =\"". $address->getStateName() ."\",
-            streetAddress =\"". $address->getStreetAddress() ."\",
-            latitude =\"". $latLng[0]['lat'] ."\",
-            longitude =\"". $latLng[0]['lon'] ."\" WHERE idAddress = ". $address->getIdAddress();
+            $query = "CALL update_Address(:idAddress, :streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :active, :idCompany)";
+
+            $parameters["idAddress"] = $address->getIdAddress();
+            $parameters["streetName"] = $address->getStreetName();
+            $parameters["streetAddress"] = $address->getStreetAddress();
+            $parameters["city"] = $address->getCity();
+            $parameters["postalCode"] = $address->getPostalCode();
+            $parameters["stateName"] = $address->getStateName();
+            $parameters["latitude"] = $latLng[0]['lat'];
+            $parameters["longitude"] = $latLng[0]['lon'];
+            $parameters["active"] = $address->getActive();
+            $parameters["idCompany"] = $address->getIdCompany();
 
             $this->connection = Connection::GetInstance();
 
-            $this->connection->ExecuteNonQuery($query);
+            $this->connection->ExecuteNonQuery($query, $parameters);
 
         }catch(Exception $ex){
             throw $ex;

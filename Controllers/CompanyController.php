@@ -50,8 +50,6 @@ class CompanyController
         if (in_array('Edit Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $company = $this->companyDAO->searchId($idCompany);
 
-            $this->companyDAO->Edit($company);
-
             $address = $this->addressDAO->getAddresses($idCompany);
 
             require_once(VIEWS_PATH . "company-edit.php");
@@ -83,11 +81,10 @@ class CompanyController
         }
         LoggerController::VerifyLogIn();
 
-        $parameters = array();
-        $parameters["companyName"] = $name;
-        $parameters["city"] = $city;
+        $filterParameters["companyName"] = $name;
+        $filterParameters["city"] = $city;
 
-        $companyList = $this->companyDAO->filterList($parameters);
+        $companyList = $this->companyDAO->filterList($filterParameters);
 
         $addressList = $this->addressDAO->GetAll();
 
@@ -115,9 +112,7 @@ class CompanyController
                 $address->setStreetName($streetName);
                 $address->setStreetAddress($streetAddress);
 
-                $this->companyDAO->Add($company);
-
-                $idCompany = $this->companyDAO->getId($name);
+                $idCompany = $this->companyDAO->Add($company);
 
                 $this->addressDAO->Add($address, $idCompany);
 
@@ -167,7 +162,7 @@ class CompanyController
                 $this->addressDAO->Edit($address);
 
                 $alert = new Alert('success', 'La empresa fue editada correctamente');
-                $this->ShowListView($alert);
+                $this->ShowListView("", "", $alert);
             } catch (Exception $ex) {
                 $alert = new Alert('danger', $ex->getMessage());
                 $this->ShowEditView($idCompany, $alert);
