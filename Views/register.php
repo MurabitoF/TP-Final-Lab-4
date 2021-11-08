@@ -6,8 +6,8 @@ require_once('header.php');
           <div class="row ms-1 me-1 justify-content-center">
                <div class="col-6">
                     <div class="logo">
-                         <a href="<?php echo FRONT_ROOT ?>User/ShowLogInView">
-                              <img src="http://localhost/TP-Final-Lab-4/Views/img/logo-utn-recruitment.png" width="300vw" alt="logo utn">
+                         <a href="<?php echo FRONT_ROOT ?>Logger/ShowLogInView">
+                              <img src="../<?php echo VIEWS_PATH?>img\logo-utn-recruitment.png" width="300vw" alt="logo utn">
                          </a>
                     </div>
                     <form class="mt-5" action="<?php echo FRONT_ROOT ?>User/VerifyEmail" method="POST">
@@ -24,7 +24,7 @@ require_once('header.php');
                <div class="separator"></div>
                <?php if ($user) { ?>
                     <div id="student-data" class="col-8 slide-in-top">
-                         <form action="<?php FRONT_ROOT?>Add" method="POST">
+                         <form action="<?php FRONT_ROOT?>AddStudent" method="POST">
                               <div class="row">
                                    <div class="col-md-4 form-floating">
                                         <input class="form-control form-input" id="firstName" type="text" value="<?php echo $user->getFirstName() ?>" disabled>

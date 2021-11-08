@@ -2,10 +2,11 @@
 
 namespace DAO;
 
-use \Exception as Exeption;
+use \Exception as Exception;
 use DAO\Connection as Connection;
 use DAO\IApplicantDAO as IApplicantDAO;
 use Models\Applicant as Applicant;
+use Models\JobOffer as JobOffer;
 
 class ApplicantDAO implements IApplicantDAO
 {
@@ -26,12 +27,12 @@ class ApplicantDAO implements IApplicantDAO
             $this->connection = Connection::GetInstance();
 
             $this->connection->ExecuteNonQuery($query, $parameters);
-        } catch (Exeption $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
 
-    public function GetApplicantsFromJobOffer($idJobOffer)
+    public function GetApplicantsFromJobOffer($idJobOffer) ///DEVUELVE LA LISTA DE POSTULANTES DE LA jobOffer
     {
         try {
             $applicantList = array();
@@ -54,14 +55,13 @@ class ApplicantDAO implements IApplicantDAO
 
                $applicantList[$row['idUser']] = $applicant;
             }
-
             return $applicantList;
-        } catch (Exeption $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
 
-    public function GetJobOffersFromApplicant($idUser)
+    public function GetJobOffersFromApplicant($idUser) ///DEVUELVE UNA LISTA DE idJobOffer en las que se postulo el alumno
     {
         try {
             $jobOfferList = array();
@@ -78,7 +78,7 @@ class ApplicantDAO implements IApplicantDAO
             }
 
             return $jobOfferList;
-        } catch (Exeption $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
@@ -98,7 +98,21 @@ class ApplicantDAO implements IApplicantDAO
                 return false;
             }
 
-        } catch (Exeption $ex) {
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    public function Remove($idUser, $idUser_Has_JobOffer)
+    {
+        try{
+            $query = "DELETE FROM ".$this->tableName." WHERE idUser = ".$idUser."AND idUser_Has_JobOffer =" .$idUser_Has_JobOffer;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query);
+
+        }catch(Exception $ex){
             throw $ex;
         }
     }

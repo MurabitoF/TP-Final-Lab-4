@@ -17,7 +17,8 @@ class CompanyDAO implements ICompanyDAO
     public function Add(Company $company)
     {
         try {
-            $query = "INSERT INTO " . $this->tableName . " (companyName, cuit, phoneNumber, email, description, active) VALUES (:companyName, :cuit, :phoneNumber, :email, :description, :active);";
+            $query = "INSERT INTO " . $this->tableName . " (companyName, cuit, phoneNumber, email, description, active)
+             VALUES (:companyName, :cuit, :phoneNumber, :email, :description, :active);";
             $parameters["companyName"] = $company->getName();
             $parameters["cuit"] = $company->getCUIT();
             $parameters["phoneNumber"] = $company->getPhoneNumber();
@@ -90,8 +91,8 @@ class CompanyDAO implements ICompanyDAO
             cuit =\"" . $company->getCUIT() . "\",
             phoneNumber =\"" . $company->getPhoneNumber() . "\",
             email =\"" . $company->getEmail() . "\",
-            description =\"" . $company->getDescription() . "\",
-            active =" . $company->getState() . " WHERE idCompany = " . $company->getIdCompany();
+            description =\"" . $company->getDescription() . 
+            "\" WHERE idCompany = " . $company->getIdCompany();
 
             $this->connection = Connection::GetInstance();
 
