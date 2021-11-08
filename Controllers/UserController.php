@@ -40,14 +40,16 @@ class UserController
         LoggerController::VerifyLogIn();
         $lastApplications = array();
         if ($_SESSION['loggedUser']->getRole() == "Student") {
-            $lastApplications = $this->applicantDAO->GetJobOffersFromApplicant($_SESSION['loggedUser']->getIdUser());
+            $lastApplications = $this->GetLastApplications($_SESSION["loggedUser"]->getIdUser());
         }
         require_once(VIEWS_PATH . "home.php");
     }
 
     public function ShowAddView($alert = NULL)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Create User', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             require_once(VIEWS_PATH . 'user-add.php');
@@ -62,9 +64,16 @@ class UserController
         require_once(VIEWS_PATH . "register.php");
     }
 
+    public function ShowRegisterCompanyView()
+    {
+        require_once(VIEWS_PATH . "company-add.php");
+    }
+
     public function Add($username, $verifiedPassword, $role)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Create User', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             try {
@@ -81,11 +90,7 @@ class UserController
             } catch (Exception $ex) {
                 $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
             } finally {
-                if (session_status() != PHP_SESSION_ACTIVE) {
-                    header("Location: " . FRONT_ROOT . "Logger/ShowLogInView");
-                } else {
-                    $this->ShowAddView($alert);
-                }
+                $this->ShowAddView($alert);
             }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
@@ -105,16 +110,12 @@ class UserController
 
             $this->userDAO->Add($newUser);
 
-            $alert = new Alert('success', 'Se ha registrado correctamente');
         } catch (Exception $ex) {
             $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
         } finally {
             header("Location: " . FRONT_ROOT . "Logger/ShowLogInView");
-
-
-        } 
+        }
     }
-
 
     public function VerifyEmail($email)
     {
@@ -139,5 +140,16 @@ class UserController
             $message = "Ya se encuentra registrado en el sistema";
             $this->ShowRegisterView(NULL, $message);
         }
+    }
+
+    private function GetLastApplications($idUser)
+    {
+        $jobOfferList = $this->applicantDAO->GetLastJobOffersFromApplicant($_SESSION['loggedUser']->getIdUser());
+        $lastApplications = array();
+        foreach ($jobOfferList as $idJobOffer) {
+            $jobOffer = $this->jobOfferDAO->SearchId($idJobOffer);
+            array_push($lastApplications, $jobOffer);
+        }
+        return $lastApplications;
     }
 }

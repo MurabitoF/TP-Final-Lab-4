@@ -6,8 +6,12 @@ let strengthBadge = document.getElementById("strengthDisp");
 let passError = document.getElementById("pass-error");
 let submitBtn = document.getElementById("btn-submit");
 
-let strongPassword = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})");
-let mediumPassword = new RegExp("((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))");
+let strongPassword = new RegExp(
+	"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
+);
+let mediumPassword = new RegExp(
+	"((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))"
+);
 
 let errorColor = "#C91D1D";
 let mediumColor = "#E8A530";
@@ -60,3 +64,18 @@ confirmPassword.addEventListener("input", () => {
 	);
 });
 /////////////////////////////
+
+// Preview de imagenes
+// let imgFile = document.getElementById("imgFlyer");
+// let preview = document.getElementById("previewFlyer");
+
+// imgFile.onchange = (evt) => {
+// 	const [file] = imgFile.files;
+// 	if (file) {
+// 		preview.src = URL.createObjectURL(file);
+// 		preview.classList.remove("visually-hidden");
+// 	} else {
+// 		preview.src = "";
+// 		preview.classList.add("visually-hidden");
+// 	}
+// };

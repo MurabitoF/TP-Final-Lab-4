@@ -28,7 +28,9 @@ class CompanyController
 
     public function ShowAddView($alert = NULL)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Create Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $careerList = $this->careerDAO->GetAll();
@@ -41,7 +43,9 @@ class CompanyController
 
     public function ShowEditView($idCompany, $alert = NULL)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Edit Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $company = $this->companyDAO->searchId($idCompany);
@@ -57,7 +61,9 @@ class CompanyController
 
     public function ShowDataView($idCompany)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
 
         $company = $this->companyDAO->searchId($idCompany);
@@ -70,6 +76,9 @@ class CompanyController
 
     public function ShowListView($name = null, $city = null, $alert = null)
     {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
 
         $filterParameters["companyName"] = $name;
@@ -85,7 +94,9 @@ class CompanyController
 
     public function Add($name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Create Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             try {
@@ -124,7 +135,9 @@ class CompanyController
 
     public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Edit Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             try {
@@ -162,7 +175,9 @@ class CompanyController
 
     public function Remove($idCompany)
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         LoggerController::VerifyLogIn();
         if (in_array('Delete Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
           try{

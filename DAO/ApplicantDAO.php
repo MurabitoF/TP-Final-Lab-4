@@ -83,6 +83,28 @@ class ApplicantDAO implements IApplicantDAO
         }
     }
 
+    public function GetLastJobOffersFromApplicant($idUser)
+    {
+        try {
+            $jobOfferList = array();
+            
+            $query = "SELECT * FROM " . $this->tableName . " WHERE idUser = :idUser ORDER BY date DESC LIMIT 3";
+
+            $parameter["idUser"] = $idUser;
+
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query, $parameter);
+
+            foreach($result as $row){
+                array_push($jobOfferList, $row['idJobOffer']);
+            }
+
+            return $jobOfferList;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
     public function CheckIfApplicant($idUser)
     {
         try{

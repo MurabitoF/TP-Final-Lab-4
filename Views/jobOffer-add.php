@@ -7,6 +7,7 @@ include('nav.php');
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4 text-center">Agregar Publicación</h2>
+               <div class="separator"></div>
                <?php if($alert){ ?>
                     <div class="alert alert-<?php echo $alert->getType()?> text-center fwbold" role="alert"><?php echo $alert->getMessage()?></div>
                <?php } ?>

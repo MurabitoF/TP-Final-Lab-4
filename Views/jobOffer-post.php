@@ -8,7 +8,7 @@ require_once('nav.php');
         <section id="jobOffer-post">
             <h1 class="jobOffer-title"><?php echo $jobOffer->getTitle() ?></h1>
             <div class="separator"></div>
-            <?php if ($jobOffer->getExpireDate() < date('Y-m-d')) { ?>
+            <?php if ($jobOffer->getStatus() == "Closed") { ?>
                 <section id="closed-tag">
                     <div class="alert alert-danger text-center fw-bold" role="alert">
                         Publicacion cerrada!
@@ -22,19 +22,20 @@ require_once('nav.php');
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <?php echo $jobOffer->getDescription() ?>
+                    <?php echo  nl2br($jobOffer->getDescription()) ?>
                 </div>
             </div>
-            <?php if($jobOffer->getImgFlyer()) ?>
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <img src="../<?php echo UPLOADS_PATH . 'img/flyer/' . $jobOffer->getImgFlyer()?>" alt="flyer" class="">
+            <?php if ($jobOffer->getImgFlyer()) { ?>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <img src="../<?php echo UPLOADS_PATH . 'img/flyer/' . $jobOffer->getImgFlyer() ?>" alt="flyer" class="">
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
             <div class="row my-5">
                 <div class="col-md-6">
                     <h3>Requerimientos</h3>
-                    <?php echo $jobOffer->getRequirements() ?>
+                    <?php echo  nl2br($jobOffer->getRequirements()) ?>
                 </div>
                 <div class="col-md-6  text-md-end">
                     <h3>Jornada Laboral</h3>
@@ -66,7 +67,7 @@ require_once('nav.php');
         </section>
         <div class="separator"></div>
         <section id="applicant=form">
-            <?php if ($jobOffer->getExpireDate() > date('Y-m-d')) {
+            <?php if ($jobOffer->getStatus() == "Open") {
                 if ($_SESSION['loggedUser']->getRole() == "Student" && !array_key_exists($_SESSION['loggedUser']->getIdUser(), $jobOffer->getApplicants())) { ?>
                     <h2>Postulate</h2>
                     <?php if ($alert) { ?>

@@ -54,8 +54,23 @@ nav {
 	background-color: #1c819e;
 }
 
+.bg-open{
+	background-color: #73BD28;
+	color: #252525;
+}
+
+.bg-closed{
+	background-color: #C91D1D;
+	color: #f2f2f0;
+}
+
 .separator {
 	border: 1px solid #1c819e;
+	margin-bottom: 15px;
+}
+
+.separator-black {
+	border: 1px solid #252525;
 	margin-bottom: 15px;
 }
 
@@ -146,6 +161,12 @@ nav {
 	transition: all .3s ease-in-out;
 }
 
+.card-shadow{
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	border: none;
+	border-radius: 0;
+}
+
 /* LogIn y Fomrmularios */
 
 .login-form {
@@ -217,7 +238,7 @@ nav .menu:hover {
 }
 
 .sidenav {
-	height: 50%; /* 100% Full-height */
+	height: 65%;
 	width: 0; /* 0 width - change this with JavaScript */
 	position: fixed; /* Stay in place */
 	z-index: 10; /* Stay on top */
@@ -416,7 +437,7 @@ nav .menu:hover {
 
 /* JobOffer Add */
 .preview-flyer{
-	max-height: 100vh;
+	max-height: 30rem;
 }
 
 /* JobOffer post */

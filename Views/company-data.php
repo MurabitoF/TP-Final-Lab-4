@@ -9,7 +9,7 @@ require_once('header.php');
                <section class="mt-3">
                     <div class="row bg-blue p-3 align-items-center">
                          <div class="col-md-3 ms-4">
-                              <img class="img-profile" src="https://ceslava.s3-accelerate.amazonaws.com/2016/04/rZoltXj1-mistery-man-gravatar-wordpress-avatar-persona-misteriosa-510x510.png" alt="Company Photo">
+                              <img class="img-profile" src="../<?php echo UPLOADS_PATH ?>img/logo/default_image.png" alt="Company Photo">
                          </div>
                          <div class="col-md-6">
                               <h1 class="name"><?php echo $company->getName(); ?></h1>

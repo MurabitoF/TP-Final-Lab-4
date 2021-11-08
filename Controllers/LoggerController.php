@@ -23,6 +23,7 @@ class LoggerController
             'Delete Company',
             'Delete JobOffer',
             'Delete User',
+            'Download CV',
             'Edit Company',
             'Edit JobOffer',
             'List Applicants',
@@ -33,6 +34,7 @@ class LoggerController
             'Create Company',
             'Create JobOffer',
             'Delete JobOffer',
+            'Download CV',
             'Edit JobOffer',
             'Edit Company',
             'List Applicants',
@@ -40,6 +42,7 @@ class LoggerController
         ],
         'Student' => [
             'Add Applicant',
+            'Create User',
             'View Records',
         ]
     ];
@@ -128,7 +131,6 @@ class LoggerController
 
     public function loadStudentData(User $user)
     {
-        var_dump($user->getUsername());
         $studentUser = $this->studentDAO->GetByUserName($user->getUsername());
         $studentUser->setIdUser($user->getIdUser());
         $studentUser->setUsername($user->getUsername());
@@ -143,6 +145,17 @@ class LoggerController
 
     private function loadCompanyData(User $user)
     {
-        // $companyUser = $this->companyDAO->SearchId();
+        $companyUser = $this->companyDAO->getCompanyByEmail($user->getUsername());
+        if($companyUser) {
+            $companyUser->setIdUser($user->getIdUser());
+            $companyUser->setUsername($user->getUsername());
+            $companyUser->setPassword($user->getPassword());
+            $companyUser->setRole($user->getRole());
+            $companyUser->setActive($user->getActive());
+            
+            return $companyUser;
+        } else {
+            
+        }
     }
 }

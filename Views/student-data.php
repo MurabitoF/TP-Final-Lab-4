@@ -8,7 +8,7 @@ require_once('nav.php');
                <section id="student-header" class="mt-3">
                     <div class="row bg-blue p-3 align-items-center">
                          <div class="col-md-4 ms-4">
-                              <img class="img-profile" src="https://ceslava.s3-accelerate.amazonaws.com/2016/04/rZoltXj1-mistery-man-gravatar-wordpress-avatar-persona-misteriosa-510x510.png" alt="Student Photo">
+                              <img class="img-profile" src="../<?php echo UPLOADS_PATH?>img/profile_picture/default_image.png" alt="Student Photo">
                          </div>
                          <div class="col-md-6">
                               <h1 class="name"><?php echo $user->getFirstName() . ' ' .
