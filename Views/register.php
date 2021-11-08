@@ -24,7 +24,7 @@ require_once('header.php');
                <div class="separator"></div>
                <?php if ($user) { ?>
                     <div id="student-data" class="col-8 slide-in-top">
-                         <form action="<?php FRONT_ROOT?>Add" method="POST">
+                         <form action="<?php FRONT_ROOT?>AddStudent" method="POST">
                               <div class="row">
                                    <div class="col-md-4 form-floating">
                                         <input class="form-control form-input" id="firstName" type="text" value="<?php echo $user->getFirstName() ?>" disabled>

@@ -93,6 +93,29 @@ class UserController
         }
     }
 
+    public function AddStudent($username, $verifiedPassword, $role)
+    {
+        try {
+            $encryptedPass = password_hash($verifiedPassword, PASSWORD_DEFAULT);
+            $newUser = new User();
+            $newUser->setUsername($username);
+            $newUser->setPassword($encryptedPass);
+            $newUser->setRole('Student');
+            $newUser->setActive(true);
+
+            $this->userDAO->Add($newUser);
+
+            $alert = new Alert('success', 'Se ha registrado correctamente');
+        } catch (Exception $ex) {
+            $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
+        } finally {
+            header("Location: " . FRONT_ROOT . "Logger/ShowLogInView");
+
+
+        } 
+    }
+
+
     public function VerifyEmail($email)
     {
         $user = $this->userDAO->GetByUserName($email);

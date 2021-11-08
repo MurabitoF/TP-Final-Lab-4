@@ -15,6 +15,8 @@ use Models\Alert as Alert;
 use Models\CV as CV;
 use Models\Applicant as Applicant;
 use Models\JobOffer as JobOffer;
+use DAO\StudentDAO as StudentDAO;
+use Models\Student as Student;
 
 class JobOfferController
 {
@@ -26,6 +28,7 @@ class JobOfferController
     private $curriculumDAO;
     private $imageDAO;
     private $userDAO;
+    private $studentDAO;
 
     public function __construct()
     {
@@ -37,6 +40,7 @@ class JobOfferController
         $this->curriculumDAO = new CurriculumDAO;
         $this->imageDAO = new ImageDAO;
         $this->userDAO = new UserDAO;
+        $this->studentDAO = new StudentDAO;
     }
 
     public function ShowPostView($idJobOffer, $alert = NULL)
@@ -53,7 +57,7 @@ class JobOfferController
 
     public function ShowAddView($alert = NULL)
     {
-        session_start();
+        session_start(); ///VER ESTE SESSION START
         LoggerController::VerifyLogIn();
         if (in_array('Create JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $companyList = $this->companyDAO->GetAll();
@@ -128,14 +132,35 @@ class JobOfferController
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
-
+/*
     public function ShowDataView($idJobOffer)
     {
         session_start();
         LoggerController::VerifyLogIn();
         $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
-        require_once(VIEWS_PATH . "jobOffer-data.php");
+        require_once (VIEWS_PATH."jobOffer-data.php"); ///A FUTURO MOSTRAR TARJETA DE FRANCO
+    }*/
+
+    ///LISTADO DE POSTULANTES
+    public function ShowApplicantListView($idJobOffer){
+        $applicantList = $this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer);
+        $studentList = $this->studentDAO->GetAll();
+
+        session_start();
+
+        require_once(VIEWS_PATH . "applicants-list.php");
+    }
+
+    public function ShowHistoryApplicantsList($idUser){
+        $lastApplications = $this->applicantDAO->GetJobOffersFromApplicant($idUser);
+        $companyList = $this->companyDAO->GetAll();
+        $careerList = $this->careerDAO->GetAll();
+        $jobPositionList = $this->jobPositionDAO->GetAll();
+
+        session_start();
+
+        require_once(VIEWS_PATH . "jobOffer-list.php");
     }
 
     public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer = NULL)

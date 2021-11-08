@@ -150,7 +150,6 @@ include('nav.php');
                                                   </div>
                                              </div>
                                         </div>
-
                                    </td>
                               </tr>
                          <?php
