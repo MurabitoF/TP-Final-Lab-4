@@ -17,19 +17,18 @@ class CompanyDAO implements ICompanyDAO
     public function Add(Company $company)
     {
         try {
-            $query = "CALL save_Company (:companyName, :cuit, :phoneNumber, :email, :description, :active);";
+            $query = "CALL save_Company (:companyName, :cuit, :phoneNumber, :email, :description, @id);";
             $parameters["companyName"] = $company->getName();
             $parameters["cuit"] = $company->getCUIT();
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
             $parameters["description"] = $company->getDescription();
-            $parameters["active"] = $company->getState();
 
             $this->connection = Connection::GetInstance();
 
-            $idCompany = $this->connection->ExecuteNonQuery($query, $parameters);
-
-            return $idCompany;
+            $lastId = $this->connection->Execute($query, $parameters);
+            
+            return $lastId[0]["id"];
 
         } catch (Exception $ex) {
             throw $ex;
@@ -89,7 +88,7 @@ class CompanyDAO implements ICompanyDAO
     {
         try {
 
-            $query = "CALL update_Company(:idCompany, :companyName, :cuit, :phoneNumber, :email, :description, :active);";
+            $query = "CALL update_Company(:idCompany, :companyName, :cuit, :phoneNumber, :email, :description);";
 
             $parameters["idCompany"] = $company->getIdCompany();
             $parameters["companyName"] = $company->getName();
@@ -97,7 +96,6 @@ class CompanyDAO implements ICompanyDAO
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
             $parameters["description"] = $company->getDescription();
-            $parameters["active"] = $company->getState();
 
             $this->connection = Connection::GetInstance();
 

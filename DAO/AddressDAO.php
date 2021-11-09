@@ -59,7 +59,7 @@ class AddressDAO implements IAddressDAO{
 
         try{
 
-            $query = "CALL update_Address(:idAddress, :streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :active, :idCompany)";
+            $query = "CALL update_Address(:idAddress, :streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :idCompany)";
 
             $parameters["idAddress"] = $address->getIdAddress();
             $parameters["streetName"] = $address->getStreetName();
@@ -69,7 +69,6 @@ class AddressDAO implements IAddressDAO{
             $parameters["stateName"] = $address->getStateName();
             $parameters["latitude"] = $latLng[0]['lat'];
             $parameters["longitude"] = $latLng[0]['lon'];
-            $parameters["active"] = $address->getActive();
             $parameters["idCompany"] = $address->getIdCompany();
 
             $this->connection = Connection::GetInstance();
@@ -90,7 +89,7 @@ class AddressDAO implements IAddressDAO{
         
         try{
 
-            $query = "CALL save_Address (:streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :active, :idCompany);";
+            $query = "CALL save_Address (:streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :idCompany);";
 
             $parameters["streetName"] = $address->getStreetName();
             $parameters["streetAddress"] = $address->getStreetAddress();
@@ -99,7 +98,6 @@ class AddressDAO implements IAddressDAO{
             $parameters["stateName"] = $address->getStateName();
             $parameters["latitude"] = $latLng[0]['lat'];
             $parameters["longitude"] = $latLng[0]['lon'];
-            $parameters["active"] = true;
             $parameters["idCompany"] = $idCompany;
 
             $this->connection = Connection::GetInstance();
