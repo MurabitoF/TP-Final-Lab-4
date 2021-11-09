@@ -109,6 +109,8 @@ class CompanyController
 
                 $address = new Address();
                 $address->setCity($city);
+                $address->setPostalCode($postalCode);
+                $address->setStateName($stateName);
                 $address->setStreetName($streetName);
                 $address->setStreetAddress($streetAddress);
 

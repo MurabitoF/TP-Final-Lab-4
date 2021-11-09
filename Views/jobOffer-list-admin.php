@@ -122,7 +122,7 @@ include('nav.php');
                                                             </a>
                                                        </div>
                                                        <div class="col-6">
-                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" 
+                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/ShowApplicantListView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" 
                                                             class="btn button-blue w-100" 
                                                             data-bs-toggle="tooltip" 
                                                             title="Ver Postulantes">

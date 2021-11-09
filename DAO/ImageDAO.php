@@ -24,7 +24,7 @@ class ImageDAO implements IImageDAO
             } else {
                 $preFix = "lg_"; // Company Logo
             }
-            // $filePath = UPLOADS_PATH .'img/' . $pathId .'/'. basename($fileName);
+            $filePath = UPLOADS_PATH .'img/' . $pathId .'/'. basename($fileName);
             $newFilePath = UPLOADS_PATH . 'img/' . $pathId . '/' . uniqid($preFix) . ".$fileType";
 
             $fileType = strtolower(pathinfo($newFilePath, PATHINFO_EXTENSION));

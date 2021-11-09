@@ -90,7 +90,7 @@ class AddressDAO implements IAddressDAO{
         
         try{
 
-            $query = "INSERT INTO " .$this->tableName." (streetName, streetAddress, city, postalCode, stateName, latitude, longitude, active, idCompany) VALUES (:streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :active, :idCompany);";
+            $query = "CALL save_Address (:streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :active, :idCompany);";
 
             $parameters["streetName"] = $address->getStreetName();
             $parameters["streetAddress"] = $address->getStreetAddress();

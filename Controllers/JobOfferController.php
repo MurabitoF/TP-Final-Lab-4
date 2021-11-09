@@ -184,7 +184,7 @@ class JobOfferController
                 $jobOffer->setWorkload($workload);
                 $jobOffer->setDescription($description);
                 $jobOffer->setStatus("Open");
-                if ($flyer) {
+                if ($flyer['size']>0) {
                     $image = $this->imageDAO->UploadImage($flyer, 'flyer');
                     if ($image) {
                         $jobOffer->setImgFlyer($image);
@@ -208,7 +208,7 @@ class JobOfferController
         }
     }
 
-    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $expireDate, $workload, $description, $active, $flyer = NULL)
+    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $expireDate, $workload, $description, $flyer = NULL)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -217,7 +217,6 @@ class JobOfferController
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
             try {
-                $jobOffer = new JobOffer();
 
                 $jobOffer->setTitle($title);
                 $jobOffer->setCompany($idCompany);
@@ -229,8 +228,7 @@ class JobOfferController
                 $jobOffer->setRequirements($requirements);
                 $jobOffer->setExpireDate($expireDate);
                 $jobOffer->setDescription($description);
-                $jobOffer->setActive($active);
-                if ($flyer) {
+                if ($flyer['size']>0) {
                     $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
                     $jobOffer->setImgFlyer($image);
                 }
@@ -286,7 +284,7 @@ class JobOfferController
                     $applicant->setIdJobOffer($idJobOffer);
                     $applicant->setIdUser($idUser);
                     $applicant->setDescription($description);
-                    $applicant->setDate(date("Y/m/d"));
+                    $applicant->setDate(date("Y-m-d"));
 
                     $this->applicantDAO->Add($applicant);
 
