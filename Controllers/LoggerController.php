@@ -74,15 +74,12 @@ class LoggerController
 
     public function LogIn($username, $password)
     {
-        
         $user = $this->userDAO->GetByUserName($username);
         if ($user) {
             if ($user->getActive()) {
                 if (password_verify($password, $user->getPassword())) {
                     if ($user->getRole() === "Student") {
-                        $user = $this->loadStudentData($user);
-                    } elseif ($user->getRole() === "Company") {
-                        $user = $this->loadCompanyData($user);
+                        $user = $this->LoadStudentData($user);
                     }
                     session_start();
                     $_SESSION['loggedUser'] = $user;
@@ -129,7 +126,7 @@ class LoggerController
         }
     }
 
-    public function loadStudentData(User $user)
+    public function LoadStudentData(User $user)
     {
         $studentUser = $this->studentDAO->GetByUserName($user->getUsername());
         $studentUser->setIdUser($user->getIdUser());
@@ -143,19 +140,4 @@ class LoggerController
         return $studentUser;
     }
 
-    private function loadCompanyData(User $user)
-    {
-        $companyUser = $this->companyDAO->getCompanyByEmail($user->getUsername());
-        if($companyUser) {
-            $companyUser->setIdUser($user->getIdUser());
-            $companyUser->setUsername($user->getUsername());
-            $companyUser->setPassword($user->getPassword());
-            $companyUser->setRole($user->getRole());
-            $companyUser->setActive($user->getActive());
-            
-            return $companyUser;
-        } else {
-            
-        }
-    }
 }

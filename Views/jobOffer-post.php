@@ -15,6 +15,11 @@ require_once('nav.php');
                     </div>
                 </section>
             <?php } ?>
+            <?php if ($alert) { ?>
+                        <div class="alert alert-<?php echo $alert->getType() ?> text-center fw-bold" role="alert">
+                            <?php echo $alert->getMessage() ?>
+                        </div>
+                    <?php } ?>
             <div class="row jobOffer-tags text-center my-3">
                 <div class="col-md-4"><a href="<?php echo FRONT_ROOT . "Company/ShowDataView?idCompany=" . $company->getIdCompany(); ?>"><?php echo $company->getName() ?></a></div>
                 <div class="col-md-4"><?php echo $jobPosition->getName() ?></div>
@@ -70,11 +75,7 @@ require_once('nav.php');
             <?php if ($jobOffer->getStatus() == "Open") {
                 if ($_SESSION['loggedUser']->getRole() == "Student" && !array_key_exists($_SESSION['loggedUser']->getIdUser(), $jobOffer->getApplicants())) { ?>
                     <h2>Postulate</h2>
-                    <?php if ($alert) { ?>
-                        <div class="alert alert-<?php echo $alert->getType() ?> text-center fw-bold" role="alert">
-                            <?php echo $alert->getMessage() ?>
-                        </div>
-                    <?php } ?>
+                    
                     <form action="<?php echo FRONT_ROOT ?>JobOffer/AddApplicant" enctype="multipart/form-data" method="POST">
                         <div class="visually-hidden">
                             <input type="text" name="idJobOffer" value="<?php echo $jobOffer->getIdJobOffer() ?>" readonly>

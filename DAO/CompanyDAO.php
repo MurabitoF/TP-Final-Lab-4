@@ -5,6 +5,7 @@ namespace DAO;
 use \Exception as Exception;
 use DAO\ICompanyDAO as ICompanyDAO;
 use DAO\Connection as Connection;
+use DAO\QueryType as QueryType;
 use Models\Company as Company;
 use Models\Categoty as Category;
 
@@ -17,20 +18,20 @@ class CompanyDAO implements ICompanyDAO
     public function Add(Company $company)
     {
         try {
-            $query = "INSERT INTO " . $this->tableName . " (companyName, cuit, phoneNumber, email, description, active)
-             VALUES (:companyName, :cuit, :phoneNumber, :email, :description, :active);";
+            $query = "CALL save_Company (?, ?, ?, ?, ?, ?);";
+
             $parameters["companyName"] = $company->getName();
             $parameters["cuit"] = $company->getCUIT();
+            $parameters["description"] = $company->getDescription();
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
-            $parameters["description"] = $company->getDescription();
-            $parameters["active"] = $company->getState();
+            $parameters['idLast'] = 0;
 
             $this->connection = Connection::GetInstance();
 
-            $idCompany = $this->connection->ExecuteNonQuery($query, $parameters);
-
-            return $idCompany;
+            $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
+            
+            return ;
 
         } catch (Exception $ex) {
             throw $ex;
@@ -90,7 +91,7 @@ class CompanyDAO implements ICompanyDAO
     {
         try {
 
-            $query = "CALL update_Company(:idCompany, :companyName, :cuit, :phoneNumber, :email, :description, :active);";
+            $query = "CALL update_Company(:idCompany, :companyName, :cuit, :phoneNumber, :email, :description);";
 
             $parameters["idCompany"] = $company->getIdCompany();
             $parameters["companyName"] = $company->getName();
@@ -98,7 +99,6 @@ class CompanyDAO implements ICompanyDAO
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
             $parameters["description"] = $company->getDescription();
-            $parameters["active"] = $company->getState();
 
             $this->connection = Connection::GetInstance();
 

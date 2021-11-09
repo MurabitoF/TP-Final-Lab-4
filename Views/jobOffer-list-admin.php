@@ -57,106 +57,98 @@ include('nav.php');
                     </div>
                </form>
 
+               <?php if ($jobOfferList) { ?>
+                    <table class="table bg-light-alpha">
+                         <thead>
+                              <th>Titulo</th>
+                              <th>Compania</th>
+                              <th>Carrera</th>
+                              <th>Ciudad</th>
+                              <th>Posicion</th>
+                              <th>Fecha de Publicacion</th>
+                              <th>Acciones</th>
+                         </thead>
+                         <tbody>
+                              <?php
+                              foreach ($jobOfferList as $jobOffer) {
+                              ?>
+                                   <tr>
+                                        <td>
+                                             <a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowPostView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>">
+                                                  <?php echo $jobOffer->getTitle(); ?>
+                                             </a>
+                                        </td>
 
-               <table class="table bg-light-alpha">
-                    <thead>
-                         <th>Titulo</th>
-                         <th>Compania</th>
-                         <th>Carrera</th>
-                         <th>Ciudad</th>
-                         <th>Posicion</th>
-                         <th>Fecha de Publicacion</th>
-                         <th>Acciones</th>
-                    </thead>
-                    <tbody>
-                         <?php
-                         foreach ($jobOfferList as $jobOffer) {
-                         ?>
-                              <tr>
-                                   <td>
-                                        <a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowPostView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>">
-                                             <?php echo $jobOffer->getTitle(); ?>
-                                        </a>
-                                   </td>
-
-                                   <?php foreach ($companyList as $company) {
-                                        if ($company->getIdCompany() == $jobOffer->getCompany()) {
-                                             $nameCompany = $company->getName();
+                                        <?php foreach ($companyList as $company) {
+                                             if ($company->getIdCompany() == $jobOffer->getCompany()) {
+                                                  $nameCompany = $company->getName();
+                                             }
                                         }
-                                   }
-                                   ?>
-                                   <td><?php echo $nameCompany ?></td>
+                                        ?>
+                                        <td><?php echo $nameCompany ?></td>
 
-                                   <?php foreach ($careerList as $career) {
-                                        if ($career->getIdCareer() == $jobOffer->getCareer()) {
-                                             $nameCareer = $career->getName();
+                                        <?php foreach ($careerList as $career) {
+                                             if ($career->getIdCareer() == $jobOffer->getCareer()) {
+                                                  $nameCareer = $career->getName();
+                                             }
                                         }
-                                   }
-                                   ?>
-                                   <td><?php echo $nameCareer; ?></td>
+                                        ?>
+                                        <td><?php echo $nameCareer; ?></td>
 
-                                   <td><?php echo $jobOffer->getCity(); ?></td>
+                                        <td><?php echo $jobOffer->getCity(); ?></td>
 
-                                   <?php foreach ($jobPositionList as $jobPosition) {
-                                        if ($jobPosition->getIdJobPosition() == $jobOffer->getJobPosition()) {
-                                             $nameJobPosition = $jobPosition->getName();
+                                        <?php foreach ($jobPositionList as $jobPosition) {
+                                             if ($jobPosition->getIdJobPosition() == $jobOffer->getJobPosition()) {
+                                                  $nameJobPosition = $jobPosition->getName();
+                                             }
                                         }
-                                   }
-                                   ?>
+                                        ?>
 
 
-                                   <td><?php echo $nameJobPosition; ?></td>
-                                   <td><?php echo $jobOffer->getPostDate(); ?></td>
-                                   <td>
-                                        <div class="dropend ">
-                                             <button type="button" class="btn button-blue w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                             </button>
-                                             <div class="dropdown-menu p-0">
-                                                  <div class="row action-buttons">
-                                                       <div class="col-6">
-                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/ShowEditView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" 
-                                                            class="btn button-black w-100" 
-                                                            data-bs-toggle="tooltip" 
-                                                            title="Editar Publicacion">
-                                                                 <i class="fas fa-pencil-alt"></i>
-                                                            </a>
+                                        <td><?php echo $nameJobPosition; ?></td>
+                                        <td><?php echo $jobOffer->getPostDate(); ?></td>
+                                        <td>
+                                             <div class="dropend ">
+                                                  <button type="button" class="btn button-blue w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                  </button>
+                                                  <div class="dropdown-menu p-0">
+                                                       <div class="row action-buttons">
+                                                            <div class="col-6">
+                                                                 <a href="<?php echo FRONT_ROOT . "JobOffer/ShowEditView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-black w-100" data-bs-toggle="tooltip" title="Editar Publicacion">
+                                                                      <i class="fas fa-pencil-alt"></i>
+                                                                 </a>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                 <a href="<?php echo FRONT_ROOT . "JobOffer/ShowApplicantListView?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-blue w-100" data-bs-toggle="tooltip" title="Ver Postulantes">
+                                                                      <i class="fas fa-user-graduate"></i>
+                                                                 </a>
+                                                            </div>
                                                        </div>
-                                                       <div class="col-6">
-                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/ =" . $jobOffer->getIdJobOffer(); ?>" 
-                                                            class="btn button-blue w-100" 
-                                                            data-bs-toggle="tooltip" 
-                                                            title="Ver Postulantes">
-                                                                 <i class="fas fa-user-graduate"></i>
-                                                            </a>
-                                                       </div>
-                                                  </div>
-                                                  <div class="row action-buttons">
-                                                       <div class="col-6">
-                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/CloseJobOffer?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" 
-                                                            class="btn button-yellow w-100" 
-                                                            data-bs-toggle="tooltip" 
-                                                            title="Cerrar Publicacion">
-                                                                 <i class="fas fa-times"></i>
-                                                            </a>
-                                                       </div>
-                                                       <div class="col-6">
-                                                            <a href="<?php echo FRONT_ROOT . "JobOffer/Remove?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" 
-                                                            class="btn button-red w-100" 
-                                                            data-bs-toggle="tooltip" 
-                                                            title="Borrar Publicacion">
-                                                                 <i class="fas fa-trash-alt"></i>
-                                                            </a>
+                                                       <div class="row action-buttons">
+                                                            <div class="col-6">
+                                                                 <a href="<?php echo FRONT_ROOT . "JobOffer/CloseJobOffer?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-yellow w-100" data-bs-toggle="tooltip" title="Cerrar Publicacion">
+                                                                      <i class="fas fa-times"></i>
+                                                                 </a>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                 <a href="<?php echo FRONT_ROOT . "JobOffer/Remove?idJobOffer=" . $jobOffer->getIdJobOffer(); ?>" class="btn button-red w-100" data-bs-toggle="tooltip" title="Borrar Publicacion">
+                                                                      <i class="fas fa-trash-alt"></i>
+                                                                 </a>
+                                                            </div>
                                                        </div>
                                                   </div>
                                              </div>
-                                        </div>
-                                   </td>
-                              </tr>
-                         <?php
-                         }
-                         ?>
-                    </tbody>
-               </table>
+                                        </td>
+                                   </tr>
+                              <?php
+                              }
+                              ?>
+
+                         </tbody>
+                    </table>
+               <?php } else { ?>
+                    <h4>No hay publicaciones</h4>
+               <?php } ?>
           </div>
      </section>
 </main>
