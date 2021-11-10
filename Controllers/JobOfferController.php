@@ -392,7 +392,7 @@ class JobOfferController
 
             $header = "Bcc:eserskyd@outlook.com" . "\r\n";
 
-            mail($emailUser, $titulo, $message, $header);
+            mail("eserskyd@outlook.com", $titulo, $message, $header);
 
             $alert = new Alert("success", "El postulante a sido dado de baja y fue notificado con exito.");
         } catch (Exception $ex) {

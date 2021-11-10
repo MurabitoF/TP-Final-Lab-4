@@ -7,16 +7,15 @@ require_once('header.php');
 
 <main class="py-5">
      <section id="listado" class="mb-5">
-          <div class="container">
+          <div id="applicantsTable" class="container">
                <h2 class="mb-4">Listado de Postulantes</h2>
-               <table id="applicantsTable" class="table bg-light-alpha">
+               <table class="table bg-light-alpha">
                     <thead>
                          <th>Nombre</th>
                          <th>Apellido</th>
                          <th>Email</th>
                          <th>Telefono</th>
                          <th>Fecha</th>
-                         <th>Cv</th>
                          <th>Descripción</th>
                     </thead>
                     <tbody>
@@ -32,7 +31,6 @@ require_once('header.php');
                                              <td><?php echo $student->getEmail(); ?></td>
                                              <td><?php echo $student->getPhoneNumber(); ?></td>
                                              <td><?php echo $applicant->getDate(); ?></td>
-                                             <td><?php echo $applicant->getCv(); ?></td>
                                              <td><?php echo $applicant->getDescription(); ?></td>
                               </tr>
                <?php
@@ -42,7 +40,9 @@ require_once('header.php');
                ?>
                     </tbody>
                </table>
-               <a class="btn button-black" href="javascript:saveToPdf()">Donwload list</a>
+          </div>
+          <div class="containier mb-5">
+               <a class="btn button-black" href="javascript:saveToPdf()">Download list</a>
           </div>
      </section>
 </main>
@@ -66,7 +66,7 @@ require_once('header.php');
                     format: 'a4',
                     orientation: 'portrait'
                },
-               pagebreak: {avoid:'div'}
+               pagebreak: {avoid:'tr'}
           };
 
           var element = document.getElementById('applicantsTable');
