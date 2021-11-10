@@ -182,9 +182,9 @@ class JobOfferDAO implements IJobOfferDAO
 
             $filteredList = array_filter($parameters);
 
+            if ($filteredList) {
+                $query .= " AND ";
 
-            if ($filteredList) { 
-                $query .= " AND";
                 foreach ($filteredList as $key => $value) {
                     $query .= " $key  LIKE '%$value%'"; 
                     if (count($filteredList) > 1 && (array_key_last($filteredList) != $key)) {

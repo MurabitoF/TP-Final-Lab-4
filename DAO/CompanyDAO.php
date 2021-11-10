@@ -18,21 +18,20 @@ class CompanyDAO implements ICompanyDAO
     public function Add(Company $company)
     {
         try {
-            $query = "CALL save_Company (?, ?, ?, ?, ?, ?);";
+            $query = "CALL save_Company (:companyName, :cuit, :phoneNumber, :email, :description, @id);";
 
             $parameters["companyName"] = $company->getName();
             $parameters["cuit"] = $company->getCUIT();
             $parameters["description"] = $company->getDescription();
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
-            $parameters['idLast'] = 0;
+            $parameters["description"] = $company->getDescription();
 
             $this->connection = Connection::GetInstance();
 
-            $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
+            $lastId = $this->connection->Execute($query, $parameters);
             
-            return ;
-
+            return $lastId[0]["id"];
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -40,7 +39,6 @@ class CompanyDAO implements ICompanyDAO
 
     public function GetAll()
     {
-
         try {
 
             $companyList = array();
@@ -74,7 +72,6 @@ class CompanyDAO implements ICompanyDAO
 
     public function Remove($idCompany)
     {
-
         try {
 
             $query = "UPDATE " . $this->tableName . " SET active = FALSE WHERE idCompany = " . $idCompany;
@@ -194,17 +191,17 @@ class CompanyDAO implements ICompanyDAO
 
             $companyList = array();
 
-            $query = "SELECT * FROM $this->tableName c JOIN Address a ON c.idCompany = a.idCompany";
+            $query = "SELECT * FROM $this->tableName c JOIN Address a ON c.idCompany = a.idCompany WHERE c.active = 1";
 
             $filteredList = array_filter($parameters); // removes empty values from $_POST
 
             if ($filteredList) { // not empty
-                $query .= " WHERE";
+                $query .= " AND";
 
                 foreach ($filteredList as $key => $value) {
-                    $query .= " $key  LIKE '%$value%'";  // $filteredList keyname = $filteredList['keyname'] value
-                    if (count($filteredList) > 1 && (count($filteredList) > $key)) { // more than one search filter, and not the last
-                        $query .= " AND";
+                    $query .= " $key LIKE '%$value%'";  // $filteredList keyname = $filteredList['keyname'] value
+                    if (count($filteredList) > 1 && (array_key_last($filteredList) != $key)) { // more than one search filter, and not the last
+                        $query .= " AND ";
                     }
                 }
             }

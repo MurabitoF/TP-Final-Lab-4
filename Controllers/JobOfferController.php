@@ -184,6 +184,7 @@ class JobOfferController
                 $jobOffer->setWorkload($workload);
                 $jobOffer->setDescription($description);
                 $jobOffer->setStatus("Open");
+
                 if ($flyer['size'] > 0) {
                     $image = $this->imageDAO->UploadImage($flyer, 'flyer');
                     if ($image) {
@@ -219,7 +220,6 @@ class JobOfferController
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
             try {
-                $jobOffer->setIdJobOffer($idJobOffer);
                 $jobOffer->setTitle($title);
                 $jobOffer->setCompany($idCompany);
                 $jobOffer->setCareer($idCareer);
@@ -230,6 +230,7 @@ class JobOfferController
                 $jobOffer->setRequirements($requirements);
                 $jobOffer->setExpireDate($expireDate);
                 $jobOffer->setDescription($description);
+
                 if ($flyer['size'] > 0) {
                     $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
                     if ($image) {
@@ -294,7 +295,7 @@ class JobOfferController
                     $applicant->setIdJobOffer($idJobOffer);
                     $applicant->setIdUser($idUser);
                     $applicant->setDescription($description);
-                    $applicant->setDate(date("Y/m/d"));
+                    $applicant->setDate(date("Y-m-d"));
 
                     $this->applicantDAO->Add($applicant);
 
