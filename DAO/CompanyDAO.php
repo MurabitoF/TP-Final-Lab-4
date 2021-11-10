@@ -112,7 +112,7 @@ class CompanyDAO implements ICompanyDAO
 
             $query = "SELECT idCompany FROM " . $this->tableName . ' WHERE companyName = :companyName;';
 
-            $parameters["companyName"] = "$name";
+            $parameters["companyName"] = $name;
 
             $this->connection = Connection::GetInstance();
 

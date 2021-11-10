@@ -127,8 +127,6 @@ class CompanyController
                 $company->setEmail($email);
                 $company->setDescription($description);
 
-                echo $company->getEmail();
-
                 $address = new Address();
                 $address->setCity($city);
                 $address->setPostalCode($postalCode);
@@ -137,6 +135,8 @@ class CompanyController
                 $address->setStreetAddress($streetAddress);
                 $address->setPostalCode($postalCode);
                 $address->setStateName($stateName);
+
+                $this->companyDAO->Add($company);
 
                 $idCompany = $this->companyDAO->getId($name);
 

@@ -62,7 +62,7 @@ require_once('header.php');
 
           var opt = {
                margin: 5,
-               filename: 'applicants.pdf',
+               filename: 'applicants_<?php echo $idJobOffer?>.pdf',
                enableLinks: false,
                html2canvas: {
                     scale: 5,

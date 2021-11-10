@@ -353,7 +353,7 @@ class JobOfferController
             $jobOfferName = $this->jobOfferDAO->SearchId($idJobOffer);
 
             $titulo = "Ciere de oferta laboral";
-            $message = "\"" . $jobOfferName->getTitle() . " \" ya no acepta más postulantes.";
+            $message = "\"" . $jobOfferName->getTitle() . " \" ya no acepta mas postulantes.";
             $header = "Bcc:eserskyd@outlook.com" . "\r\n";
 
             mail("eserskyd@outlook.com", $titulo, $message, $header);
@@ -377,10 +377,10 @@ class JobOfferController
         }
     }
 
-    public function NotifyApplicant($idUser, $idJobOffer)
+    public function NotifyApplicant($idStudent, $idJobOffer)
     {
         try {
-            $emailUser = $this->userDAO->getEmail($idUser);
+            $emailUser = $this->studentDAO->GetById($idStudent)->getEmail();
             $jobOfferName = $this->jobOfferDAO->SearchId($idJobOffer);
 
             $titulo = "Eliminación de su postulación.";
@@ -409,7 +409,6 @@ class JobOfferController
             $this->NotifyApplicant($idUser, $idJobOffer);
         } catch (Exception $ex) {
             $alert = new Alert("danger", "Hubo un error al dar de baja la postulación");
-        } finally {
             $this->ShowAdminListView($alert);
         }
     }
