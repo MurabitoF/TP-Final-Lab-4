@@ -84,7 +84,11 @@ class LoggerController
                     session_start();
                     $_SESSION['loggedUser'] = $user;
                     $_SESSION['lastActivity'] = time();
-                    header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+                    if ($user->getRole() === "Company"){
+                        header("Location: " . FRONT_ROOT . "Company/VerifyData");
+                    } else {
+                        header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+                    }
                 } else {
                     $alert = new Alert('danger', 'Contraseña Incorrecta');
                     $this->ShowLogInView($alert);
@@ -139,5 +143,4 @@ class LoggerController
 
         return $studentUser;
     }
-
 }

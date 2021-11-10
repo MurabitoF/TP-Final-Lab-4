@@ -42,10 +42,10 @@ $loggedUser = $_SESSION['loggedUser'];
                     </div>
                <?php } else { ?>
                     <div class="menu-button">
-                         <a href="<?php echo FRONT_ROOT ?>Company/VerifyData">Ver mis datos</a>
+                         <a href="<?php echo FRONT_ROOT ?>Company/ShowDataView?idCompany=<?php echo $loggedUser->getIdCompany() ?>">Ver mis datos</a>
                     </div>
                     <div class="menu-button">
-                         <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAdminListView">Ver Publicaciones</a>
+                         <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowCompanyListView?idCompany=<?php echo $loggedUser->getIdCompany() ?>">Ver Publicaciones</a>
                     </div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAddView">Agregar Publicacion</a>

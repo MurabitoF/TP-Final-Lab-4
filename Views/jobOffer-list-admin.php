@@ -79,10 +79,14 @@ include('nav.php');
                                              </a>
                                         </td>
 
-                                        <?php foreach ($companyList as $company) {
-                                             if ($company->getIdCompany() == $jobOffer->getCompany()) {
-                                                  $nameCompany = $company->getName();
+                                        <?php if (is_array($companyList)) {
+                                             foreach ($companyList as $company) {
+                                                  if ($company->getIdCompany() == $jobOffer->getCompany()) {
+                                                       $nameCompany = $company->getName();
+                                                  }
                                              }
+                                        } else {
+                                             $nameCompany = $companyList->getName();
                                         }
                                         ?>
                                         <td><?php echo $nameCompany ?></td>
@@ -135,9 +139,10 @@ include('nav.php');
                                                                       <i class="fas fa-trash-alt"></i>
                                                                  </a>
                                                             </div>
+
                                                        </div>
+
                                                   </div>
-                                             </div>
                                         </td>
                                    </tr>
                               <?php
