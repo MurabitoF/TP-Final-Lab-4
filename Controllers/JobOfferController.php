@@ -63,7 +63,11 @@ class JobOfferController
         }
         LoggerController::VerifyLogIn();
         if (in_array('Create JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
-            $companyList = $this->companyDAO->GetAll();
+            if($_SESSION['loggedUser']->getRole() == "Company"){
+                $companyList = $this->companyDAO->searchId($_SESSION['loggedUser']->getIdCompany());
+            } else {
+                $companyList = $this->companyDAO->GetAll();
+            }
             $jobPositionList = $this->jobPositionDAO->GetAll();
             $careerList = $this->careerDAO->GetAll();
 
@@ -80,13 +84,40 @@ class JobOfferController
             session_start();
         }
         LoggerController::VerifyLogIn();
-        if (in_array('List JobOffers', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+        if (in_array('List JobOffers', LoggerController::$permissions[$_SESSION["loggedUser"]->getRole()])) {
             $companyList = $this->companyDAO->GetAll();
             $jobOfferList = $this->jobOfferDAO->GetAll();
             $jobPositionList = $this->jobPositionDAO->GetAll();
             $careerList = $this->careerDAO->GetAll();
 
             $parameters = array();
+            $parameters["idCareer"] = $idCareer;
+            $parameters["idJobPosition"] = $idJobPosition;
+            $parameters["workload"] = $workload;
+            $parameters["city"] = $city;
+
+            $jobOfferList = $this->jobOfferDAO->filterList($parameters);
+
+            require_once(VIEWS_PATH . "jobOffer-list-admin.php");
+        } else {
+            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
+    }
+
+    public function ShowCompanyListView($idCompany, $alert = null, $idCareer = null, $idJobPosition = null, $workload = null, $city = null)
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
+        if (in_array('List JobOffers', LoggerController::$permissions[$_SESSION["loggedUser"]->getRole()])) {
+            $companyList = $this->companyDAO->searchId($idCompany);
+            $jobPositionList = $this->jobPositionDAO->GetAll();
+            $careerList = $this->careerDAO->GetAll();
+
+            $parameters = array();
+            $parameters["idCompany"] = $idCompany;
             $parameters["idCareer"] = $idCareer;
             $parameters["idJobPosition"] = $idJobPosition;
             $parameters["workload"] = $workload;

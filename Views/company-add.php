@@ -1,6 +1,8 @@
 <?php
 require_once('header.php');
-require_once('nav.php');
+if($_SESSION['loggedUser']->getRole() != "Company"){
+    require_once('nav.php');
+}
 ?>
 
 <main class="py-5">

@@ -67,7 +67,13 @@ class CompanyController
         LoggerController::VerifyLogIn();
         $company = $this->companyDAO->getCompanyByEmail($_SESSION['loggedUser']->getUsername());
         if($company){
-            $this->ShowDataView($company->getIdCompany());
+            $company->setIdUser($_SESSION["loggedUser"]->getIdUser());
+            $company->setUsername($_SESSION["loggedUser"]->getUsername());
+            $company->setPassword($_SESSION["loggedUser"]->getPassword());
+            $company->setRole($_SESSION["loggedUser"]->getRole());
+            $company->setActive($_SESSION["loggedUser"]->getActive());
+            $_SESSION["loggedUser"] = $company;
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         } else {
             $this->ShowAddView(NULL, $_SESSION['loggedUser']->getUsername());
         }
@@ -145,8 +151,7 @@ class CompanyController
                 }
             } finally {
                 if ($_SESSION['loggedUser']->getRole() == "Company") {
-                    // header("Location: " . FRONT_ROOT . "User/ShowHomeView");
-                    $this->ShowAddView($alert);
+                    $this->VerifyData();
                 } else {
                     $this->ShowAddView($alert);
                 }

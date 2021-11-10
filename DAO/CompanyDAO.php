@@ -43,7 +43,7 @@ class CompanyDAO implements ICompanyDAO
 
             $companyList = array();
 
-            $query = "SELECT * FROM " . $this->tableName;
+            $query = "SELECT * FROM " . $this->tableName . " WHERE active = 1";
 
             $this->connection = Connection::GetInstance();
 
