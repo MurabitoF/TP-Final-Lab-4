@@ -64,9 +64,10 @@ class UserController
         require_once(VIEWS_PATH . "register.php");
     }
 
-    public function ShowRegisterCompanyView()
+    public function ShowRegisterCompanyView($user, $alert = NULL)
     {
-        require_once(VIEWS_PATH . "company-add.php");
+        session_start();
+        require_once(VIEWS_PATH . "company-register.php");
     }
 
     public function Add($username, $verifiedPassword, $role)

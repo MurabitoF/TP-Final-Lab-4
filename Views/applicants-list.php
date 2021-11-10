@@ -7,7 +7,7 @@ require_once('header.php');
 
 <main class="py-5">
      <section id="listado" class="mb-5">
-          <div class="container">
+          <div id="applicantsTable" class="container">
                <h2 class="mb-4">Listado de Postulantes</h2>
                <table class="table bg-light-alpha">
                     <thead>
@@ -15,7 +15,6 @@ require_once('header.php');
                          <th>Email</th>
                          <th>Telefono</th>
                          <th>Fecha</th>
-                         <th>Cv</th>
                          <th>Descripción</th>
                          <th>Acciones</th>
                     </thead>
@@ -49,14 +48,45 @@ require_once('header.php');
                                         </a>
                                    </div></td>
                               </tr>
-                                   <?php
-                                             }
+               <?php
                                         }
+
                               }
                          }
                          ?>
                     </tbody>
                </table>
           </div>
+          <div class="containier mb-5">
+               <a class="btn button-black" href="javascript:saveToPdf()">Download list</a>
+          </div>
      </section>
 </main>
+
+<script>
+     function saveToPdf() {
+
+          var opt = {
+               margin: 5,
+               filename: 'applicants.pdf',
+               enableLinks: false,
+               html2canvas:  {
+                    scale: 5,
+                    width: 890,
+                    height: 1000,
+                    scrollY: 0,
+                    orientation: 'portrait'
+               },
+               jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+               },
+               pagebreak: {avoid:'tr'}
+          };
+
+          var element = document.getElementById('applicantsTable');
+
+          html2pdf().set(opt).from(element).save();
+     }
+</script>

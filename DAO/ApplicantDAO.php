@@ -138,5 +138,5 @@ class ApplicantDAO implements IApplicantDAO
         }catch(Exception $ex){
             throw $ex;
         }
-    }
+    }   
 }

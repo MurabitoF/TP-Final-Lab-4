@@ -32,7 +32,7 @@ require_once('header.php');
                          </div>
                     </div>
                </form>
-               <table class="table bg-light-alpha">
+               <table id="companyTable" class="table bg-light-alpha">
                     <thead>
                          <th>Nombre</th>
                          <th>Ciudad</th>
@@ -45,37 +45,35 @@ require_once('header.php');
                          <form action="<?php echo FRONT_ROOT ?>Company/Action" method="get" class="bg-light-alpha p-5">
                               <?php
                               foreach ($companyList as $company) {
-                                   if ($company->getState()) {
                               ?>
-                                        <tr>
-                                             <td>
-                                                  <a class="link-button" href="<?php echo FRONT_ROOT ?>Company/ShowDataView?idCompany=<?php echo $company->getIdCompany() ?>">
-                                                       <?php echo $company->getName() ?>
-                                                  </a>
-                                             </td>
-                                             <td>
-                                                  <?php foreach ($addressList as $address) {
-                                                       if ($address->getIdCompany() == $company->getIdCompany()) {
-                                                            echo $address->getCity();
-                                                       }
-                                                  } ?>
-                                             </td>
-                                             <td>
-                                                  <?php
-                                                  if ($_SESSION["loggedUser"]->getRole() == "Admin") {
-                                                  ?>
-                                                       <a class="btn button-black" href="<?php echo FRONT_ROOT ?>Company/ShowEditView?idCompany=<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></a>
-                                                       <a class="btn button-red" href="<?php echo FRONT_ROOT ?>Company/Remove?idCompany=<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></a>
-                                             <?php
+                                   <tr>
+                                        <td>
+                                             <a class="link-button" href="<?php echo FRONT_ROOT ?>Company/ShowDataView?idCompany=<?php echo $company->getIdCompany() ?>">
+                                                  <?php echo $company->getName() ?>
+                                             </a>
+                                        </td>
+                                        <td>
+                                             <?php foreach ($addressList as $address) {
+                                                  if ($address->getIdCompany() == $company->getIdCompany()) {
+                                                       echo $address->getCity();
                                                   }
+                                             } ?>
+                                        </td>
+                                        <td>
+                                             <?php
+                                             if ($_SESSION["loggedUser"]->getRole() == "Admin") {
+                                             ?>
+                                                  <a class="btn button-black" href="<?php echo FRONT_ROOT ?>Company/ShowEditView?idCompany=<?php echo $company->getIdCompany() ?>"><i class="fas fa-pencil-alt"></i></a>
+                                                  <a class="btn button-red" href="<?php echo FRONT_ROOT ?>Company/Remove?idCompany=<?php echo $company->getIdCompany() ?>"><i class="fas fa-trash-alt"></i></a>
+                                             <?php
                                              }
                                              ?>
-                                             </td>
-                                        </tr>
-                                   <?php
-                              }
-                                   ?>
+                                        </td>
                                    </tr>
+                              <?php
+                              }
+                              ?>
+                              </tr>
 
                     </tbody>
                </table>

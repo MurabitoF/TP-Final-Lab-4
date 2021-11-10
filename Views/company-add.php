@@ -1,7 +1,8 @@
 <?php
-require_once('nav.php');
 require_once('header.php');
-
+if($_SESSION['loggedUser']->getRole() != "Company"){
+    require_once('nav.php');
+}
 ?>
 
 <main class="py-5">
@@ -34,7 +35,7 @@ require_once('header.php');
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="email" class="form-control form-input shadow-none" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                            <input type="text" name="email" class="form-control form-input shadow-none" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"  value="<?php echo ($email) ? $email : "" ?>" required <?php echo ($email) ? "readonly" : "" ?>>
                         </div>
                     </div>
                 </div>

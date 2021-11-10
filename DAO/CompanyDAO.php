@@ -5,6 +5,7 @@ namespace DAO;
 use \Exception as Exception;
 use DAO\ICompanyDAO as ICompanyDAO;
 use DAO\Connection as Connection;
+use DAO\QueryType as QueryType;
 use Models\Company as Company;
 use Models\Categoty as Category;
 
@@ -17,21 +18,20 @@ class CompanyDAO implements ICompanyDAO
     public function Add(Company $company)
     {
         try {
-            $query = "INSERT INTO " . $this->tableName . " (companyName, cuit, phoneNumber, email, description, active)
-             VALUES (:companyName, :cuit, :phoneNumber, :email, :description, :active);";
+            $query = "CALL save_Company (:companyName, :cuit, :phoneNumber, :email, :description, @id);";
+
             $parameters["companyName"] = $company->getName();
             $parameters["cuit"] = $company->getCUIT();
+            $parameters["description"] = $company->getDescription();
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
             $parameters["description"] = $company->getDescription();
-            $parameters["active"] = $company->getState();
 
             $this->connection = Connection::GetInstance();
 
-            $idCompany = $this->connection->ExecuteNonQuery($query, $parameters);
-
-            return $idCompany;
-
+            $lastId = $this->connection->Execute($query, $parameters);
+            
+            return $lastId[0]["id"];
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -39,12 +39,11 @@ class CompanyDAO implements ICompanyDAO
 
     public function GetAll()
     {
-
         try {
 
             $companyList = array();
 
-            $query = "SELECT * FROM " . $this->tableName;
+            $query = "SELECT * FROM " . $this->tableName . " WHERE active = 1";
 
             $this->connection = Connection::GetInstance();
 
@@ -73,7 +72,6 @@ class CompanyDAO implements ICompanyDAO
 
     public function Remove($idCompany)
     {
-
         try {
 
             $query = "UPDATE " . $this->tableName . " SET active = FALSE WHERE idCompany = " . $idCompany;
@@ -90,7 +88,7 @@ class CompanyDAO implements ICompanyDAO
     {
         try {
 
-            $query = "CALL update_Company(:idCompany, :companyName, :cuit, :phoneNumber, :email, :description, :active);";
+            $query = "CALL update_Company(:idCompany, :companyName, :cuit, :phoneNumber, :email, :description);";
 
             $parameters["idCompany"] = $company->getIdCompany();
             $parameters["companyName"] = $company->getName();
@@ -98,7 +96,6 @@ class CompanyDAO implements ICompanyDAO
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
             $parameters["description"] = $company->getDescription();
-            $parameters["active"] = $company->getState();
 
             $this->connection = Connection::GetInstance();
 
@@ -194,17 +191,17 @@ class CompanyDAO implements ICompanyDAO
 
             $companyList = array();
 
-            $query = "SELECT * FROM $this->tableName c JOIN Address a ON c.idCompany = a.idCompany";
+            $query = "SELECT * FROM $this->tableName c JOIN Address a ON c.idCompany = a.idCompany WHERE c.active = 1";
 
             $filteredList = array_filter($parameters); // removes empty values from $_POST
 
             if ($filteredList) { // not empty
-                $query .= " WHERE";
+                $query .= " AND";
 
                 foreach ($filteredList as $key => $value) {
-                    $query .= " $key  LIKE '%$value%'";  // $filteredList keyname = $filteredList['keyname'] value
-                    if (count($filteredList) > 1 && (count($filteredList) > $key)) { // more than one search filter, and not the last
-                        $query .= " AND";
+                    $query .= " $key LIKE '%$value%'";  // $filteredList keyname = $filteredList['keyname'] value
+                    if (count($filteredList) > 1 && (array_key_last($filteredList) != $key)) { // more than one search filter, and not the last
+                        $query .= " AND ";
                     }
                 }
             }
