@@ -25,7 +25,7 @@ require_once('header.php');
                          ?>
                                    <tr>
                                         <?php foreach ($studentList as $student) {
-                                             if ($student->getStudentId() == $applicant->getIdUser()) { ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
+                                             if ($student->idStudent() == $applicant->getIdUser()) { ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
                                         ?>
                                                   <td><?php echo $student->getLastName() . ", " . $student->getFirstName(); ?></td>
 
@@ -62,7 +62,7 @@ require_once('header.php');
 
           var opt = {
                margin: 5,
-               filename: 'applicants.pdf',
+               filename: 'applicants_<?php echo $idJobOffer ?>.pdf',
                enableLinks: false,
                html2canvas: {
                     scale: 5,
