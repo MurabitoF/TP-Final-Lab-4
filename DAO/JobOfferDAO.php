@@ -45,7 +45,6 @@ class JobOfferDAO implements IJobOfferDAO
             $jobOfferList = array();
 
             $query = "SELECT * FROM " . $this->tableName;
-
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
@@ -179,17 +178,70 @@ class JobOfferDAO implements IJobOfferDAO
         try {
             $jobOfferList = array();
 
-            $query = "SELECT * FROM $this->tableName";
+            $query = "SELECT * FROM $this->tableName WHERE active = 1";
 
             $filteredList = array_filter($parameters);
 
-
-            if ($filteredList) { 
-                $query .= " WHERE";
+            if ($filteredList) {
+                $query .= " AND ";
 
                 foreach ($filteredList as $key => $value) {
                     $query .= " $key  LIKE '%$value%'"; 
-                    if (count($filteredList) > 1 && (count($filteredList) > $key)) {
+                    if (count($filteredList) > 1 && (array_key_last($filteredList) != $key)) {
+                        $query .= " AND";
+                    }
+                }
+            }
+            $query .= ";";
+
+            $this->connection = Connection::GetInstance();
+
+            $foundJobOffer  = $this->connection->Execute($query);
+
+            foreach ($foundJobOffer as $row) {
+                $jobOffer = new JobOffer();
+
+                $jobOffer->setIdJobOffer($row["idJobOffer"]);
+                $jobOffer->setTitle($row["title"]);
+                $jobOffer->setDescription($row["description"]);
+                $jobOffer->setWorkload($row["workload"]);
+                $jobOffer->setRequirements($row["requirements"]);
+                $jobOffer->setPostDate($row["postDate"]);
+                $jobOffer->setExpireDate($row["expireDate"]);
+                $jobOffer->setActive($row["active"]);
+                $jobOffer->setCity($row["city"]);
+                $jobOffer->setCompany($row["idCompany"]);
+                $jobOffer->setJobPosition($row["idJobPosition"]);
+                $jobOffer->setCareer($row["idCareer"]);
+                $jobOffer->setStatus($row["status"]);
+                if (isset($row['imgFlyer'])) {
+                    $jobOffer->setImgFlyer($row['imgFlyer']);
+                }
+
+                array_push($jobOfferList, $jobOffer);
+            }
+
+            return $jobOfferList;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    public function GetJobOfferFromCompany($parameters)
+    {
+        try {
+            $jobOfferList = array();
+
+            $query = "SELECT * FROM $this->tableName WHERE active = 1";
+
+            $filteredList = array_filter($parameters);
+
+            if ($filteredList) {
+                $query .= " AND ";
+
+                foreach ($filteredList as $key => $value) {
+                    $query .= " $key  LIKE '%$value%'"; 
+                    if (count($filteredList) > 1 && (array_key_last($filteredList) != $key)) {
                         $query .= " AND";
                     }
                 }

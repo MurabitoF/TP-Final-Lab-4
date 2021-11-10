@@ -9,7 +9,7 @@ require_once('header.php');
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Listado de Postulantes</h2>
-               <table class="table bg-light-alpha">
+               <table id="applicantsTable" class="table bg-light-alpha">
                     <thead>
                          <th>Nombre</th>
                          <th>Apellido</th>
@@ -23,25 +23,54 @@ require_once('header.php');
                          <?php
                          foreach ($applicantList as $applicant) {
                          ?>
-                              <tr> 
-                                   <?php foreach($studentList as $student){
-                                             if($student->getStudentId() == $applicant->getIdUser()){
-                                                  ?>
-                                    <td><?php echo $student->getFirstName(); ?></td>
-                                    <td><?php echo $student->getLastName(); ?></td>
-                                    <td><?php echo $student->getEmail(); ?></td>
-                                    <td><?php echo $student->getPhoneNumber(); ?></td>                  
-                                    <td><?php echo $applicant->getDate(); ?></td>
-                                    <td><?php echo $applicant->getCv(); ?></td>
-                                    <td><?php echo $applicant->getDescription(); ?></td>
+                              <tr>
+                                   <?php foreach ($studentList as $student) {
+                                        if ($student->getStudentId() == $applicant->getIdUser()) {
+                                   ?>
+                                             <td><?php echo $student->getFirstName(); ?></td>
+                                             <td><?php echo $student->getLastName(); ?></td>
+                                             <td><?php echo $student->getEmail(); ?></td>
+                                             <td><?php echo $student->getPhoneNumber(); ?></td>
+                                             <td><?php echo $applicant->getDate(); ?></td>
+                                             <td><?php echo $applicant->getCv(); ?></td>
+                                             <td><?php echo $applicant->getDescription(); ?></td>
                               </tr>
-                                   <?php
-                                             }
+               <?php
                                         }
-                         }
-                         ?>
+                                   }
+                              }
+               ?>
                     </tbody>
                </table>
+               <a class="btn button-black" href="javascript:saveToPdf()">Donwload list</a>
           </div>
      </section>
 </main>
+
+<script>
+     function saveToPdf() {
+
+          var opt = {
+               margin: 5,
+               filename: 'applicants.pdf',
+               enableLinks: false,
+               html2canvas:  {
+                    scale: 5,
+                    width: 890,
+                    height: 1000,
+                    scrollY: 0,
+                    orientation: 'portrait'
+               },
+               jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+               },
+               pagebreak: {avoid:'div'}
+          };
+
+          var element = document.getElementById('applicantsTable');
+
+          html2pdf().set(opt).from(element).save();
+     }
+</script>
