@@ -353,7 +353,7 @@ class JobOfferController
 
             mail($emailUser, $titulo, $message, $header);
 
-            $alert = new Alert("success", "El postulante a sido dado de baja y fue notificado con exito.");
+            $alert = new Alert("success", "El postulante ha sido dado de baja y fue notificado con exito.");
         } catch (Exception $ex) {
             $alert = new Alert("danger", "Hubo un error al notificar al postulante");
         } finally {
@@ -364,7 +364,7 @@ class JobOfferController
     public function RemoveApplicant($idUser, $idUser_Has_JobOffer, $idJobOffer)
     {
         try {
-            $this->ApplicantDAO->Remove($idUser, $idUser_Has_JobOffer);
+            $this->applicantDAO->Remove($idUser, $idUser_Has_JobOffer); ///estaba el applicantDAO con mayuscula (MODIFICADO)
             $this->NotifyApplicant($idUser, $idJobOffer);
         } catch (Exception $ex) {
             $alert = new Alert("danger", "Hubo un error al dar de baja la postulación");
