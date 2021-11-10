@@ -73,13 +73,13 @@ require_once('nav.php');
         <div class="separator"></div>
         <section id="applicant=form">
             <?php if ($jobOffer->getStatus() == "Open") {
-                if ($_SESSION['loggedUser']->getRole() == "Student" && !array_key_exists($_SESSION['loggedUser']->getIdUser(), $jobOffer->getApplicants())) { ?>
+                if ($_SESSION['loggedUser']->getRole() == "Student" && !array_key_exists($_SESSION['loggedUser']->getStudentId(), $jobOffer->getApplicants())) { ?>
                     <h2>Postulate</h2>
                     
                     <form action="<?php echo FRONT_ROOT ?>JobOffer/AddApplicant" enctype="multipart/form-data" method="POST">
                         <div class="visually-hidden">
                             <input type="text" name="idJobOffer" value="<?php echo $jobOffer->getIdJobOffer() ?>" readonly>
-                            <input type="text" name="idUser" value="<?php echo $_SESSION['loggedUser']->getIdUser() ?>" readonly>
+                            <input type="text" name="idStudent" value="<?php echo $_SESSION['loggedUser']->getStudentId() ?>" readonly>
                         </div>
                         <div class="form-group row">
                             <div class="col-12">

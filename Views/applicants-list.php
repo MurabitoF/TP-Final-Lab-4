@@ -25,7 +25,7 @@ require_once('header.php');
                          ?>
                                    <tr>
                                         <?php foreach ($studentList as $student) {
-                                             if ($student->getStudentId() == $applicant->getIdUser()) { ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
+                                             if ($student->getStudentId() == $applicant->getIdStudent()) { ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
                                         ?>
                                                   <td><?php echo $student->getLastName() . ", " . $student->getFirstName(); ?></td>
 
@@ -35,7 +35,7 @@ require_once('header.php');
                                                   <td><?php echo $applicant->getDescription(); ?></td>
 
                                                   <td data-html2canvas-ignore="true">
-                                                       <a href="<?php echo FRONT_ROOT . "JobOffer/RemoveApplicant?idUser=" . $applicant->getIdUser() . "&idUser_Has_JobOffer=" . $applicant->getIdApplicant() . "&idJobOffer=" . $applicant->getIdJobOffer(); ?>" class="btn button-red w-100" data-bs-toggle="tooltip" title="Borrar Postulante">
+                                                       <a href="<?php echo FRONT_ROOT . "JobOffer/RemoveApplicant?idStudent=" . $applicant->getIdStudent() . "&idUser_Has_JobOffer=" . $applicant->getIdApplicant() . "&idJobOffer=" . $applicant->getIdJobOffer(); ?>" class="btn button-red w-100" data-bs-toggle="tooltip" title="Borrar Postulante">
                                                             <i class="fas fa-trash-alt"></i>
                                                        </a>
                                                   </td>
@@ -62,7 +62,7 @@ require_once('header.php');
 
           var opt = {
                margin: 5,
-               filename: 'applicants.pdf',
+               filename: 'applicants_<?php echo $idJobOffer ?>.pdf',
                enableLinks: false,
                html2canvas: {
                     scale: 5,
