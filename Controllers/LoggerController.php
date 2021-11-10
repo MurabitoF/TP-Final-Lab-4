@@ -42,7 +42,6 @@ class LoggerController
         ],
         'Student' => [
             'Add Applicant',
-            'Create User',
             'View Records',
         ]
     ];

@@ -111,8 +111,12 @@ class CompanyController
                 $address->setCity($city);
                 $address->setStreetName($streetName);
                 $address->setStreetAddress($streetAddress);
+                $address->setPostalCode($postalCode);
+                $address->setStateName($stateName);
+          
+                $this->companyDAO->Add($company);
 
-                $idCompany = $this->companyDAO->Add($company);
+                $idCompany = $this->companyDAO->getId($name);
 
                 $this->addressDAO->Add($address, $idCompany);
 

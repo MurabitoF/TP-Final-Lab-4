@@ -179,17 +179,17 @@ class JobOfferDAO implements IJobOfferDAO
         try {
             $jobOfferList = array();
 
-            $query = "SELECT * FROM $this->tableName";
+            $query = "SELECT * FROM $this->tableName WHERE active = 1";
 
             $filteredList = array_filter($parameters);
 
 
             if ($filteredList) { 
-                $query .= " WHERE";
+                $query .= " AND";
 
                 foreach ($filteredList as $key => $value) {
                     $query .= " $key  LIKE '%$value%'"; 
-                    if (count($filteredList) > 1 && (count($filteredList) > $key)) {
+                    if (count($filteredList) > 1 && (array_key_last($filteredList) != $key)) { ///MODIFICARLO EN EMPRESA
                         $query .= " AND";
                     }
                 }

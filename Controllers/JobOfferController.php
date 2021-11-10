@@ -163,7 +163,7 @@ class JobOfferController
         require_once(VIEWS_PATH . "jobOffer-list.php");
     }
 
-    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer = NULL)
+    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer=NULL)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -184,7 +184,7 @@ class JobOfferController
                 $jobOffer->setWorkload($workload);
                 $jobOffer->setDescription($description);
                 $jobOffer->setStatus("Open");
-                if ($flyer) {
+                if ($flyer['size'] > 0) {
                     $image = $this->imageDAO->UploadImage($flyer, 'flyer');
                     if ($image) {
                         $jobOffer->setImgFlyer($image);
@@ -208,7 +208,7 @@ class JobOfferController
         }
     }
 
-    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $expireDate, $workload, $description, $active, $flyer = NULL)
+    public function Edit($idJobOffer, $title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $expireDate, $workload, $description, $flyer = NULL)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -217,8 +217,7 @@ class JobOfferController
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
             try {
-                $jobOffer = new JobOffer();
-
+                $jobOffer->setIdJobOffer($idJobOffer);
                 $jobOffer->setTitle($title);
                 $jobOffer->setCompany($idCompany);
                 $jobOffer->setCareer($idCareer);
@@ -229,8 +228,8 @@ class JobOfferController
                 $jobOffer->setRequirements($requirements);
                 $jobOffer->setExpireDate($expireDate);
                 $jobOffer->setDescription($description);
-                $jobOffer->setActive($active);
-                if ($flyer) {
+
+                if ($flyer['size'] > 0) {
                     $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
                     $jobOffer->setImgFlyer($image);
                 }
