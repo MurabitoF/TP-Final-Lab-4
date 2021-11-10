@@ -47,7 +47,7 @@ require_once('nav.php');
                     </div>
                     <div class="row justify-content-end mt-3">
                          <div class="col-md-6 text-md-end">
-                              <a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowHistoryApplicantsList?idUser=" . $_SESSION['loggedUser']->getIdUser() ?>">Ver historial de postulaciones<i class="ms-3 fas fa-angle-right"></i></a>
+                              <a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowHistoryApplicantsList?idStudent=" . $_SESSION['loggedUser']->getStudentId() ?>">Ver historial de postulaciones<i class="ms-3 fas fa-angle-right"></i></a>
                          </div>
                     </div>
                </section>
