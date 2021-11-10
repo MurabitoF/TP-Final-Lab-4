@@ -136,11 +136,14 @@ include('nav.php');
 
                     <div class="row my-3">
                          <div class="col-md-6">
-                              <input type="file" name="flyer" id="imgFlyer" class="visually-hidden">
+                              <input type="file" name="flyer" id="imgFlyer" class="visually-hidden" value="<?php echo ($jobOffer->getImgFlyer())? $jobOffer->getImgFlyer() : "" ?>">
                               <label class="btn button-blue" for="imgFlyer">Subi una imagen <i class="fas fa-upload ms-3"></i></label>
                          </div>
                          <div class="col-md-6">
-                              <img alt="preview flyer" id="previewFlyer" class="visually-hidden preview-flyer">
+                              <img alt="preview flyer" 
+                              id="previewFlyer" 
+                              class="<?php echo ($jobOffer->getImgFlyer()) ? "" : "visually-hidden" ?> preview-flyer" 
+                              src="<?php echo ($jobOffer->getImgFlyer()) ? "../" . UPLOADS_PATH . "img/flyer/" . $jobOffer->getImgFlyer() : "" ?>">
                          </div>
                     </div>
 

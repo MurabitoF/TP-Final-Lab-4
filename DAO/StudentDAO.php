@@ -43,12 +43,28 @@ class StudentDAO implements IStudentDAO
         $this->RetrieveData();
 
         foreach ($this->studentList as $arrayValue) {
-            if ($arrayValue->getIdStudent() == $id) { ///MODIFICADA
+            if ($arrayValue->getStudentId() == $id) { ///MODIFICADA
                 return $arrayValue;
             }
         }
 
         return NULL;
+    }
+
+    public function GetEmails($applicantList)
+    {   
+        $emails = "";
+        $this->RetrieveData();
+        foreach($this->studentList as $key => $student){
+            if(array_key_exists($student->getStudentId(), $applicantList)) {
+                if (count($applicantList) > 1 && $key != array_key_last($this->studentList)) {
+                    $emails .= $student->getEmail() . ', ';
+                } else {
+                    $emails .= $student->getEmail();
+                }
+            }
+        }
+        return $emails;
     }
 
     private function SaveData()

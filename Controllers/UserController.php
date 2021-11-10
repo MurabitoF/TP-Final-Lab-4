@@ -40,7 +40,7 @@ class UserController
         LoggerController::VerifyLogIn();
         $lastApplications = array();
         if ($_SESSION['loggedUser']->getRole() == "Student") {
-            $lastApplications = $this->GetLastApplications($_SESSION["loggedUser"]->getIdUser());
+            $lastApplications = $this->GetLastApplications($_SESSION["loggedUser"]->getStudentId());
         }
         require_once(VIEWS_PATH . "home.php");
     }
@@ -144,9 +144,9 @@ class UserController
         }
     }
 
-    private function GetLastApplications($idUser)
+    private function GetLastApplications($idStudent)
     {
-        $jobOfferList = $this->applicantDAO->GetLastJobOffersFromApplicant($_SESSION['loggedUser']->getIdUser());
+        $jobOfferList = $this->applicantDAO->GetLastJobOffersFromApplicant($idStudent);
         $lastApplications = array();
         foreach ($jobOfferList as $idJobOffer) {
             $jobOffer = $this->jobOfferDAO->SearchId($idJobOffer);

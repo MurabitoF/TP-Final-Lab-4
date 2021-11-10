@@ -6,6 +6,8 @@ use Models\Applicant as Applicant;
 interface IApplicantDAO{
     public function Add(Applicant $applicant);
     public function GetApplicantsFromJobOffer($idJobOffer);
-    public function CheckIfApplicant($idUser);
+    public function GetJobOffersFromApplicant($idStudent);
+    public function GetLastJobOffersFromApplicant($idStudent);
+    public function Remove($idStudent, $idUser_Has_JobOffer);
 }
 ?>

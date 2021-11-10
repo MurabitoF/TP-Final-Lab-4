@@ -3,7 +3,7 @@ namespace Models;
 
 class Applicant{
     private $idApplicant;
-    private $idUser;
+    private $idStudent;
     private $idJobOffer;
     private $date;
     private $cv;
@@ -17,8 +17,8 @@ class Applicant{
 	public function getIdApplicant(){ return $this->idApplicant; }
 	public function setIdApplicant($idApplicant){ $this->idApplicant = $idApplicant; }
 
-	public function getIdUser(){ return $this->idUser; }
-	public function setIdUser($idUser){ $this->idUser = $idUser; }
+	public function getIdStudent(){ return $this->idStudent; }
+	public function setIdStudent($idStudent){ $this->idStudent = $idStudent; }
 
 	public function getIdJobOffer(){ return $this->idJobOffer; }
 	public function setIdJobOffer($idJobOffer){ $this->idJobOffer = $idJobOffer; }
