@@ -52,6 +52,7 @@ class ApplicantDAO implements IApplicantDAO
                 $applicant->setDescription($row['description']);
                 $applicant->setDate($row['date']);
                 $applicant->setCv($row['cv']);
+                $applicant->setActive($row['active']); ///active seteado
 
                $applicantList[$row['idUser']] = $applicant;
             }
@@ -125,10 +126,10 @@ class ApplicantDAO implements IApplicantDAO
         }
     }
 
-    public function Remove($idUser, $idUser_Has_JobOffer)
+    public function Remove($idUser, $idUser_Has_JobOffer) ///REMOVE AHORA SETEA EL ACTIVE 
     {
         try{
-            $query = "DELETE FROM ".$this->tableName." WHERE idUser = ".$idUser."AND idUser_Has_JobOffer =" .$idUser_Has_JobOffer;
+            $query = "UPDATE " . $this->tableName . " SET active = FALSE WHERE idUser =" . $idUser." AND idUser_Has_JobOffer =" .$idUser_Has_JobOffer;
 
             $this->connection = Connection::GetInstance();
 

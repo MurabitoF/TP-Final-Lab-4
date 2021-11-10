@@ -111,6 +111,7 @@ class UserController
 
             $this->userDAO->Add($newUser);
 
+            $alert = new Alert('succes', 'Se ha registrado correctamente');
         } catch (Exception $ex) {
             $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
         } finally {

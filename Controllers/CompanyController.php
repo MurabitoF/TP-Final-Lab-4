@@ -138,7 +138,7 @@ class CompanyController
                 $address->setPostalCode($postalCode);
                 $address->setStateName($stateName);
 
-                $idCompany = $this->companyDAO->Add($company);
+                $idCompany = $this->companyDAO->getId($name);
 
                 $this->addressDAO->Add($address, $idCompany);
 

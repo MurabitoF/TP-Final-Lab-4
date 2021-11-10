@@ -12,32 +12,48 @@ require_once('header.php');
                <table class="table bg-light-alpha">
                     <thead>
                          <th>Nombre</th>
-                         <th>Apellido</th>
                          <th>Email</th>
                          <th>Telefono</th>
                          <th>Fecha</th>
                          <th>Descripción</th>
+                         <th>Acciones</th>
                     </thead>
                     <tbody>
                          <?php
                          foreach ($applicantList as $applicant) {
+                              if($applicant->getActive()){
                          ?>
-                              <tr>
-                                   <?php foreach ($studentList as $student) {
-                                        if ($student->getStudentId() == $applicant->getIdUser()) {
-                                   ?>
-                                             <td><?php echo $student->getFirstName(); ?></td>
-                                             <td><?php echo $student->getLastName(); ?></td>
-                                             <td><?php echo $student->getEmail(); ?></td>
-                                             <td><?php echo $student->getPhoneNumber(); ?></td>
-                                             <td><?php echo $applicant->getDate(); ?></td>
-                                             <td><?php echo $applicant->getDescription(); ?></td>
+                              <tr> 
+                                   <?php foreach($studentList as $student){
+                                             if($student->getStudentId() == $applicant->getIdUser()){ ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
+                                                  ?>
+                                    <td><?php echo $student->getLastName() . ", " . $student->getFirstName(); ?></td> 
+                                    
+                                    <td><?php echo $student->getEmail(); ?></td>
+                                    <td><?php echo $student->getPhoneNumber(); ?></td>                  
+                                    <td><?php echo $applicant->getDate(); ?></td>
+
+                                    <td><a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/DownloadCVsFromJobOffer?idJobOffer=" .$applicant->getIdJobOffer();?>" title="Descargar CV">
+                                    <?php echo $applicant->getCv();?>
+                                    <i class="ms-1 fas fa-angle-right"></i></a></td>
+
+                                    <td><?php echo $applicant->getDescription(); ?></td>
+                                    
+                                    <td><div class="col-6">
+                                        <a href="<?php echo FRONT_ROOT . "JobOffer/RemoveApplicant?idUser=" .$applicant->getIdUser() . "&idUser_Has_JobOffer=" .$applicant->getIdApplicant() . "&idJobOffer=" .$applicant->getIdJobOffer(); ?>" 
+                                        class="btn button-red w-100" 
+                                        data-bs-toggle="tooltip" 
+                                        title="Borrar Postulante">
+                                        <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                   </div></td>
                               </tr>
                <?php
                                         }
-                                   }
+
                               }
-               ?>
+                         }
+                         ?>
                     </tbody>
                </table>
           </div>

@@ -107,8 +107,6 @@ include('nav.php');
                                              }
                                         }
                                         ?>
-
-
                                         <td><?php echo $nameJobPosition; ?></td>
                                         <td><?php echo $jobOffer->getPostDate(); ?></td>
                                         <td>
