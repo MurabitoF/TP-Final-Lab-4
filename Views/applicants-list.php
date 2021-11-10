@@ -41,7 +41,9 @@ require_once('header.php');
                     </tbody>
                </table>
           </div>
-          <a class="btn button-black" href="javascript:saveToPdf()">Donwload list</a>
+          <div class="containier mb-5">
+               <a class="btn button-black" href="javascript:saveToPdf()">Download list</a>
+          </div>
      </section>
 </main>
 

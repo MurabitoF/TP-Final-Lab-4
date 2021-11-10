@@ -55,7 +55,3 @@ require_once('nav.php');
           </div>
      </section>
 </main>
-
-<?php
-require_once('footer.php');
-?>
