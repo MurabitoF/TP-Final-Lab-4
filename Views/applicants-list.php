@@ -16,49 +16,43 @@ require_once('header.php');
                          <th>Telefono</th>
                          <th>Fecha</th>
                          <th>Descripción</th>
-                         <th>Acciones</th>
+                         <th data-html2canvas-ignore="true">Acciones</th>
                     </thead>
                     <tbody>
                          <?php
                          foreach ($applicantList as $applicant) {
-                              if($applicant->getActive()){
+                              if ($applicant->getActive()) {
                          ?>
-                              <tr> 
-                                   <?php foreach($studentList as $student){
-                                             if($student->getStudentId() == $applicant->getIdUser()){ ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
-                                                  ?>
-                                    <td><?php echo $student->getLastName() . ", " . $student->getFirstName(); ?></td> 
-                                    
-                                    <td><?php echo $student->getEmail(); ?></td>
-                                    <td><?php echo $student->getPhoneNumber(); ?></td>                  
-                                    <td><?php echo $applicant->getDate(); ?></td>
+                                   <tr>
+                                        <?php foreach ($studentList as $student) {
+                                             if ($student->getStudentId() == $applicant->getIdUser()) { ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
+                                        ?>
+                                                  <td><?php echo $student->getLastName() . ", " . $student->getFirstName(); ?></td>
 
-                                    <td><a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/DownloadCVsFromJobOffer?idJobOffer=" .$applicant->getIdJobOffer();?>" title="Descargar CV">
-                                    <?php echo $applicant->getCv();?>
-                                    <i class="ms-1 fas fa-angle-right"></i></a></td>
+                                                  <td><?php echo $student->getEmail(); ?></td>
+                                                  <td><?php echo $student->getPhoneNumber(); ?></td>
+                                                  <td><?php echo $applicant->getDate(); ?></td>
+                                                  <td><?php echo $applicant->getDescription(); ?></td>
 
-                                    <td><?php echo $applicant->getDescription(); ?></td>
-                                    
-                                    <td><div class="col-6">
-                                        <a href="<?php echo FRONT_ROOT . "JobOffer/RemoveApplicant?idUser=" .$applicant->getIdUser() . "&idUser_Has_JobOffer=" .$applicant->getIdApplicant() . "&idJobOffer=" .$applicant->getIdJobOffer(); ?>" 
-                                        class="btn button-red w-100" 
-                                        data-bs-toggle="tooltip" 
-                                        title="Borrar Postulante">
-                                        <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                   </div></td>
-                              </tr>
+                                                  <td data-html2canvas-ignore="true">
+                                                       <a href="<?php echo FRONT_ROOT . "JobOffer/RemoveApplicant?idUser=" . $applicant->getIdUser() . "&idUser_Has_JobOffer=" . $applicant->getIdApplicant() . "&idJobOffer=" . $applicant->getIdJobOffer(); ?>" class="btn button-red w-100" data-bs-toggle="tooltip" title="Borrar Postulante">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                       </a>
+                                                  </td>
+                                   </tr>
                <?php
+                                             }
                                         }
-
+                                   }
                               }
-                         }
-                         ?>
+               ?>
                     </tbody>
                </table>
-          </div>
-          <div class="containier mb-5">
-               <a class="btn button-black" href="javascript:saveToPdf()">Download list</a>
+               <div class="containier mb-5" data-html2canvas-ignore="true">
+                    <a class="btn button-black" href="javascript:saveToPdf()">Download PDF <i class="fas fa-file-pdf"></i></a>
+                    <a class="btn button-blue" href="<?php echo FRONT_ROOT . "JobOffer/DownloadCVsFromJobOffer?idJobOffer=" . $idJobOffer; ?>" title="Descargar CV">
+                         Download CV <i class="fas fa-file-archive"></i></a>
+               </div>
           </div>
      </section>
 </main>
@@ -70,7 +64,7 @@ require_once('header.php');
                margin: 5,
                filename: 'applicants.pdf',
                enableLinks: false,
-               html2canvas:  {
+               html2canvas: {
                     scale: 5,
                     width: 890,
                     height: 1000,
@@ -82,7 +76,9 @@ require_once('header.php');
                     format: 'a4',
                     orientation: 'portrait'
                },
-               pagebreak: {avoid:'tr'}
+               pagebreak: {
+                    avoid: 'tr'
+               }
           };
 
           var element = document.getElementById('applicantsTable');
