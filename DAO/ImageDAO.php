@@ -25,11 +25,10 @@ class ImageDAO implements IImageDAO
                 $preFix = "lg_"; // Company Logo
             }
             $filePath = UPLOADS_PATH .'img/' . $pathId .'/'. basename($fileName);
+            
+            $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
             $newFilePath = UPLOADS_PATH . 'img/' . $pathId . '/' . uniqid($preFix) . ".$fileType";
 
-            $fileType = strtolower(pathinfo($newFilePath, PATHINFO_EXTENSION));
-
-            echo $newFilePath;
             if (in_array($fileType, $this->validFileTypes)) {
                 if (!is_dir(UPLOADS_PATH . 'img/' . $pathId)) {
                     mkdir(UPLOADS_PATH . 'img/' . $pathId, 0777, true);

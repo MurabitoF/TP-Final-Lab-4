@@ -45,7 +45,7 @@ require_once('nav.php');
                               <h4>No tenes ninguna postulacion</h4>
                          <?php } ?>
                     </div>
-                    <div class="row justify-content-end">
+                    <div class="row justify-content-end mt-3">
                          <div class="col-md-6 text-md-end">
                               <a class="link-button" href="<?php echo FRONT_ROOT . "JobOffer/ShowHistoryApplicantsList?idUser=" . $_SESSION['loggedUser']->getIdUser() ?>">Ver historial de postulaciones<i class="ms-3 fas fa-angle-right"></i></a>
                          </div>

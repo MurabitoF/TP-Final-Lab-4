@@ -88,7 +88,6 @@ class AddressDAO implements IAddressDAO{
         $latLng = $this->getLatLng($address->getStreetName(), $address->getStreetAddress(), $address->getCity(), $address->getPostalCode(), $address->getStateName());
         
         try{
-
             $query = "CALL save_Address (:streetName, :streetAddress, :city, :postalCode, :stateName, :latitude, :longitude, :idCompany);";
 
             $parameters["streetName"] = $address->getStreetName();

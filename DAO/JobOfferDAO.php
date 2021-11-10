@@ -45,7 +45,6 @@ class JobOfferDAO implements IJobOfferDAO
             $jobOfferList = array();
 
             $query = "SELECT * FROM " . $this->tableName;
-
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
@@ -183,9 +182,7 @@ class JobOfferDAO implements IJobOfferDAO
 
             $filteredList = array_filter($parameters);
 
-
             if ($filteredList) {
-
                 $query .= " AND ";
 
                 foreach ($filteredList as $key => $value) {

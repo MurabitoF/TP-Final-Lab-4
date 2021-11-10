@@ -26,7 +26,7 @@ class CompanyController
     }
 
 
-    public function ShowAddView($alert = NULL)
+    public function ShowAddView($alert = NULL, $email = NULL)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -56,6 +56,20 @@ class CompanyController
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
+    }
+
+    public function VerifyData()
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
+        $company = $this->companyDAO->getCompanyByEmail($_SESSION['loggedUser']->getUsername());
+        if($company){
+            $this->ShowDataView($company->getIdCompany());
+        } else {
+            $this->ShowAddView(NULL, $_SESSION['loggedUser']->getUsername());
         }
     }
 
@@ -107,12 +121,16 @@ class CompanyController
                 $company->setEmail($email);
                 $company->setDescription($description);
 
+                echo $company->getEmail();
+
                 $address = new Address();
                 $address->setCity($city);
                 $address->setPostalCode($postalCode);
                 $address->setStateName($stateName);
                 $address->setStreetName($streetName);
                 $address->setStreetAddress($streetAddress);
+                $address->setPostalCode($postalCode);
+                $address->setStateName($stateName);
 
                 $idCompany = $this->companyDAO->Add($company);
 
@@ -126,7 +144,12 @@ class CompanyController
                     $alert = new Alert("danger", $ex->getMessage());
                 }
             } finally {
-                $this->ShowAddView($alert);
+                if ($_SESSION['loggedUser']->getRole() == "Company") {
+                    // header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+                    $this->ShowAddView($alert);
+                } else {
+                    $this->ShowAddView($alert);
+                }
             }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
@@ -134,8 +157,7 @@ class CompanyController
         }
     }
 
-
-    public function Edit ($idCompany, $name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
+    public function Edit($idCompany, $name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -182,21 +204,20 @@ class CompanyController
         }
         LoggerController::VerifyLogIn();
         if (in_array('Delete Company', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
-          try{
+            try {
 
-              $this->companyDAO->Remove($idCompany);
-              $this->addressDAO->Remove($idCompany);
+                $this->companyDAO->Remove($idCompany);
+                $this->addressDAO->Remove($idCompany);
 
-              $alert = new Alert("success", "La empresa fue dada de baja con exito.");
-          }catch(Exception $ex){
-              $alert = new Alert("danger", "Error: ".$ex->getMessage());
-          }finally{
-              $this->ShowListView();
-          }
+                $alert = new Alert("success", "La empresa fue dada de baja con exito.");
+            } catch (Exception $ex) {
+                $alert = new Alert("danger", "Error: " . $ex->getMessage());
+            } finally {
+                $this->ShowListView();
+            }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
-
         }
     }
 }

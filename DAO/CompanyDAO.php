@@ -5,6 +5,7 @@ namespace DAO;
 use \Exception as Exception;
 use DAO\ICompanyDAO as ICompanyDAO;
 use DAO\Connection as Connection;
+use DAO\QueryType as QueryType;
 use Models\Company as Company;
 use Models\Categoty as Category;
 
@@ -18,8 +19,10 @@ class CompanyDAO implements ICompanyDAO
     {
         try {
             $query = "CALL save_Company (:companyName, :cuit, :phoneNumber, :email, :description, @id);";
+
             $parameters["companyName"] = $company->getName();
             $parameters["cuit"] = $company->getCUIT();
+            $parameters["description"] = $company->getDescription();
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
             $parameters["description"] = $company->getDescription();
@@ -29,7 +32,6 @@ class CompanyDAO implements ICompanyDAO
             $lastId = $this->connection->Execute($query, $parameters);
             
             return $lastId[0]["id"];
-
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -37,7 +39,6 @@ class CompanyDAO implements ICompanyDAO
 
     public function GetAll()
     {
-
         try {
 
             $companyList = array();
@@ -71,7 +72,6 @@ class CompanyDAO implements ICompanyDAO
 
     public function Remove($idCompany)
     {
-
         try {
 
             $query = "UPDATE " . $this->tableName . " SET active = FALSE WHERE idCompany = " . $idCompany;

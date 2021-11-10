@@ -184,7 +184,8 @@ class JobOfferController
                 $jobOffer->setWorkload($workload);
                 $jobOffer->setDescription($description);
                 $jobOffer->setStatus("Open");
-                if ($flyer['size']>0) {
+
+                if ($flyer['size'] > 0) {
                     $image = $this->imageDAO->UploadImage($flyer, 'flyer');
                     if ($image) {
                         $jobOffer->setImgFlyer($image);
@@ -193,6 +194,8 @@ class JobOfferController
                         $alert = new Alert("danger", "Ha ocurrido un error al subir la imagen");
                         $this->ShowAddView($alert);
                     }
+                } else {
+                    $jobOffer->setImgFlyer("");
                 }
                 $this->jobOfferDAO->Add($jobOffer);
 
@@ -217,7 +220,6 @@ class JobOfferController
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
             try {
-
                 $jobOffer->setTitle($title);
                 $jobOffer->setCompany($idCompany);
                 $jobOffer->setCareer($idCareer);
@@ -228,11 +230,20 @@ class JobOfferController
                 $jobOffer->setRequirements($requirements);
                 $jobOffer->setExpireDate($expireDate);
                 $jobOffer->setDescription($description);
-                if ($flyer['size']>0) {
-                    $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
-                    $jobOffer->setImgFlyer($image);
-                }
 
+                if ($flyer['size'] > 0) {
+                    $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
+                    if ($image) {
+                        $jobOffer->setImgFlyer($image);
+                        $this->jobOfferDAO->Add($jobOffer);
+                    } else {
+                        $alert = new Alert("danger", "Ha ocurrido un error al subir la imagen");
+                        $this->ShowAddView($alert);
+                    }
+                    
+                }else{
+                    $jobOffer->setImgFlyer("");
+                }
                 $this->jobOfferDAO->Edit($jobOffer);
 
                 $alert = new Alert('success', 'La publicacion fue editada con exito');
