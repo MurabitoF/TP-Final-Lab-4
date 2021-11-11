@@ -25,7 +25,7 @@ require_once('header.php');
                          ?>
                                    <tr>
                                         <?php foreach ($studentList as $student) {
-                                             if ($student->idStudent() == $applicant->getIdUser()) { ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
+                                             if ($student->idStudent() == $applicant->getStudentId()) { ///CAMBIO PARA QUE MUESTRE APELLIDO, NOMBRE
                                         ?>
                                                   <td><?php echo $student->getLastName() . ", " . $student->getFirstName(); ?></td>
 
@@ -35,7 +35,7 @@ require_once('header.php');
                                                   <td><?php echo $applicant->getDescription(); ?></td>
 
                                                   <td data-html2canvas-ignore="true">
-                                                       <a href="<?php echo FRONT_ROOT . "JobOffer/RemoveApplicant?idUser=" . $applicant->getIdUser() . "&idUser_Has_JobOffer=" . $applicant->getIdApplicant() . "&idJobOffer=" . $applicant->getIdJobOffer(); ?>" class="btn button-red w-100" data-bs-toggle="tooltip" title="Borrar Postulante">
+                                                       <a href="<?php echo FRONT_ROOT . "JobOffer/RemoveApplicant?idStudent=" . $applicant->getIdStudent() . "&idUser_Has_JobOffer=" . $applicant->getIdApplicant() . "&idJobOffer=" . $applicant->getIdJobOffer(); ?>" class="btn button-red w-100" data-bs-toggle="tooltip" title="Borrar Postulante">
                                                             <i class="fas fa-trash-alt"></i>
                                                        </a>
                                                   </td>

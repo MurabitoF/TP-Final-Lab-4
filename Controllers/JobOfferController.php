@@ -63,7 +63,7 @@ class JobOfferController
         }
         LoggerController::VerifyLogIn();
         if (in_array('Create JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
-            if($_SESSION['loggedUser']->getRole() == "Company"){
+            if ($_SESSION['loggedUser']->getRole() == "Company") {
                 $companyList = $this->companyDAO->searchId($_SESSION['loggedUser']->getIdCompany());
             } else {
                 $companyList = $this->companyDAO->GetAll();
@@ -174,7 +174,8 @@ class JobOfferController
     }
 
     ///LISTADO DE POSTULANTES
-    public function ShowApplicantListView($idJobOffer){
+    public function ShowApplicantListView($idJobOffer)
+    {
         $applicantList = $this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer);
         $studentList = $this->studentDAO->GetAll();
 
@@ -183,8 +184,9 @@ class JobOfferController
         require_once(VIEWS_PATH . "applicants-list.php");
     }
 
-    public function ShowHistoryApplicantsList($idUser){
-        $lastApplications = $this->applicantDAO->GetJobOffersFromApplicant($idUser);
+    public function ShowHistoryApplicantsList($idStudent)
+    {
+        $lastApplications = $this->applicantDAO->GetJobOffersFromApplicant($idStudent);
         $companyList = $this->companyDAO->GetAll();
         $careerList = $this->careerDAO->GetAll();
         $jobPositionList = $this->jobPositionDAO->GetAll();
@@ -194,7 +196,7 @@ class JobOfferController
         require_once(VIEWS_PATH . "jobOffer-list.php");
     }
 
-    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer=NULL)
+    public function Add($title, $idCompany, $idCareer, $city, $idJobPosition, $requirements, $workload, $expireDate, $description, $flyer = NULL)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -261,20 +263,27 @@ class JobOfferController
                 $jobOffer->setRequirements($requirements);
                 $jobOffer->setExpireDate($expireDate);
                 $jobOffer->setDescription($description);
-
-                if ($flyer['size'] > 0) {
-                    $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, $jobOffer->getTitle());
-                    if ($image) {
-                        $jobOffer->setImgFlyer($image);
-                        $this->jobOfferDAO->Add($jobOffer);
+                if ($jobOffer->getImgFlyer()) {
+                    if ($flyer['size'] > 0) {
+                        $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, 'flyer');
+                        if ($image) {
+                            $jobOffer->setImgFlyer($image);
+                            $this->jobOfferDAO->Add($jobOffer);
+                        } else {
+                            $alert = new Alert("danger", "Ha ocurrido un error al subir la imagen");
+                            $this->ShowAddView($alert);
+                        }
                     } else {
-                        $alert = new Alert("danger", "Ha ocurrido un error al subir la imagen");
-                        $this->ShowAddView($alert);
+                        $this->imageDAO->DeleteImage($jobOffer->getImgFlyer(), 'flyer');
+                        $jobOffer->setImgFlyer("");
                     }
-                    
-                }else{
-                    $jobOffer->setImgFlyer("");
+                } else {
+                    if ($flyer['size'] > 0) {
+                        $image = $this->imageDAO->UploadImage($flyer, 'flyer');
+                        $jobOffer->setImgFlyer($image);
+                    }
                 }
+
                 $this->jobOfferDAO->Edit($jobOffer);
 
                 $alert = new Alert('success', 'La publicacion fue editada con exito');
@@ -310,7 +319,7 @@ class JobOfferController
         }
     }
 
-    public function AddApplicant($idJobOffer, $idUser, $description, $fileCV)
+    public function AddApplicant($idJobOffer, $idStudent, $description, $fileCV)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -324,7 +333,7 @@ class JobOfferController
                     $applicant = new Applicant;
                     $applicant->setCv($cv);
                     $applicant->setIdJobOffer($idJobOffer);
-                    $applicant->setIdUser($idUser);
+                    $applicant->setIdStudent($idStudent);
                     $applicant->setDescription($description);
                     $applicant->setDate(date("Y-m-d"));
 
@@ -348,13 +357,14 @@ class JobOfferController
     public function SendEmail($idJobOffer)
     {
         try {
-            $userList = $this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer);
-            $emailList = $this->userDAO->getEmail($userList);
+            $applicantList = $this->applicantDAO->GetApplicantsFromJobOffer($idJobOffer);
+            $emailList = $this->studentDAO->GetEmails($applicantList);
             $jobOfferName = $this->jobOfferDAO->SearchId($idJobOffer);
 
             $titulo = "Ciere de oferta laboral";
             $message = "\"" . $jobOfferName->getTitle() . " \" ya no acepta más postulantes.";
             $header = "Bcc:eserskyd@outlook.com" . "\r\n";
+
 
             mail("eserskyd@outlook.com", $titulo, $message, $header);
 
@@ -368,19 +378,19 @@ class JobOfferController
 
     public function CloseJobOffer($idJobOffer)
     {
-        try{
+        try {
             $this->jobOfferDAO->CloseJobOffer($idJobOffer);
             $this->SendEmail($idJobOffer);
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             $alert = new Alert("danger", "Error: " . $ex->getMessage());
             $this->ShowAdminListView($alert);
         }
     }
 
-    public function NotifyApplicant($idUser, $idJobOffer)
+    public function NotifyApplicant($idStudent, $idJobOffer)
     {
         try {
-            $emailUser = $this->userDAO->getEmail($idUser);
+            $emailUser = $this->studentDAO->GetById($idStudent)->getEmail();
             $jobOfferName = $this->jobOfferDAO->SearchId($idJobOffer);
 
             $titulo = "Eliminación de su postulación.";
@@ -391,7 +401,6 @@ class JobOfferController
             $message = wordwrap($message, 70);
 
             $header = "Bcc:eserskyd@outlook.com" . "\r\n";
-
             mail("eserskyd@outlook.com", $titulo, $message, $header);
 
             $alert = new Alert("success", "El postulante ha sido dado de baja y fue notificado con exito.");
@@ -402,14 +411,13 @@ class JobOfferController
         }
     }
 
-    public function RemoveApplicant($idUser, $idUser_Has_JobOffer, $idJobOffer)
+    public function RemoveApplicant($idStudent, $idUser_Has_JobOffer, $idJobOffer)
     {
         try {
-            $this->applicantDAO->Remove($idUser, $idUser_Has_JobOffer); ///estaba el applicantDAO con mayuscula (MODIFICADO)
-            $this->NotifyApplicant($idUser, $idJobOffer);
+            $this->applicantDAO->Remove($idStudent, $idUser_Has_JobOffer); ///estaba el applicantDAO con mayuscula (MODIFICADO)
+            $this->NotifyApplicant($idStudent, $idJobOffer);
         } catch (Exception $ex) {
             $alert = new Alert("danger", "Hubo un error al dar de baja la postulación");
-        } finally {
             $this->ShowAdminListView($alert);
         }
     }
@@ -425,12 +433,12 @@ class JobOfferController
             $this->curriculumDAO->CreateBundleCV($idJobOffer);
 
             $filename = UPLOADS_PATH . "cv/CV_$idJobOffer.zip";
-            
+
             if (file_exists($filename)) {
                 header("Content-Type: application/zip");
                 header("Content-Transfer-Encoding: Binary");
-                header("Content-Length: ".filesize($filename));
-                header("Content-Disposition: attachment; filename=\"".basename($filename)."\"");
+                header("Content-Length: " . filesize($filename));
+                header("Content-Disposition: attachment; filename=\"" . basename($filename) . "\"");
                 ob_end_clean();
                 readfile($filename);
                 unlink($filename);

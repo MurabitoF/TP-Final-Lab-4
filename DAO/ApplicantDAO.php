@@ -16,13 +16,13 @@ class ApplicantDAO implements IApplicantDAO
     public function Add(Applicant $applicant)
     {
         try {
-            $query = "CALL save_Applicant (:date, :cv, :description, :idJobOffer, :idUser);";
+            $query = "CALL save_Applicant (:date, :cv, :description, :idJobOffer, :idStudent);";
 
             $parameters['date'] = $applicant->getDate();
             $parameters['cv'] = $applicant->getCv();
             $parameters['description'] = $applicant->getDescription();
             $parameters['idJobOffer'] = $applicant->getIdJobOffer();
-            $parameters['idUser'] = $applicant->getIdUser();
+            $parameters['idStudent'] = $applicant->getIdStudent();
 
             $this->connection = Connection::GetInstance();
 
@@ -47,14 +47,14 @@ class ApplicantDAO implements IApplicantDAO
             foreach($result as $row){
                 $applicant = new Applicant();
                 $applicant->setIdApplicant($row['idUser_Has_JobOffer']);
-                $applicant->setIdUser($row['idUser']);
+                $applicant->setIdStudent($row['idStudent']);
                 $applicant->setIdJobOffer($row['idJobOffer']);
                 $applicant->setDescription($row['description']);
                 $applicant->setDate($row['date']);
                 $applicant->setCv($row['cv']);
                 $applicant->setActive($row['active']); ///active seteado
 
-               $applicantList[$row['idUser']] = $applicant;
+               $applicantList[$row['idStudent']] = $applicant;
             }
             return $applicantList;
         } catch (Exception $ex) {
@@ -62,14 +62,14 @@ class ApplicantDAO implements IApplicantDAO
         }
     }
 
-    public function GetJobOffersFromApplicant($idUser) ///DEVUELVE UNA LISTA DE idJobOffer en las que se postulo el alumno
+    public function GetJobOffersFromApplicant($idStudent) ///DEVUELVE UNA LISTA DE idJobOffer en las que se postulo el alumno
     {
         try {
             $jobOfferList = array();
             
-            $query = "SELECT * FROM " . $this->tableName . " WHERE idUser = :idUser";
+            $query = "SELECT * FROM " . $this->tableName . " WHERE idStudent = :idStudent";
 
-            $parameter["idUser"] = $idUser;
+            $parameter["idStudent"] = $idStudent;
 
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query, $parameter);
@@ -84,14 +84,14 @@ class ApplicantDAO implements IApplicantDAO
         }
     }
 
-    public function GetLastJobOffersFromApplicant($idUser)
+    public function GetLastJobOffersFromApplicant($idStudent)
     {
         try {
             $jobOfferList = array();
             
-            $query = "SELECT * FROM " . $this->tableName . " WHERE idUser = :idUser ORDER BY date DESC LIMIT 3";
+            $query = "SELECT * FROM " . $this->tableName . " WHERE idStudent = :idStudent ORDER BY date DESC LIMIT 3";
 
-            $parameter["idUser"] = $idUser;
+            $parameter["idStudent"] = $idStudent;
 
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query, $parameter);
@@ -106,30 +106,10 @@ class ApplicantDAO implements IApplicantDAO
         }
     }
 
-    public function CheckIfApplicant($idUser)
+    public function Remove($idStudent, $idUser_Has_JobOffer) ///REMOVE AHORA SETEA EL ACTIVE 
     {
         try{
-            $query = "SELECT * FROM " . $this->tableName . "WHERE idUser = :idUser;";
-            $parameter["idUser"] = $idUser;
-
-            $this->connection = Connection::GetInstance();
-            $returnedRows = $this->connection->ExecuteNonQuery($query, $parameter);
-            
-            if($returnedRows == 0){
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (Exception $ex) {
-            throw $ex;
-        }
-    }
-
-    public function Remove($idUser, $idUser_Has_JobOffer) ///REMOVE AHORA SETEA EL ACTIVE 
-    {
-        try{
-            $query = "UPDATE " . $this->tableName . " SET active = FALSE WHERE idUser =" . $idUser." AND idUser_Has_JobOffer =" .$idUser_Has_JobOffer;
+            $query = "UPDATE " . $this->tableName . " SET active = FALSE WHERE idStudent =" . $idStudent." AND idUser_Has_JobOffer =" .$idUser_Has_JobOffer;
 
             $this->connection = Connection::GetInstance();
 
