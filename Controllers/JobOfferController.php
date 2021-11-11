@@ -222,10 +222,8 @@ class JobOfferController
                     $image = $this->imageDAO->UploadImage($flyer, 'flyer');
                     if ($image) {
                         $jobOffer->setImgFlyer($image);
-                        $this->jobOfferDAO->Add($jobOffer);
                     } else {
                         $alert = new Alert("danger", "Ha ocurrido un error al subir la imagen");
-                        $this->ShowAddView($alert);
                     }
                 } else {
                     $jobOffer->setImgFlyer("");
@@ -268,10 +266,8 @@ class JobOfferController
                         $image = $this->imageDAO->EditImage($jobOffer->getImgFlyer(), $flyer, 'flyer');
                         if ($image) {
                             $jobOffer->setImgFlyer($image);
-                            $this->jobOfferDAO->Add($jobOffer);
                         } else {
                             $alert = new Alert("danger", "Ha ocurrido un error al subir la imagen");
-                            $this->ShowAddView($alert);
                         }
                     } else {
                         $this->imageDAO->DeleteImage($jobOffer->getImgFlyer(), 'flyer');

@@ -48,7 +48,6 @@ class ImageDAO implements IImageDAO
     {
         try {
             $filePath = UPLOADS_PATH . 'img/' . $pathId . '/' . $image;
-            var_dump($filePath);
             if (file_exists($filePath)) {
                 unlink($filePath);
                 return true;
