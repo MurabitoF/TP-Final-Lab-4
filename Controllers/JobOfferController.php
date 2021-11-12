@@ -222,7 +222,6 @@ class JobOfferController
                     $image = $this->imageDAO->UploadImage($flyer, 'flyer');
                     if ($image) {
                         $jobOffer->setImgFlyer($image);
-                        $this->jobOfferDAO->Add($jobOffer);
                     } else {
                         $alert = new Alert("danger", "Ha ocurrido un error al subir la imagen");
                         $this->ShowAddView($alert);
@@ -230,6 +229,7 @@ class JobOfferController
                 } else {
                     $jobOffer->setImgFlyer("");
                 }
+                
                 $this->jobOfferDAO->Add($jobOffer);
 
                 $alert = new Alert('success', 'La publicacion se creo con exito');

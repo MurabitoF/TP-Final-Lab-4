@@ -56,13 +56,13 @@ $loggedUser = $_SESSION['loggedUser'];
                </div>
                <div class="buttons">
                     <div>
-                         <a class="btn button-blue" href="https://sicu.mdp.utn.edu.ar/datos/index.php">SICU</a>
+                         <a class="btn button-blue" href="https://sicu.mdp.utn.edu.ar/datos/index.php" target="_blank" rel="noopener noreferrer">SICU</a>
                     </div>
                     <div>
-                         <a class="btn button-blue" href="https://campus.mdp.utn.edu.ar/">Campus</a>
+                         <a class="btn button-blue" href="https://campus.mdp.utn.edu.ar/" target="_blank" rel="noopener noreferrer">Campus</a>
                     </div>
                     <div>
-                         <a class="btn button-blue" href="https://utn.edu.ar/es/">UTN</a>
+                         <a class="btn button-blue" href="https://utn.edu.ar/es/" target="_blank" rel="noopener noreferrer">UTN</a>
                     </div>
                </div>
           </div>
