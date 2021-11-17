@@ -162,7 +162,11 @@ class JobOfferController
         if (in_array('Edit JobOffer', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             $jobOffer = $this->jobOfferDAO->searchId($idJobOffer);
 
-            $companyList = $this->companyDAO->GetAll();
+            if ($_SESSION['loggedUser']->getRole() == "Company") {
+                $companyList = $this->companyDAO->searchId($_SESSION['loggedUser']->getIdCompany());
+            } else {
+                $companyList = $this->companyDAO->GetAll();
+            }
             $jobPositionList = $this->jobPositionDAO->GetAll();
             $careerList = $this->careerDAO->GetAll();
 
@@ -287,7 +291,11 @@ class JobOfferController
             } catch (Exception $ex) {
                 $alert = new Alert('danger', $ex->getMessage());
             } finally {
-                $this->ShowAdminListView($alert);
+                if($_SESSION['loggedUser']->getRole() == "Admin") {
+                    $this->ShowAdminListView($alert);
+                } else {
+                    $this->ShowCompanyListView($idCompany, $alert);
+                }
             }
         } else {
             echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
