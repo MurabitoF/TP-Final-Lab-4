@@ -18,10 +18,9 @@ class CompanyDAO implements ICompanyDAO
     public function Add(Company $company)
     {
         try {
-            $query = "CALL save_Company (:companyName, :cuit, :phoneNumber, :email, :description, @id);";
+            $query = "CALL save_Company (:companyName, :phoneNumber, :email, :description, @id);";
 
             $parameters["companyName"] = $company->getName();
-            $parameters["cuit"] = $company->getCUIT();
             $parameters["description"] = $company->getDescription();
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
@@ -55,7 +54,6 @@ class CompanyDAO implements ICompanyDAO
 
                 $company->setIdCompany($row["idCompany"]);
                 $company->setName($row["companyName"]);
-                $company->setCUIT($row["cuit"]);
                 $company->setPhoneNumber($row["phoneNumber"]);
                 $company->setEmail($row["email"]);
                 $company->setDescription($row["description"]);
@@ -92,7 +90,6 @@ class CompanyDAO implements ICompanyDAO
 
             $parameters["idCompany"] = $company->getIdCompany();
             $parameters["companyName"] = $company->getName();
-            $parameters["cuit"] = $company->getCUIT();
             $parameters["phoneNumber"] = $company->getPhoneNumber();
             $parameters["email"] = $company->getEmail();
             $parameters["description"] = $company->getDescription();
@@ -112,7 +109,7 @@ class CompanyDAO implements ICompanyDAO
 
             $query = "SELECT idCompany FROM " . $this->tableName . ' WHERE companyName = :companyName;';
 
-            $parameters["companyName"] = "$name";
+            $parameters["companyName"] = $name;
 
             $this->connection = Connection::GetInstance();
 
@@ -141,7 +138,6 @@ class CompanyDAO implements ICompanyDAO
 
                 $company->setIdCompany($row["idCompany"]);
                 $company->setName($row["companyName"]);
-                $company->setCUIT($row["cuit"]);
                 $company->setPhoneNumber($row["phoneNumber"]);
                 $company->setEmail($row["email"]);
                 $company->setDescription($row["description"]);
@@ -170,7 +166,6 @@ class CompanyDAO implements ICompanyDAO
 
                 $company->setIdCompany($foundCompany[0]["idCompany"]);
                 $company->setName($foundCompany[0]["companyName"]);
-                $company->setCUIT($foundCompany[0]["cuit"]);
                 $company->setPhoneNumber($foundCompany[0]["phoneNumber"]);
                 $company->setEmail($foundCompany[0]["email"]);
                 $company->setDescription($foundCompany[0]["description"]);
@@ -216,7 +211,6 @@ class CompanyDAO implements ICompanyDAO
 
                 $company->setIdCompany($row["idCompany"]);
                 $company->setName($row["companyName"]);
-                $company->setCUIT($row["cuit"]);
                 $company->setPhoneNumber($row["phoneNumber"]);
                 $company->setEmail($row["email"]);
                 $company->setDescription($row["description"]);

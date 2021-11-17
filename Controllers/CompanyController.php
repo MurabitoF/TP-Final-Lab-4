@@ -112,7 +112,7 @@ class CompanyController
         require_once(VIEWS_PATH . "company-list.php");
     }
 
-    public function Add($name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
+    public function Add($name, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -122,12 +122,9 @@ class CompanyController
             try {
                 $company = new Company();
                 $company->setName($name);
-                $company->setCUIT($cuit);
                 $company->setPhoneNumber($phoneNumber);
                 $company->setEmail($email);
                 $company->setDescription($description);
-
-                echo $company->getEmail();
 
                 $address = new Address();
                 $address->setCity($city);
@@ -135,14 +132,14 @@ class CompanyController
                 $address->setStateName($stateName);
                 $address->setStreetName($streetName);
                 $address->setStreetAddress($streetAddress);
-                $address->setPostalCode($postalCode);
-                $address->setStateName($stateName);
+
+                $this->companyDAO->Add($company);
 
                 $idCompany = $this->companyDAO->getId($name);
 
                 $this->addressDAO->Add($address, $idCompany);
 
-                $alert = new Alert("success", "La empresa a sido ingresada con existo");
+                $alert = new Alert("success", "La empresa a sido ingresada con exito");
             } catch (Exception $ex) {
                 if (str_contains($ex->getMessage(), 1062)) {
                     $alert = new Alert("warning", "La empresa ingresada ya existe");
@@ -157,12 +154,11 @@ class CompanyController
                 }
             }
         } else {
-            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
 
-    public function Edit($idCompany, $name, $cuit, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
+    public function Edit($idCompany, $name, $phoneNumber, $email, $city, $postalCode, $stateName, $description, $streetName, $streetAddress)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
@@ -175,7 +171,6 @@ class CompanyController
                 $address = $this->addressDAO->getAddresses($idCompany);
 
                 $company->setName($name);
-                $company->setCUIT($cuit);
                 $company->setPhoneNumber($phoneNumber);
                 $company->setEmail($email);
                 $company->setDescription($description);

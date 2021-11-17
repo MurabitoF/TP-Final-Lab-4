@@ -5,7 +5,6 @@ class Company extends User{
 
     private $idCompany;
     private $name;
-    private $CUIT;
     private $phoneNumber;
     private $email;
     private $description;
@@ -21,9 +20,6 @@ class Company extends User{
  
     public function getName(){ return $this->name; }
     public function setName($name){ $this->name = $name; }
-
-    public function getCUIT(){ return $this->CUIT; }
-	public function setCUIT($CUIT){ $this->CUIT = $CUIT; }
  
     public function getState(){ return $this->state; }
     public function setState($state){ $this->state = $state; }

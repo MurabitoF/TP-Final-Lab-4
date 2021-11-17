@@ -228,6 +228,7 @@ class JobOfferController
                 } else {
                     $jobOffer->setImgFlyer("");
                 }
+                
                 $this->jobOfferDAO->Add($jobOffer);
 
                 $alert = new Alert('success', 'La publicacion se creo con exito');
@@ -358,7 +359,7 @@ class JobOfferController
             $jobOfferName = $this->jobOfferDAO->SearchId($idJobOffer);
 
             $titulo = "Ciere de oferta laboral";
-            $message = "\"" . $jobOfferName->getTitle() . " \" ya no acepta más postulantes.";
+            $message = "\"" . $jobOfferName->getTitle() . " \" ya no acepta mas postulantes.";
             $header = "Bcc:eserskyd@outlook.com" . "\r\n";
 
 

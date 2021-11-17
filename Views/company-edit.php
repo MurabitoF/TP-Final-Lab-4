@@ -17,14 +17,9 @@ require_once('header.php');
             ?>
             <form action="<?php echo FRONT_ROOT ?>Company/Edit" method="post" class="bg-light-alpha p-5">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <input type="text" name="name" class="form-control form-input" placeholder="Nombre de la empresa" value="<?php echo $company->getName() ?>" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="text" name="cuit" class="form-control form-input shadow-none" placeholder="C.U.I.T." value="<?php echo $company->getCUIT() ?>" pattern="[0-9]{2}+\-+[0-9]{8}+\-+[0-9]{1}$" required>
                         </div>
                     </div>
                     <div class="col-md-6">
