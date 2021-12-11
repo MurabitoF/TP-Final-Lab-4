@@ -24,11 +24,16 @@ $loggedUser = $_SESSION['loggedUser'];
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>Company/ShowAddView">Agregar Empresa</a>
                     </div>
+                    <div class="separator-black"></div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAdminListView">Ver Publicaciones</a>
                     </div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAddView">Agregar Publicacion</a>
+                    </div>
+                    <div class="separator-black"></div>
+                    <div class="menu-button">
+                         <a href="<?php echo FRONT_ROOT ?>User/ShowListView">Ver Usuarios</a>
                     </div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>User/ShowAddView">Agregar Usuario</a>
@@ -37,6 +42,7 @@ $loggedUser = $_SESSION['loggedUser'];
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>Student/ShowDataView?idUser=<?php echo $loggedUser->getStudentId() ?>">Ver mis datos</a>
                     </div>
+                    <div class="separator-black"></div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowStudentListView">Ver Publicaciones</a>
                     </div>
@@ -45,12 +51,23 @@ $loggedUser = $_SESSION['loggedUser'];
                          <a href="<?php echo FRONT_ROOT ?>Company/ShowDataView?idCompany=<?php echo $loggedUser->getIdCompany() ?>">Ver mis datos</a>
                     </div>
                     <div class="menu-button">
-                         <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowCompanyListView?idCompany=<?php echo $loggedUser->getIdCompany() ?>">Ver Publicaciones</a>
+                         <a href="<?php echo FRONT_ROOT ?>Company/ShowEditView?idCompany=<?php echo $loggedUser->getIdCompany() ?>">
+                              Editar mis datos
+                         </a>
+                    </div>
+                    <div class="separator-black"></div>
+                    <div class="menu-button">
+                         <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowCompanyListView?idCompany=<?php echo $loggedUser->getIdCompany() ?>">Ver mis Publicaciones</a>
                     </div>
                     <div class="menu-button">
                          <a href="<?php echo FRONT_ROOT ?>JobOffer/ShowAddView">Agregar Publicacion</a>
                     </div>
                <?php } ?>
+               <div class="separator-black"></div>
+               <div class="menu-button">
+                    <a href="<?php echo FRONT_ROOT ?>User/ShowEditView?userId=<?php echo $loggedUser->getIdUser() ?>">Cambiar contraseña</a>
+               </div>
+               <div class="separator-black"></div>
                <div class="menu-button">
                     <a href="<?php echo FRONT_ROOT ?>Logger/LogOut">Log Out</a>
                </div>

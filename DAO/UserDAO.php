@@ -29,12 +29,44 @@ class UserDAO implements IUserDAO
         }
     }
 
+    public function UpdatePassword($newPassword, $idUser)
+    {
+        try{
+            $query = "UPDATE " . $this->tableName . " SET password=:newPassword WHERE idUser=:idUser";
+
+            $parameters["newPassword"] = $newPassword;
+            $parameters["idUser"] = $idUser;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    public function Remove($idUser)
+    {
+        try {
+
+            $query = "UPDATE " . $this->tableName . " SET active = FALSE WHERE idUser = :idUser";
+
+            $parameters['idUser'] = $idUser;
+
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
     public function GetAll()
     {
         try {
             $userList = array();
 
-            $query = "SELECT * FROM " . $this->tableName;
+            $query = "SELECT * FROM " . $this->tableName . " WHERE active = 1";
 
             $this->connection = Connection::GetInstance();
 
@@ -44,8 +76,8 @@ class UserDAO implements IUserDAO
                 $user = new User();
                 $user->setIdUser($row['idUser']);
                 $user->setUsername($row['userName']);
-                $user->setPassword($row['role']);
-                $user->setUsername($row['active']);
+                $user->setRole($row['role']);
+                $user->setActive($row['active']);
 
                 array_push($userList, $user);
             }
@@ -79,7 +111,6 @@ class UserDAO implements IUserDAO
                     $user->setActive(false);
                 }
             }
-
             return $user;
         } catch (Exception $ex) {
             throw $ex;

@@ -70,8 +70,9 @@ nav {
 }
 
 .separator-black {
-	border: 1px solid #252525;
-	margin-bottom: 15px;
+	border: 1px solid #cfcfcf;
+	margin: 5px auto;
+	width: 95%;
 }
 
 .button-blue {
@@ -238,7 +239,7 @@ nav .menu:hover {
 }
 
 .sidenav {
-	height: 65%;
+	height: 70%;
 	width: 0; /* 0 width - change this with JavaScript */
 	position: fixed; /* Stay in place */
 	z-index: 10; /* Stay on top */
