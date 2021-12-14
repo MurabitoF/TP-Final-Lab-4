@@ -43,7 +43,7 @@ class StudentDAO implements IStudentDAO
         $this->RetrieveData();
 
         foreach ($this->studentList as $arrayValue) {
-            if ($arrayValue->getStudentId() == $id) { ///MODIFICADA
+            if ($arrayValue->getStudentId() == $id) {
                 return $arrayValue;
             }
         }
@@ -87,8 +87,8 @@ class StudentDAO implements IStudentDAO
     private function RetrieveData()
     {
         $ch = curl_init();
-
-        $url = 'https://utn-students-api.herokuapp.com/api/Student';
+        
+        $url = 'https://utn-students-api2.herokuapp.com/api/Student';
 
         $header = array(
             'x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'

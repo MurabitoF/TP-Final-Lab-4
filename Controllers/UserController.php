@@ -5,6 +5,7 @@ namespace Controllers;
 use \Exception as Exception;
 use DAO\ApplicantDAO as ApplicantDAO;
 use DAO\CareerDAO as CareerDAO;
+use DAO\ImageDAO as ImageDAO;
 use DAO\JobOfferDAO as JobOfferDAO;
 use DAO\StudentDAO as StudentDAO;
 use DAO\UserDAO as UserDAO;
@@ -22,6 +23,7 @@ class UserController
     private $careerDAO;
     private $applicantDAO;
     private $jobOfferDAO;
+    private $imageDAO;
 
     public function __construct()
     {
@@ -30,6 +32,7 @@ class UserController
         $this->careerDAO = new CareerDAO;
         $this->applicantDAO = new ApplicantDAO;
         $this->jobOfferDAO = new JobOfferDAO;
+        $this->imageDAO = new ImageDAO;
     }
 
     public function ShowHomeView()
@@ -45,6 +48,21 @@ class UserController
         require_once(VIEWS_PATH . "home.php");
     }
 
+    public function ShowListView($alert = NULL)
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
+        if (in_array('List Users', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            $userList = $this->userDAO->GetAll();
+            require_once(VIEWS_PATH . 'user-list.php');
+        } else {
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
+        }
+
+    }
+
     public function ShowAddView($alert = NULL)
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
@@ -54,7 +72,6 @@ class UserController
         if (in_array('Create User', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
             require_once(VIEWS_PATH . 'user-add.php');
         } else {
-            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
@@ -68,6 +85,15 @@ class UserController
     {
         session_start();
         require_once(VIEWS_PATH . "company-register.php");
+    }
+
+    public function ShowEditView($userId, $alert = NULL)
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
+        require_once(VIEWS_PATH . "user-edit.php");
     }
 
     public function Add($username, $verifiedPassword, $role)
@@ -94,7 +120,6 @@ class UserController
                 $this->ShowAddView($alert);
             }
         } else {
-            echo "<script> alert('No tenes permisos para entrar a esta pagina'); </script>";
             header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
@@ -116,6 +141,48 @@ class UserController
             $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
         } finally {
             header("Location: " . FRONT_ROOT . "Logger/ShowLogInView");
+        }
+    }
+
+    public function EditPass($oldPass, $newPass, $idUser)
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
+        try {
+            if (password_verify($oldPass, $_SESSION['loggedUser']->getPassword())) {
+                $encryptedPass = password_hash($newPass, PASSWORD_DEFAULT);
+                $this->userDAO->UpdatePassword($encryptedPass, $idUser);
+                $alert = new Alert('success', 'Contraseña cambiada');
+            } else {
+                $alert = new Alert('warning', 'La contraseña no es correcta');
+            }
+        } catch (Exception $ex) {
+            $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
+        } finally {
+            $this->ShowEditView($idUser, $alert);
+        }
+    }
+
+    public function RemoveUser($idUser)
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        LoggerController::VerifyLogIn();
+        if (in_array('Delete User', LoggerController::$permissions[$_SESSION['loggedUser']->getRole()])) {
+            try{
+                $this->userDAO->Remove($idUser);
+                $alert = new Alert('success', 'Usuario eliminado');
+            } catch (Exception $ex) {
+                $alert = new Alert('danger', 'Ha ocurrido un error: ' . $ex->getMessage());
+            } finally {
+                $this->ShowListView($alert);
+            }
+            
+        } else {
+            header("Location: " . FRONT_ROOT . "User/ShowHomeView");
         }
     }
 

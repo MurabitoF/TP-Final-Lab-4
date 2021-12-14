@@ -31,7 +31,7 @@ class JobPositionDAO implements IJobPositionDAO{
     {
         $ch = curl_init();
 
-        $url = "https://utn-students-api.herokuapp.com/api/JobPosition";
+        $url = "https://utn-students-api2.herokuapp.com/api/JobPosition";
 
         $header = array(
             'x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'

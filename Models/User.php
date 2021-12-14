@@ -8,11 +8,6 @@
         private $password;
         private $role;
         private $active;
-
-        public function __construct() 
-        {
-
-        }
         
 	    public function getIdUser(){ return $this->idUser; }
 	    public function setIdUser($idUser){ $this->idUser = $idUser; }
@@ -30,4 +25,3 @@
 	    public function setActive($active){ $this->active = $active; }
 
     }
-?>

@@ -9,10 +9,10 @@ require_once('header.php');
         <div class="container">
             <h2 class="mb-4 text-center">Editar empresa</h2>
             <?php
-            if($alert){
-                ?>
-                <div class="alert alert-<?php echo $alert->getType()?> text-center fwbold" role="alert"><?php echo $alert->getMessage()?></div>
-                <?php
+            if ($alert) {
+            ?>
+                <div class="alert alert-<?php echo $alert->getType() ?> text-center fwbold" role="alert"><?php echo $alert->getMessage() ?></div>
+            <?php
             }
             ?>
             <form action="<?php echo FRONT_ROOT ?>Company/Edit" method="post" class="bg-light-alpha p-5">
@@ -29,7 +29,7 @@ require_once('header.php');
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="email" class="form-control form-input shadow-none" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email" value="<?php echo $company->getEmail() ?>" required>
+                            <input type="text" name="email" class="form-control form-input shadow-none" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email" value="<?php echo $company->getEmail() ?>" required <?php echo ($_SESSION['loggedUser']->getRole() == "Company") ? "readonly" : "" ?>>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@ require_once('header.php');
                         <div class="form-group">
                             <input type="text" name="city" class="form-control form-input" placeholder="Ciudad" value="<?php echo $address->getCity() ?>" required>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <input type="number" name="postalCode" class="form-control form-input" value="<?php echo $address->getPostalCode() ?>" required>
@@ -74,7 +74,7 @@ require_once('header.php');
                     <div class="col-md-3">
                         <button type="submit" class="btn button-blue w-100" name="idCompany" value="<?php echo $company->getIdCompany() ?>">Editar</button>
                     </div>
-                </div>           
+                </div>
             </form>
         </div>
     </section>

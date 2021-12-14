@@ -22,7 +22,6 @@ require_once('nav.php');
                               <select class="form-select form-input " name="role">
                                    <option value="Admin">Administrador</option>
                                    <option value="Company">Empresa</option>
-                                   <option value="Student">Alumno</option>
                               </select>
                          </div>
                     </div>
